@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <rcl/types.h>
+
 #define UNSET_T_IDX 0
 #define NESTED_T_IDX 1
 

@@ -16,7 +16,6 @@
 // Modified to support sequence elements and switch cases
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <assert.h>
 
 #include <evolving_serialization_lib/yaml_parser.h>
@@ -32,7 +31,7 @@ void process_layer(yaml_parser_t * parser, GNode * data, bool seq)
 
   while (1) {
     yaml_parser_parse(parser, &event);
-    assert(event.type != YAML_NO_EVENT /* MESSAGE */ );  // Invalid yaml
+    assert(event.type != YAML_NO_EVENT /* MESSAGE */); // Invalid yaml
 
     switch (event.type) {
       case YAML_SCALAR_EVENT:

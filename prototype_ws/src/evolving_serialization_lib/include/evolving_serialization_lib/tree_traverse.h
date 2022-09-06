@@ -16,7 +16,6 @@
 
 #include <glib.h>
 
-#include <rcl/types.h>
 #include <evolving_serialization_lib/types.h>
 
 

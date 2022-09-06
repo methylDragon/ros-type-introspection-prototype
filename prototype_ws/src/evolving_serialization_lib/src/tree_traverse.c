@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <rcl/types.h>
+
 #include <impl/tree_traverse_impl.h>
 #include <evolving_serialization_lib/tree_traverse.h>
 
@@ -24,8 +26,7 @@ get_child_by_key(GNode * node, char * key)
 {
   GNode * _child_node = g_node_str_child_find(node, G_LEVEL_ORDER, G_TRAVERSE_ALL, key);
 
-  if (_child_node == NULL)
-  {
+  if (_child_node == NULL) {
     printf("Could not find child GNode: %s\n", key);
     return NULL;
   }
@@ -47,7 +48,7 @@ gboolean gnode_repr_fn(GNode * node, gpointer data)
   (void)data;
 
   int i = g_node_depth(node) - 1;
-  if (i == 0) { return FALSE; }
+  if (i == 0) {return FALSE;}
   if (i == 1) {printf("\n");}
 
   while (i-- > 0) {printf("  ");}
@@ -96,7 +97,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
 
     // Handle index tokens, like "5]"
     if (_check_terminator(_tok, "]")) {
-      if (!_traverse_node) {
+      if (_traverse_node == NULL) {
         printf("Cannot index into children for a NULL node!\n");
         free(_r);
         *out_node = NULL;
@@ -116,7 +117,6 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
       _idx = _idx < 0 ? _n_children + _idx : _idx;  // Normalize index
       _traverse_node = g_node_nth_child(_traverse_node, _idx);
     }
-
     // Otherwise, handle name tokens
     else {
       GNode * _prev_traverse_node = _traverse_node;
@@ -138,8 +138,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
         }
 
         // Redirectable, but no referenced types
-        if (_ref_table_node == NULL)
-        {
+        if (_ref_table_node == NULL) {
           printf("Field token %s unresolvable explicitly, and no referenced types found!\n", _tok);
           free(_r);
           *out_node = NULL;
@@ -147,14 +146,15 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
         }
 
         if (_get_field_type_idx(_field_type_node) == NESTED_T_IDX) {
-          char * _nested_type_name = (char *)get_child_value_by_key(_prev_traverse_node,
-                                                                     "nested_type_name");
+          char * _nested_type_name = (char *)get_child_value_by_key(
+            _prev_traverse_node,
+            "nested_type_name");
 
           // No nested type name to redirect to
-          if (_nested_type_name == NULL)
-          {
-            printf("Token [%s] unresolvable explicitly, and no nested_type_name found on attempted "
-                   "redirection to referenced type.\n", _tok);
+          if (_nested_type_name == NULL) {
+            printf(
+              "Token [%s] unresolvable explicitly, and no nested_type_name found on attempted "
+              "redirection to referenced type.\n", _tok);
             free(_r);
             *out_node = NULL;
             return RCL_RET_ERROR;
@@ -166,11 +166,11 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
           )->parent->parent;
 
           // No referenced type entry for the referenced type
-          if (_ref_node == NULL)
-          {
-            printf("Token [%s] unresolvable explicitly. "
-                   "Could not redirect to nested_type_description for [%s].",
-                   _tok, _nested_type_name);
+          if (_ref_node == NULL) {
+            printf(
+              "Token [%s] unresolvable explicitly. "
+              "Could not redirect to nested_type_description for [%s].",
+              _tok, _nested_type_name);
             free(_r);
             *out_node = NULL;
             return RCL_RET_ERROR;

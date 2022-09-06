@@ -15,7 +15,7 @@
 ///
 
 #include <stdbool.h>
-#include <yaml.h>
 #include <glib.h>
+#include <yaml.h>
 
 void process_layer(yaml_parser_t * parser, GNode * data, bool seq);

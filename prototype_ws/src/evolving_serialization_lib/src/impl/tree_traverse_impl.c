@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <rcl/types.h>
+
 #include <impl/tree_traverse_impl.h>
 
 
@@ -66,7 +68,9 @@ _g_node_data_strcmp(GNode * node, gpointer data)
 
 
 GNode *
-_g_node_str_depth_find(GNode * root, GTraverseType order, GTraverseFlags flags, char * str, int depth)
+_g_node_str_depth_find(
+  GNode * root, GTraverseType order, GTraverseFlags flags, char * str,
+  int depth)
 {
   gpointer d[2];
 

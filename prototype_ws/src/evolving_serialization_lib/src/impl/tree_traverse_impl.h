@@ -17,7 +17,6 @@
 #include <regex.h>
 
 #include <glib.h>
-#include <rcl/types.h>
 
 
 // =================================================================================================
@@ -44,4 +43,6 @@ _g_node_data_strcmp(GNode * node, gpointer data);
 
 /// Find node in glib N-ary tree with node data matching a string
 GNode *
-_g_node_str_depth_find(GNode * root, GTraverseType order, GTraverseFlags flags, char * str, int depth);
+_g_node_str_depth_find(
+  GNode * root, GTraverseType order, GTraverseFlags flags, char * str,
+  int depth);
