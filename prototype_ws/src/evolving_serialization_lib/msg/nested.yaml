@@ -1,0 +1,25 @@
+type_description:
+  type_name: 'nested'
+  fields:
+    -
+      field_name: nested_field
+      field_type: 1
+      field_array_size: ~
+      nested_type_name: inner
+
+    -
+      field_name: non_nested_byte_field
+      field_type: 2
+      field_array_size: ~
+      nested_type_name: ~
+
+referenced_type_descriptions:
+  -
+    type_name: 'inner'
+    fields:
+      -
+        field_name: nested_char_field
+        field_type: 3
+        field_array_size: ~
+        nested_type_name: ~
+

@@ -1,3 +1,17 @@
+// Copyright 2022 Open Source Robotics Foundation, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 // Modified from source: https://stackoverflow.com/a/621451
 // Modified to support sequence elements and switch cases
 
@@ -70,23 +84,4 @@ void process_layer(yaml_parser_t * parser, GNode * data, bool seq)
         break;
     }
   }
-}
-
-
-gboolean gnode_repr(GNode * node, gpointer data)
-{
-  (void)data;
-
-  int i = g_node_depth(node) - 1;
-  if (i == 0) { return FALSE; }
-  if (i == 1) {printf("\n");}
-
-  while (i-- > 0) {printf("  ");}
-
-  if (!node->children || strcmp((char *)node->data, "-") == 0) {
-    printf("%s\n", (char *)node->data);
-  } else {
-    printf("%s:\n", (char *)node->data);
-  }
-  return FALSE;
 }
