@@ -14,7 +14,6 @@
 
 /// Utilities for traversing a GLib N-ary tree
 
-#include <regex.h>
 #include <glib.h>
 
 #include <rcl/types.h>

@@ -146,7 +146,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
           return RCL_RET_ERROR;
         }
 
-        if (_get_field_type(_field_type_node) == NESTED_TYPE_IDX) {
+        if (_get_field_type_idx(_field_type_node) == NESTED_T_IDX) {
           char * _nested_type_name = (char *)get_child_value_by_key(_prev_traverse_node,
                                                                      "nested_type_name");
 

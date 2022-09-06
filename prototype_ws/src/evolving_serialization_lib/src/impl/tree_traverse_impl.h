@@ -33,7 +33,7 @@ _get_idx_from_idx_token(const char * tok, const char * terminator);
 
 /// Get field_type index from a field_type GNode
 int
-_get_field_type(GNode * field_type_node);
+_get_field_type_idx(GNode * field_type_node);
 
 // =================================================================================================
 // glib Tree Traversal Functions
