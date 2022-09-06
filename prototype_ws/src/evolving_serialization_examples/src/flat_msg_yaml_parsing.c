@@ -15,7 +15,7 @@
 
 /* Description:
  *
- * Demonstration snippet for parsing a nested type description yaml into a
+ * Demonstration snippet for parsing a flat type description yaml into a
  * traversible tree, and how to traverse the tree by string references, with
  * indexing!
  *
@@ -28,12 +28,12 @@
 
 #include <glib.h>
 
-#include <impl/yaml_parser.h>
-#include <impl/tree_traverse.h>
+#include <evolving_serialization_lib/yaml_parser.h>
+#include <evolving_serialization_lib/tree_traverse.h>
 
 #include <rcl/types.h>
 
-char * DESCRIPTION_FILE = "nested.yaml";
+char * DESCRIPTION_FILE = "flat.yaml";
 
 int main()
 {
@@ -55,16 +55,18 @@ int main()
   g_free(flat_yaml_path);
 
   // Traverse description tree =================================================
-  // (g_node_traverse() )
+  // Note: g_node_traverse() run with the gnode_repr_fn function pointer prints
+  //       the string representation of the tree rooted at the passed in GNode.
   GNode * out = NULL;
 
-  // // Get element of array field by string reference
-  printf("\n=== Get fields of nested type description ===\n");
-  assert(get_gnode_by_str_ref("type_description.fields[0].fields", cfg, &out) == RCL_RET_OK);
+  // Get array field by string reference
+  printf("\n=== FIELDS (type_description.fields) ===\n");
+  assert(get_gnode_by_str_ref("type_description.fields", cfg, &out) == RCL_RET_OK);
   g_node_traverse(out, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_repr_fn, NULL);
 
-  printf("\n=== Field name of first element of fields of nested type description ===\n");
-  assert(get_gnode_by_str_ref("type_description.fields[0].fields[0].field_name", cfg, &out) == RCL_RET_OK);
+  // Get element of array field by string reference
+  printf("\n=== THIRD ELEMENT OF type_description.fields ===\n");
+  assert(get_gnode_by_str_ref("type_description.fields[2]", cfg, &out) == RCL_RET_OK);
   g_node_traverse(out, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_repr_fn, NULL);
 
   // Cleanup

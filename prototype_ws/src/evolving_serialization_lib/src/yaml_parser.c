@@ -15,10 +15,11 @@
 // Modified from source: https://stackoverflow.com/a/621451
 // Modified to support sequence elements and switch cases
 
-#include <impl/yaml_parser.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
+
+#include <evolving_serialization_lib/yaml_parser.h>
 
 
 enum storage_flags { VAR, VAL }; // "Store as" switch

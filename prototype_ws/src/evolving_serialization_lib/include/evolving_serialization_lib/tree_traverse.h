@@ -15,11 +15,10 @@
 /// Utilities for traversing a GLib N-ary tree
 
 #include <regex.h>
-
 #include <glib.h>
-#include <rcl/types.h>
 
-#define NESTED_TYPE_IDX 1
+#include <rcl/types.h>
+#include <evolving_serialization_lib/types.h>
 
 
 // =================================================================================================
