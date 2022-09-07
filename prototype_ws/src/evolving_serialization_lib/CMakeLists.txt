@@ -53,6 +53,7 @@ add_library(${PROJECT_NAME}
 
   "src/yaml_parser.c"
   "src/tree_traverse.c"
+  "src/description.c"
 )
 ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES})
 

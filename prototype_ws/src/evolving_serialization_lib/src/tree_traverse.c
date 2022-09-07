@@ -39,11 +39,15 @@ gpointer
 get_child_value_by_key(GNode * node, char * key)
 {
   GNode * _child_node = get_child_by_key(node, key);
-  return _child_node->children[0].data;
+
+  if (_child_node == NULL) {
+    return NULL;
+  }
+  return g_node_nth_child(_child_node, 0)->data;
 }
 
 
-gboolean gnode_repr_fn(GNode * node, gpointer data)
+gboolean gnode_print_fn(GNode * node, gpointer data)
 {
   (void)data;
 
@@ -59,6 +63,30 @@ gboolean gnode_repr_fn(GNode * node, gpointer data)
     printf("%s:\n", (char *)node->data);
   }
   return FALSE;
+}
+
+
+gboolean gnode_free_node_data_fn(GNode * node, gpointer data)
+{
+  (void)data;
+
+  int i = g_node_depth(node) - 1;
+  if (i == 0) {return FALSE;}
+
+  g_free(node->data);
+  return TRUE;
+}
+
+
+char *
+nullify_string(char * input, char * match)
+{
+  if (input != NULL) {
+    if (strcmp(input, match) != 0) {
+      return input;
+    }
+  }
+  return NULL;
 }
 
 

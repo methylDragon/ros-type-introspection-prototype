@@ -31,7 +31,15 @@ gpointer
 get_child_value_by_key(GNode * node, char * key);
 
 /// String representation printing function for GNodes
-gboolean gnode_repr_fn(GNode * n, gpointer data);
+gboolean gnode_print_fn(GNode * n, gpointer data);
+
+/// Data freeing function for GNodes
+/// g_node_destroy deallocates the tree but not the data stored in each node!
+gboolean gnode_free_node_data_fn(GNode * n, gpointer data);
+
+/// If input string fully matches a string, replace it with NULL
+char *
+nullify_string(char * input, char * match);
 
 
 // =================================================================================================
