@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef EVOLVING_SERIALIZATION_LIB__TYPES_H_
+#define EVOLVING_SERIALIZATION_LIB__TYPES_H_
+
 #include <rcl/types.h>
 
 #define UNSET_T_IDX 0
 #define NESTED_T_IDX 1
 
+// PRIMITIVES ======================================================================================
 #define BOOL_T_IDX 2
 #define BYTE_T_IDX 3
 #define CHAR_T_IDX 4
@@ -40,3 +44,11 @@
 #define WSTRING_T_IDX 18
 #define BOUNDED_WSTRING_T_IDX 19
 #define FIXED_WSTING_T_IDX 20
+
+
+// SEQUENCES =======================================================================================
+#define STATIC_ARRAY_OFFSET 32
+#define BOUNDED_SEQ_OFFSET 64
+#define UNBOUNDED_SEQ_OFFSET 96
+
+#endif

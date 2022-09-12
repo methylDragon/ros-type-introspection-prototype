@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/// Traversible type description struct, with construction and printing utils
+
+#ifndef EVOLVING_SERIALIZATION_LIB__DESCRIPTION_H_
+#define EVOLVING_SERIALIZATION_LIB__DESCRIPTION_H_
+
 #include <glib.h>
 #include <evolving_serialization_lib/types.h>
 
@@ -99,3 +104,5 @@ print_individual_type_description(individual_type_description_t * input);
 
 void
 print_type_description(type_description_t * input);
+
+#endif
