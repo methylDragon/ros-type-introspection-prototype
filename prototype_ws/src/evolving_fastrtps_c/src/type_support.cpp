@@ -26,7 +26,7 @@
 #include <evolving_serialization_lib/evolving_type_support.h>
 #include "evolving_serialization_lib/types.h"
 
-#include <evolving_fastdds_c/type_support.h>
+#include <evolving_fastrtps_c/type_support.h>
 
 using namespace eprosima::fastrtps::types;
 
@@ -41,13 +41,13 @@ struct EvolvingFastRtpsTypeSupportImpl_s
 EvolvingFastRtpsTypeSupportImpl *
 create_fastrtps_evolving_typesupport_impl()
 {
-  EvolvingFastRtpsTypeSupportImpl * ts_impl =
+  EvolvingFastRtpsTypeSupportImpl * ets_impl =
     (EvolvingFastRtpsTypeSupportImpl *) malloc(sizeof(EvolvingFastRtpsTypeSupportImpl));
 
   // The actual business
-  ts_impl->factory_ = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
+  ets_impl->factory_ = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
 
-  return ts_impl;
+  return ets_impl;
 }
 
 
@@ -131,18 +131,18 @@ create_fastrtps_evolving_typesupport_interface()
 
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ts_impl, const char * name)
+fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name)
 {
-  DynamicTypeBuilder * builder = ts_impl->factory_->create_struct_builder();
+  DynamicTypeBuilder * builder = ets_impl->factory_->create_struct_builder();
   builder->set_name(name);
 
   return builder;
 }
 
 void *
-fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder)
+fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder)
 {
-  (void) ts_impl;
+  (void) ets_impl;
 
   // Disgusting, but unavoidable...
   return reinterpret_cast<void *>(
@@ -154,12 +154,12 @@ fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ts_impl, voi
 
 void *
 fastrtps__construct_type_from_description(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, type_description_t * description)
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, type_description_t * description)
 {
   individual_type_description_t * main_description = description->type_description;
 
   auto builder = static_cast<eprosima::fastrtps::types::DynamicTypeBuilder *>(
-    fastrtps__create_struct_builder(ts_impl, main_description->type_name)
+    fastrtps__create_struct_builder(ets_impl, main_description->type_name)
   );
 
   for (size_t i = 0; i < main_description->field_count; i++) {
@@ -176,58 +176,58 @@ fastrtps__construct_type_from_description(
 
       // PRIMITIVES
       case BOOL_T_IDX:
-        fastrtps__add_bool_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_bool_member(ets_impl, builder, i, field->field_name);
         break;
       case BYTE_T_IDX:
-        fastrtps__add_byte_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_byte_member(ets_impl, builder, i, field->field_name);
         break;
       case CHAR_T_IDX:
-        fastrtps__add_char_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_char_member(ets_impl, builder, i, field->field_name);
         break;
       case FLOAT_32_T_IDX:
-        fastrtps__add_float32_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_float32_member(ets_impl, builder, i, field->field_name);
         break;
       case FLOAT_64_T_IDX:
-        fastrtps__add_float64_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_float64_member(ets_impl, builder, i, field->field_name);
         break;
       case INT_8_T_IDX:
-        fastrtps__add_int8_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_int8_member(ets_impl, builder, i, field->field_name);
         break;
       case UINT_8_T_IDX:
-        fastrtps__add_uint8_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_uint8_member(ets_impl, builder, i, field->field_name);
         break;
       case INT_16_T_IDX:
-        fastrtps__add_int16_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_int16_member(ets_impl, builder, i, field->field_name);
         break;
       case UINT_16_T_IDX:
-        fastrtps__add_uint16_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_uint16_member(ets_impl, builder, i, field->field_name);
         break;
       case INT_32_T_IDX:
-        fastrtps__add_int32_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_int32_member(ets_impl, builder, i, field->field_name);
         break;
       case UINT_32_T_IDX:
-        fastrtps__add_uint32_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_uint32_member(ets_impl, builder, i, field->field_name);
         break;
       case INT_64_T_IDX:
-        fastrtps__add_int64_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_int64_member(ets_impl, builder, i, field->field_name);
         break;
       case UINT_64_T_IDX:
-        fastrtps__add_uint64_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_uint64_member(ets_impl, builder, i, field->field_name);
         break;
       case STRING_T_IDX:
-        fastrtps__add_string_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_string_member(ets_impl, builder, i, field->field_name);
         break;
       case WSTRING_T_IDX:
-        fastrtps__add_wstring_member(ts_impl, builder, i, field->field_name);
+        fastrtps__add_wstring_member(ets_impl, builder, i, field->field_name);
         break;
       case BOUNDED_STRING_T_IDX:
         fastrtps__add_bounded_string_member(
-          ts_impl, builder, i, field->field_name,
+          ets_impl, builder, i, field->field_name,
           field->field_array_size);
         break;
       case BOUNDED_WSTRING_T_IDX:
         fastrtps__add_bounded_wstring_member(
-          ts_impl, builder, i, field->field_name,
+          ets_impl, builder, i, field->field_name,
           field->field_array_size);
         break;
       default:
@@ -236,203 +236,203 @@ fastrtps__construct_type_from_description(
     }
   }
 
-  return fastrtps__finalize_struct_builder(ts_impl, builder);
+  return fastrtps__finalize_struct_builder(ets_impl, builder);
 }
 
 
 // DYNAMIC TYPE MEMBERS ============================================================================
 void
 fastrtps__add_bool_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_bool_type()
+    ets_impl->factory_->create_bool_type()
   );
 }
 
 
 void
 fastrtps__add_byte_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_byte_type()
+    ets_impl->factory_->create_byte_type()
   );
 }
 
 
 void
 fastrtps__add_char_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_char8_type()
+    ets_impl->factory_->create_char8_type()
   );
 }
 
 
 void
 fastrtps__add_float32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_float32_type()
+    ets_impl->factory_->create_float32_type()
   );
 }
 
 
 void
 fastrtps__add_float64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_float64_type()
+    ets_impl->factory_->create_float64_type()
   );
 }
 
 
 void
 fastrtps__add_int8_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
-  fastrtps__add_byte_member(ts_impl, builder, id, name);
+  fastrtps__add_byte_member(ets_impl, builder, id, name);
 }
 
 
 void
 fastrtps__add_uint8_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
-  fastrtps__add_byte_member(ts_impl, builder, id, name);
+  fastrtps__add_byte_member(ets_impl, builder, id, name);
 }
 
 
 void
 fastrtps__add_int16_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_int16_type()
+    ets_impl->factory_->create_int16_type()
   );
 }
 
 
 void
 fastrtps__add_uint16_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_uint16_type()
+    ets_impl->factory_->create_uint16_type()
   );
 }
 
 
 void
 fastrtps__add_int32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_int32_type()
+    ets_impl->factory_->create_int32_type()
   );
 }
 
 
 void
 fastrtps__add_uint32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_uint32_type()
+    ets_impl->factory_->create_uint32_type()
   );
 }
 
 
 void
 fastrtps__add_int64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_int64_type()
+    ets_impl->factory_->create_int64_type()
   );
 }
 
 
 void
 fastrtps__add_uint64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name,
-    ts_impl->factory_->create_uint64_type()
+    ets_impl->factory_->create_uint64_type()
   );
 }
 
 
 void
 fastrtps__add_string_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name)
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name)
 {
   fastrtps__add_bounded_string_member(
-    ts_impl, builder, id, name, eprosima::fastrtps::types::MAX_STRING_LENGTH);
+    ets_impl, builder, id, name, eprosima::fastrtps::types::MAX_STRING_LENGTH);
 }
 
 
 void
 fastrtps__add_wstring_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name)
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name)
 {
   fastrtps__add_bounded_wstring_member(
-    ts_impl, builder, id, name, eprosima::fastrtps::types::MAX_STRING_LENGTH);
+    ets_impl, builder, id, name, eprosima::fastrtps::types::MAX_STRING_LENGTH);
 }
 
 
 void
 fastrtps__add_bounded_string_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, uint32_t bound)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
-    id, name, ts_impl->factory_->create_string_type(bound));
+    id, name, ets_impl->factory_->create_string_type(bound));
 }
 
 
 void
 fastrtps__add_bounded_wstring_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, uint32_t bound)
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
-    id, name, ts_impl->factory_->create_wstring_type(bound));
+    id, name, ets_impl->factory_->create_wstring_type(bound));
 }
 
 
 // DYNAMIC DATA UTILS ==============================================================================
 void
-fastrtps__print_dynamic_data(EvolvingFastRtpsTypeSupportImpl * ts_impl, void * data)
+fastrtps__print_dynamic_data(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * data)
 {
-  (void) ts_impl;
+  (void) ets_impl;
   DynamicDataHelper::print(static_cast<DynamicData *>(data));
 }

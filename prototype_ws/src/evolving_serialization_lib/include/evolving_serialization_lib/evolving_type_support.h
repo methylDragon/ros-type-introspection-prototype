@@ -32,13 +32,6 @@ typedef struct evolving_type_support_interface
   ///
   /// Luckily for us, FastRTPS mimics the spec quite well
 
-  // double (*Area)(void *instance);
-
-  // We need interfaces for...
-  //
-  // Building dynamic types
-  //  - Create factory
-
   // DYNAMIC TYPE CONSTRUCTION
   void * (*create_struct_builder)(void * instance, const char * name);
   void * (*finalize_struct_builder)(void * instance, void * builder);
@@ -69,21 +62,17 @@ typedef struct evolving_type_support_interface
   void (* print_dynamic_data)(void * instance, void * data);
 
 
+  // TODO:
+  // Nested and sequence type construction
+  //
   // Building and populating dynamic data
   //  - Create dynamic data object
   //  - Set members (per type, per ID and per name (so TYPE * 2 members))
   //
   // Introspecting dynamic data
   //  - Getting members
-  //  - Printing
   //
   // Then getting something that can be passed to pubsub
-  // And maybe utils (eg. printing)
-
-
-  // Reminder that function pointers are:
-  // OUTPUT (* FN_NAME)(INPUTS)
-  // double (* Area)(void * instance);
 } EvolvingTypeSupportInterface;
 
 

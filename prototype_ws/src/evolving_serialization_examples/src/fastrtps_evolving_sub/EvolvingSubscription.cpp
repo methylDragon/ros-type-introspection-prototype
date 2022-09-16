@@ -36,7 +36,7 @@
 #include "evolving_serialization_lib/description.h"
 #include "evolving_serialization_lib/tree_traverse.h"
 #include "evolving_serialization_lib/evolving_type_support.h"
-#include "evolving_fastdds_c/type_support.h"
+#include "evolving_fastrtps_c/type_support.h"
 
 using namespace eprosima::fastdds::dds;
 using eprosima::fastrtps::types::ReturnCode_t;

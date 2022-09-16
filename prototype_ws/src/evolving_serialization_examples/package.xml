@@ -15,7 +15,7 @@
   <build_depend>pkg-config</build_depend>
   <build_depend>yaml</build_depend>
   <build_depend>evolving_serialization_lib</build_depend>
-  <build_depend>evolving_fastdds_c</build_depend>
+  <build_depend>evolving_fastrtps_c</build_depend>
 
   <exec_depend>rcl</exec_depend>
 

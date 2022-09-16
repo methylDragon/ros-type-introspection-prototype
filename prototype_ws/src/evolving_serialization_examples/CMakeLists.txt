@@ -27,12 +27,12 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #################################################
 find_package(ament_cmake_ros REQUIRED)
 find_package(evolving_serialization_lib REQUIRED)
-find_package(evolving_fastdds_c REQUIRED)
+find_package(evolving_fastrtps_c REQUIRED)
 
 include_directories(
   include
   ${evolving_serialization_lib_INCLUDE_DIRS}
-  ${evolving_fastdds_c_INCLUDE_DIRS}
+  ${evolving_fastrtps_c_INCLUDE_DIRS}
 )
 
 
@@ -48,25 +48,25 @@ install(TARGETS nested_msg_yaml_parsing RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 
 # Evolving Sub
-add_executable(fastdds_evolving_sub_publisher
-  "src/fastdds_evolving_sub/BasicPublisher.cpp")
-target_link_libraries(fastdds_evolving_sub_publisher
+add_executable(fastrtps_evolving_sub_publisher
+  "src/fastrtps_evolving_sub/BasicPublisher.cpp")
+target_link_libraries(fastrtps_evolving_sub_publisher
   ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_fastdds_c_LIBRARIES}
+  ${evolving_fastrtps_c_LIBRARIES}
   fastrtps
   fastcdr
 )
 
-add_executable(fastdds_evolving_sub_evolving_subscription
-  "src/fastdds_evolving_sub/EvolvingSubscription.cpp")
-target_link_libraries(fastdds_evolving_sub_evolving_subscription
+add_executable(fastrtps_evolving_sub_evolving_subscription
+  "src/fastrtps_evolving_sub/EvolvingSubscription.cpp")
+target_link_libraries(fastrtps_evolving_sub_evolving_subscription
   ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_fastdds_c_LIBRARIES}
+  ${evolving_fastrtps_c_LIBRARIES}
   fastrtps
   fastcdr
 )
 
-install(TARGETS fastdds_evolving_sub_publisher RUNTIME DESTINATION lib/${PROJECT_NAME})
-install(TARGETS fastdds_evolving_sub_evolving_subscription RUNTIME DESTINATION lib/${PROJECT_NAME})
+install(TARGETS fastrtps_evolving_sub_publisher RUNTIME DESTINATION lib/${PROJECT_NAME})
+install(TARGETS fastrtps_evolving_sub_evolving_subscription RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

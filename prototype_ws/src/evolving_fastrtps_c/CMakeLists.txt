@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(evolving_fastdds_c)
+project(evolving_fastrtps_c)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 #################################################
@@ -42,18 +42,8 @@ include_directories(
   ${fastrtps_INCLUDE_DIRS}
 )
 
-add_executable(hello "src/hello.cpp")
-# ament_target_dependencies(hello evolving_serialization_lib fastrtps fastcdr)
-target_link_libraries(hello
-  ${evolving_serialization_lib_LIBRARIES}
-  fastcdr
-  fastrtps
-)
-
 add_library(${PROJECT_NAME}
-  # "src/impl/type_support_impl.cpp"
   "src/type_support.cpp")
-# ament_target_dependencies(hello evolving_serialization_lib fastrtps fastcdr)
 target_link_libraries(${PROJECT_NAME}
   ${evolving_serialization_lib_LIBRARIES}
   fastcdr
@@ -65,8 +55,6 @@ install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
-
-install(TARGETS hello RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 install(
   DIRECTORY include/

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef EVOLVING_FASTDDS_C__TYPE_SUPPORT_IMPL_H_
-#define EVOLVING_FASTDDS_C__TYPE_SUPPORT_IMPL_H_
+#ifndef EVOLVING_FASTRTPS_C__TYPE_SUPPORT_IMPL_H_
+#define EVOLVING_FASTRTPS_C__TYPE_SUPPORT_IMPL_H_
 
 #include "evolving_serialization_lib/evolving_type_support.h"
 
@@ -34,91 +34,91 @@ create_fastrtps_evolving_typesupport_interface();
 
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ts_impl, const char * name);
+fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name);
 
 void *
-fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder);
+fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder);
 
 void *
 fastrtps__construct_type_from_description(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, type_description_t * description);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, type_description_t * description);
 
 
 // DYNAMIC TYPE MEMBERS ============================================================================
 void
 fastrtps__add_bool_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_byte_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_char_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_float32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_float64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_int8_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_uint8_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_int16_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_uint16_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_int32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_uint32_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_int64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_uint64_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_string_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_wstring_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder, uint32_t id, const char * name);
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
 
 void
 fastrtps__add_bounded_string_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, uint32_t bound);
 
 void
 fastrtps__add_bounded_wstring_member(
-  EvolvingFastRtpsTypeSupportImpl * ts_impl, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, uint32_t bound);
 
 
 // DYNAMIC DATA UTILS ==============================================================================
 void
-fastrtps__print_dynamic_data(EvolvingFastRtpsTypeSupportImpl * ts_impl, void * data);
+fastrtps__print_dynamic_data(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * data);
 
 
 // UTILS ===========================================================================================
@@ -128,4 +128,4 @@ fastrtps__print_dynamic_data(EvolvingFastRtpsTypeSupportImpl * ts_impl, void * d
 }
 #endif
 
-#endif  // EVOLVING_FASTDDS_C__TYPE_SUPPORT_IMPL_H_
+#endif  // EVOLVING_FASTRTPS_C__TYPE_SUPPORT_IMPL_H_
