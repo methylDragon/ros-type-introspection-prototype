@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>evolving_fastdds_c</name>
+  <version>0.0.1</version>
+  <description>FastDDS evolving type support implementation.</description>
+  <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
+
+  <license>Apache License 2.0</license>
+  <author email="brandon@openrobotics.org">Brandon Ong</author>
+
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+
+  <build_depend>rcl</build_depend>
+  <build_depend>evolving_serialization_lib</build_depend>
+  <build_depend>fastcdr</build_depend>
+  <build_depend>fastrtps</build_depend>
+
+  <exec_depend>rcl</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
