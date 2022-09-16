@@ -34,7 +34,7 @@
 
 #include <rcl/types.h>
 
-char * DESCRIPTION_FILE = "flat.yaml";
+const char * DESCRIPTION_FILE = "flat.yaml";
 
 int main()
 {

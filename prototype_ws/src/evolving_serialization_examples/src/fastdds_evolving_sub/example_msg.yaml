@@ -1,0 +1,28 @@
+type_description:
+  type_name: 'ExampleMsg'
+  fields:
+    -
+      field_name: bool_field
+      field_type: 2
+      field_array_size: ~
+      nested_type_name: ~
+
+    -
+      field_name: byte_field
+      field_type: 3
+      field_array_size: ~
+      nested_type_name: ~
+
+    -
+      field_name: int32_field
+      field_type: 11
+      field_array_size: ~
+      nested_type_name: ~
+
+    -
+      field_name: string_field
+      field_type: 15
+      field_array_size: ~
+      nested_type_name: ~
+
+referenced_type_descriptions: ~
