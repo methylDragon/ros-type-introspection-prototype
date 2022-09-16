@@ -14,8 +14,21 @@
 
 ///
 
+#ifndef EVOLVING_SERIALIZATION_LIB__YAML_PARSER_H_
+#define EVOLVING_SERIALIZATION_LIB__YAML_PARSER_H_
+
 #include <stdbool.h>
 #include <glib.h>
 #include <yaml.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void process_layer(yaml_parser_t * parser, GNode * data, bool seq);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // EVOLVING_SERIALIZATION_LIB__YAML_PARSER_H_

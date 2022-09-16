@@ -54,6 +54,7 @@ add_library(${PROJECT_NAME}
   "src/yaml_parser.c"
   "src/tree_traverse.c"
   "src/description.c"
+  "src/evolving_type_support.c"
 )
 ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES})
 
@@ -69,7 +70,9 @@ install(
 )
 
 ament_export_include_directories("include/${PROJECT_NAME}")
+ament_export_include_directories("${GLIB_INCLUDE_DIRS}")
 ament_export_libraries(${PROJECT_NAME})
+ament_export_libraries(${GLIB_LIBRARIES})
 ament_export_targets(${PROJECT_NAME})
 
 ament_export_dependencies(ament_cmake)

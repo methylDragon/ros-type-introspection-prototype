@@ -20,6 +20,9 @@
 #include <glib.h>
 #include <evolving_serialization_lib/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // =================================================================================================
 // Structs
@@ -93,6 +96,10 @@ populate_type_description(
   GNode * full_description_node);
 
 
+type_description_t *
+create_type_description_from_yaml(const char * path);
+
+
 // =================================================================================================
 // Printing
 // =================================================================================================
@@ -105,4 +112,8 @@ print_individual_type_description(individual_type_description_t * input);
 void
 print_type_description(type_description_t * input);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif  // EVOLVING_SERIALIZATION_LIB__DESCRIPTION_H_

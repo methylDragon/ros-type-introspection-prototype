@@ -16,6 +16,7 @@
 
 #include <evolving_serialization_lib/description.h>
 #include <evolving_serialization_lib/tree_traverse.h>
+#include <evolving_serialization_lib/yaml_parser.h>
 
 
 // =================================================================================================
@@ -178,9 +179,7 @@ populate_individual_type_description(
 
 
 type_description_t *
-populate_type_description(
-  type_description_t * description_struct,
-  GNode * full_description_node)
+populate_type_description(type_description_t * description_struct, GNode * full_description_node)
 {
   GNode * type_description_node = get_child_by_key(full_description_node, "type_description");
   populate_individual_type_description(description_struct->type_description, type_description_node);
@@ -213,6 +212,35 @@ populate_type_description(
   return description_struct;
 }
 
+
+type_description_t *
+create_type_description_from_yaml(const char * path)
+{
+  char * path_ = strdup(path);
+
+  // Parse yaml
+  GNode * cfg = g_node_new(path_);
+  yaml_parser_t parser;
+  FILE * source = fopen(path_, "rb");
+
+  yaml_parser_initialize(&parser);
+  yaml_parser_set_input_file(&parser, source);
+  process_layer(&parser, cfg, false);  // Recursive parsing
+
+  yaml_parser_delete(&parser);
+  fclose(source);
+  g_free(path_);
+
+  // Create type description struct
+  type_description_t * description_struct = get_zero_initialized_type_description();
+  populate_type_description(description_struct, cfg);
+
+  // Cleanup parsed tree (This is ok since the population function copies any relevant data)
+  g_node_traverse(cfg, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_free_node_data_fn, NULL);
+  g_node_destroy(cfg);
+
+  return description_struct;
+}
 
 // =================================================================================================
 // Printing
@@ -260,7 +288,9 @@ _for_each_fn(gpointer key, gpointer value, gpointer user_data)
 void
 print_type_description(type_description_t * input)
 {
-  printf("= Type Description =\n");
+  printf("\n\n---\n\n");
+
+  printf("= [PRINTING TYPE DESCRIPTION] =\n");
   printf(
     "  referenced_type_descriptions_count: %d\n",
     g_hash_table_size(input->referenced_type_descriptions)
@@ -271,4 +301,6 @@ print_type_description(type_description_t * input)
 
   printf("\n== [REFERENCED DESCRIPTIONS] ==\n");
   g_hash_table_foreach(input->referenced_type_descriptions, _for_each_fn, NULL);
+
+  printf("\n---\n\n");
 }

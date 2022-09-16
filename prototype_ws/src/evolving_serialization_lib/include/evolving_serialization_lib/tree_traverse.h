@@ -20,6 +20,9 @@
 #include <glib.h>
 #include <evolving_serialization_lib/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // =================================================================================================
 // Utils
@@ -60,4 +63,8 @@ g_node_str_child_find(GNode * root, GTraverseType order, GTraverseFlags flags, c
 rcl_ret_t
 get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node);
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif  // EVOLVING_SERIALIZATION_LIB__TREE_TRAVERSE_H_

@@ -17,33 +17,34 @@
 
 #include <rcl/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define UNSET_T_IDX 0
 #define NESTED_T_IDX 1
+
 
 // PRIMITIVES ======================================================================================
 #define BOOL_T_IDX 2
 #define BYTE_T_IDX 3
 #define CHAR_T_IDX 4
 
-#define UINT_8_T_IDX 5
-#define UINT_16_T_IDX 6
-#define UINT_32_T_IDX 7
-#define UINT_64_T_IDX 8
-#define INT_8_T_IDX 9
-#define INT_16_T_IDX 10
+#define FLOAT_32_T_IDX 5
+#define FLOAT_64_T_IDX 6
+#define INT_8_T_IDX 7
+#define UINT_8_T_IDX 8
+#define INT_16_T_IDX 9
+#define UINT_16_T_IDX 10
 #define INT_32_T_IDX 11
-#define INT_64_T_IDX 12
-
-#define FLOAT_32_T_IDX 13
-#define FLOAT_64_T_IDX 14
+#define UINT_32_T_IDX 12
+#define INT_64_T_IDX 13
+#define UINT_64_T_IDX 14
 
 #define STRING_T_IDX 15
-#define BOUNDED_STRING_T_IDX 16
-#define FIXED_STRING_T_IDX 17
-
-#define WSTRING_T_IDX 18
-#define BOUNDED_WSTRING_T_IDX 19
-#define FIXED_WSTING_T_IDX 20
+#define WSTRING_T_IDX 16
+#define BOUNDED_STRING_T_IDX 17
+#define BOUNDED_WSTRING_T_IDX 18
 
 
 // SEQUENCES =======================================================================================
@@ -51,4 +52,8 @@
 #define BOUNDED_SEQ_OFFSET 64
 #define UNBOUNDED_SEQ_OFFSET 96
 
+#ifdef __cplusplus
+}
 #endif
+
+#endif  // EVOLVING_SERIALIZATION_LIB__TYPES_H_

@@ -16,20 +16,18 @@ This is a prototype and might not reflect the final ID list!
 | bool             | 2    |
 | byte             | 3    |
 | char             | 4    |
-| uint8            | 5    |
-| uint16           | 6    |
-| uint32           | 7    |
-| uint64           | 8    |
-| int8             | 9    |
-| int16            | 10   |
+| float32          | 5    |
+| float64          | 6    |
+| int8             | 7    |
+| uint8            | 8    |
+| int16            | 9    |
+| uint16           | 10   |
 | int32            | 11   |
-| int64            | 12   |
-| float32          | 13   |
-| float64          | 14   |
+| uint32           | 12   |
+| int64            | 13   |
+| uint64           | 14   |
 | string           | 15   |
-| bounded string   | 16   |
-| fixed string     | 17   |
-| wstring          | 18   |
-| bounded wstring  | 19   |
-| fixed wstring    | 20   |
+| wstring          | 16   |
+| bounded string   | 17   |
+| bounded wstring  | 18   |
 
