@@ -41,13 +41,13 @@ int main()
 {
   // Read and parse description ====================================================================
   const char * main_dir = g_path_get_dirname(__FILE__);
-  char * flat_yaml_path = g_strjoin("/", main_dir, "..", "msg", DESCRIPTION_FILE, NULL);
-  printf("\nINPUT DESCRIPTION: %s\n\n", flat_yaml_path);
+  char * nested_yaml_path = g_strjoin("/", main_dir, "..", "..", "msg", DESCRIPTION_FILE, NULL);
+  printf("\nINPUT DESCRIPTION: %s\n\n", nested_yaml_path);
 
-  GNode * cfg = g_node_new(flat_yaml_path);
+  GNode * cfg = g_node_new(nested_yaml_path);
   yaml_parser_t parser;
 
-  FILE * source = fopen(flat_yaml_path, "rb");
+  FILE * source = fopen(nested_yaml_path, "rb");
 
   yaml_parser_initialize(&parser);
   yaml_parser_set_input_file(&parser, source);
@@ -56,7 +56,7 @@ int main()
 
   yaml_parser_delete(&parser);
   fclose(source);
-  g_free(flat_yaml_path);
+  g_free(nested_yaml_path);
 
 
   // Traverse description tree =====================================================================

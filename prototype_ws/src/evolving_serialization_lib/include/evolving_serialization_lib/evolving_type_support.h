@@ -37,7 +37,7 @@ typedef struct evolving_type_support_interface
   void * (*finalize_struct_builder)(void * instance, void * builder);
   void * (*construct_type_from_description)(void * instance, type_description_t * description);
 
-  // DYNAMIC TYPE MEMBERS
+  // DYNAMIC TYPE PRIMITIVE MEMBERS
   void (* add_bool_member)(void * instance, void * builder, uint32_t id, const char * name);
   void (* add_byte_member)(void * instance, void * builder, uint32_t id, const char * name);
   void (* add_char_member)(void * instance, void * builder, uint32_t id, const char * name);
@@ -57,6 +57,14 @@ typedef struct evolving_type_support_interface
     void * instance, void * builder, uint32_t id, const char * name, uint32_t bound);
   void (* add_bounded_wstring_member)(
     void * instance, void * builder, uint32_t id, const char * name, uint32_t bound);
+
+  // DYNAMIC TYPE NESTED MEMBERS
+  void (* add_nested_struct_member)(
+    void * instance, void * builder,
+    uint32_t id, const char * name, void * nested_struct);
+
+  // DYNAMIC TYPE SEQUENCE MEMBERS
+
 
   // DYNAMIC DATA UTILS
   void (* print_dynamic_data)(void * instance, void * data);
@@ -102,7 +110,7 @@ void *
 ets_construct_type_from_description(EvolvingTypeSupport * ets, type_description_t * description);
 
 
-// DYNAMIC TYPE MEMBERS ============================================================================
+// DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
 void
 ets_add_bool_member(EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name);
 
@@ -155,6 +163,13 @@ ets_add_bounded_string_member(
 void
 ets_add_bounded_wstring_member(
   EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound);
+
+
+// DYNAMIC TYPE NESTED MEMBERS =====================================================================
+void
+ets_add_nested_struct_member(
+  EvolvingTypeSupport * instance, void * builder,
+  uint32_t id, const char * name, void * nested_struct);
 
 
 // DYNAMIC DATA UTILS ==============================================================================

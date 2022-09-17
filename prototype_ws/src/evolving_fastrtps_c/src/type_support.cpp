@@ -68,7 +68,7 @@ create_fastrtps_evolving_typesupport_interface()
   fastrtps_ets->construct_type_from_description =
     (void * (*)(void *, type_description_t *))fastrtps__construct_type_from_description;
 
-  // DYNAMIC TYPE MEMBERS
+  // DYNAMIC TYPE PRIMITIVE MEMBERS
   fastrtps_ets->add_bool_member =
     (void (*)(void *, void *, uint32_t, const char *))fastrtps__add_bool_member;
 
@@ -122,6 +122,11 @@ create_fastrtps_evolving_typesupport_interface()
     (void (*)(void *, void *, uint32_t, const char *, uint32_t))
     fastrtps__add_bounded_wstring_member;
 
+  // DYNAMIC TYPE NESTED MEMBERS
+  fastrtps_ets->add_nested_struct_member =
+    (void (*)(void *, void *, uint32_t, const char *, void *))
+    fastrtps__add_nested_struct_member;
+
   // DYNAMIC DATA UTILS
   fastrtps_ets->print_dynamic_data = (void (*)(void *, void *))fastrtps__print_dynamic_data;
 
@@ -145,6 +150,9 @@ fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, vo
   (void) ets_impl;
 
   // Disgusting, but unavoidable...
+  //
+  // We're forcing the managed pointer to persist outside of function scope by moving ownership
+  // to a new, heap-allocated DynamicType_ptr (which is a shared_ptr)
   return reinterpret_cast<void *>(
     new DynamicType_ptr(
       std::move(static_cast<DynamicTypeBuilder *>(builder)->build())
@@ -158,8 +166,12 @@ fastrtps__construct_type_from_description(
 {
   individual_type_description_t * main_description = description->type_description;
 
-  auto builder = static_cast<eprosima::fastrtps::types::DynamicTypeBuilder *>(
-    fastrtps__create_struct_builder(ets_impl, main_description->type_name)
+  auto builder = DynamicTypeBuilder_ptr(
+    std::move(
+      static_cast<DynamicTypeBuilder *>(
+        fastrtps__create_struct_builder(ets_impl, main_description->type_name)
+      )
+    )
   );
 
   for (size_t i = 0; i < main_description->field_count; i++) {
@@ -169,65 +181,104 @@ fastrtps__construct_type_from_description(
       case UNSET_T_IDX:
         printf("[ERROR] Field type not set!");
         break;
+
+      // NESTED
       case NESTED_T_IDX:
-        // TODO(CH3): We'll need to invoke this recursively and also implement the dynamic
-        //            loaning interfaces!
+        {
+          if (field->nested_type_name == NULL) {
+            std::cerr << "Nested type name is missing in description for field ["
+                      << field->field_name << "]" << std::endl;
+            return nullptr;
+          }
+
+          // Ensure referenced type exists
+          auto ref_lookup =
+            g_hash_table_lookup(description->referenced_type_descriptions, field->nested_type_name);
+
+          if (ref_lookup == NULL) {
+            std::cerr << "Referenced type description: [" << field->nested_type_name
+                      << "] could not be found in description!" << std::endl;
+            return nullptr;
+          }
+
+          // Create a new type_description_t to pass to the next layer
+          std::shared_ptr<type_description_t> recurse_description(new type_description_t);
+
+          recurse_description->type_description =
+            static_cast<individual_type_description_t *>(ref_lookup);
+
+          recurse_description->referenced_type_descriptions =
+            description->referenced_type_descriptions;
+
+          auto nested_struct = fastrtps__construct_type_from_description(
+            ets_impl, recurse_description.get());
+
+          if (nested_struct == NULL) {
+            std::cerr << "Could not construct nested type for field ["
+                      << field->field_name << "]" << std::endl;
+            return nullptr;
+          }
+
+          fastrtps__add_nested_struct_member(
+            ets_impl,
+            builder.get(), i, field->field_name, nested_struct);
+        }
         break;
 
       // PRIMITIVES
       case BOOL_T_IDX:
-        fastrtps__add_bool_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_bool_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case BYTE_T_IDX:
-        fastrtps__add_byte_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_byte_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case CHAR_T_IDX:
-        fastrtps__add_char_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_char_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case FLOAT_32_T_IDX:
-        fastrtps__add_float32_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_float32_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case FLOAT_64_T_IDX:
-        fastrtps__add_float64_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_float64_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case INT_8_T_IDX:
-        fastrtps__add_int8_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_int8_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case UINT_8_T_IDX:
-        fastrtps__add_uint8_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_uint8_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case INT_16_T_IDX:
-        fastrtps__add_int16_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_int16_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case UINT_16_T_IDX:
-        fastrtps__add_uint16_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_uint16_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case INT_32_T_IDX:
-        fastrtps__add_int32_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_int32_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case UINT_32_T_IDX:
-        fastrtps__add_uint32_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_uint32_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case INT_64_T_IDX:
-        fastrtps__add_int64_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_int64_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case UINT_64_T_IDX:
-        fastrtps__add_uint64_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_uint64_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case STRING_T_IDX:
-        fastrtps__add_string_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_string_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case WSTRING_T_IDX:
-        fastrtps__add_wstring_member(ets_impl, builder, i, field->field_name);
+        fastrtps__add_wstring_member(ets_impl, builder.get(), i, field->field_name);
         break;
       case BOUNDED_STRING_T_IDX:
         fastrtps__add_bounded_string_member(
-          ets_impl, builder, i, field->field_name,
+          ets_impl, builder.get(), i, field->field_name,
           field->field_array_size);
         break;
       case BOUNDED_WSTRING_T_IDX:
         fastrtps__add_bounded_wstring_member(
-          ets_impl, builder, i, field->field_name,
+          ets_impl, builder.get(), i, field->field_name,
           field->field_array_size);
         break;
       default:
@@ -236,11 +287,11 @@ fastrtps__construct_type_from_description(
     }
   }
 
-  return fastrtps__finalize_struct_builder(ets_impl, builder);
+  return fastrtps__finalize_struct_builder(ets_impl, builder.get());
 }
 
 
-// DYNAMIC TYPE MEMBERS ============================================================================
+// DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
 void
 fastrtps__add_bool_member(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
@@ -426,6 +477,24 @@ fastrtps__add_bounded_wstring_member(
 {
   static_cast<DynamicTypeBuilder *>(builder)->add_member(
     id, name, ets_impl->factory_->create_wstring_type(bound));
+}
+
+
+// DYNAMIC TYPE NESTED MEMBERS =====================================================================
+void
+fastrtps__add_nested_struct_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
+  uint32_t id, const char * name, void * nested_struct)
+{
+  (void) ets_impl;
+
+  auto nested_struct_dynamictype_ptr = eprosima::fastrtps::types::DynamicType_ptr(
+    std::move(
+      *reinterpret_cast<eprosima::fastrtps::types::DynamicType_ptr *>(nested_struct)
+    )
+  );
+
+  static_cast<DynamicTypeBuilder *>(builder)->add_member(id, name, nested_struct_dynamictype_ptr);
 }
 
 

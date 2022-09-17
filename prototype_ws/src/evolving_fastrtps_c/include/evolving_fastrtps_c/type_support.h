@@ -44,7 +44,7 @@ fastrtps__construct_type_from_description(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, type_description_t * description);
 
 
-// DYNAMIC TYPE MEMBERS ============================================================================
+// DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
 void
 fastrtps__add_bool_member(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
@@ -115,6 +115,12 @@ fastrtps__add_bounded_wstring_member(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, uint32_t bound);
 
+
+// DYNAMIC TYPE NESTED MEMBERS =====================================================================
+void
+fastrtps__add_nested_struct_member(
+  EvolvingFastRtpsTypeSupportImpl * instance, void * builder,
+  uint32_t id, const char * name, void * nested_struct);
 
 // DYNAMIC DATA UTILS ==============================================================================
 void

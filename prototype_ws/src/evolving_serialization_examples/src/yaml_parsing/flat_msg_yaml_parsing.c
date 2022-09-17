@@ -40,7 +40,7 @@ int main()
 {
   // Read and parse description ====================================================================
   const char * main_dir = g_path_get_dirname(__FILE__);
-  char * flat_yaml_path = g_strjoin("/", main_dir, "..", "msg", DESCRIPTION_FILE, NULL);
+  char * flat_yaml_path = g_strjoin("/", main_dir, "..", "..", "msg", DESCRIPTION_FILE, NULL);
   printf("\nINPUT DESCRIPTION: %s\n\n", flat_yaml_path);
 
   GNode * cfg = g_node_new(flat_yaml_path);

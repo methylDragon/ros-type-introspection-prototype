@@ -145,8 +145,9 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   const eprosima::fastrtps::types::TypeObject *,
   eprosima::fastrtps::types::DynamicType_ptr dyn_type)
 {
-  // FastDDS receives DynamicType_ptr as an arg
-  //
+  // FastDDS receives DynamicType_ptr as an arg but we explicitly DON'T use it
+  // We instead construct our own dynamically. Though we still check for equality!
+
   /* We can construct our own DynamicType_ptr dynamically using the evolving message
    * types libraries and compare!
    *

@@ -22,3 +22,26 @@ referenced_type_descriptions:
         field_type: 4
         field_array_size: ~
         nested_type_name: ~
+
+      -
+        field_name: nested_bool_field
+        field_type: 2
+        field_array_size: ~
+        nested_type_name: ~
+
+      -
+        field_name: double_nested_field
+        field_type: 1
+        field_array_size: ~
+        nested_type_name: inner_inner
+
+
+  -
+    type_name: 'inner_inner'
+    fields:
+      -
+        field_name: double_nested_char_field
+        field_type: 4
+        field_array_size: ~
+        nested_type_name: ~
+        

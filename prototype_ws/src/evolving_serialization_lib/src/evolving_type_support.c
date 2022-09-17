@@ -50,7 +50,7 @@ ets_construct_type_from_description(EvolvingTypeSupport * ets, type_description_
   return (ets->interface->construct_type_from_description)(ets->instance, description);
 }
 
-// DYNAMIC TYPE MEMBERS ============================================================================
+// DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
 void
 ets_add_bool_member(EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
 {
@@ -173,6 +173,16 @@ ets_add_bounded_wstring_member(
   uint32_t id, const char * name, uint32_t bound)
 {
   (ets->interface->add_bounded_wstring_member)(ets->instance, builder, id, name, bound);
+}
+
+
+// DYNAMIC TYPE NESTED MEMBERS =====================================================================
+void
+ets_add_nested_struct_member(
+  EvolvingTypeSupport * ets, void * builder,
+  uint32_t id, const char * name, void * nested_struct)
+{
+  (ets->interface->add_nested_struct_member)(ets->instance, builder, id, name, nested_struct);
 }
 
 
