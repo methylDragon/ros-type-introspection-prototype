@@ -30,11 +30,34 @@ referenced_type_descriptions:
         nested_type_name: ~
 
       -
+        field_name: nested_bool_static_array_field
+        field_type: 34
+        field_array_size: 5
+        nested_type_name: ~
+
+      -
+        field_name: nested_str_bounded_seq_field
+        field_type: 111  # 15 + 96
+        field_array_size: 10
+        nested_type_name: ~
+
+      -
+        field_name: nested_float32_unbounded_seq_field
+        field_type: 69  # 5 + 64
+        field_array_size: ~
+        nested_type_name: ~
+
+      -
         field_name: double_nested_field
         field_type: 1
         field_array_size: ~
         nested_type_name: inner_inner
 
+      -
+        field_name: double_nested_static_array_field
+        field_type: 33  # 1 + 32
+        field_array_size: 3
+        nested_type_name: inner_inner
 
   -
     type_name: 'inner_inner'
@@ -44,4 +67,23 @@ referenced_type_descriptions:
         field_type: 4
         field_array_size: ~
         nested_type_name: ~
-        
+      -
+        field_name: triple_nested_field
+        field_type: 1
+        field_array_size: ~
+        nested_type_name: inner_inner_inner
+
+  -
+    type_name: 'inner_inner_inner'
+    fields:
+      -
+        field_name: triple_nested_char_field
+        field_type: 4
+        field_array_size: ~
+        nested_type_name: ~
+
+      -
+        field_name: triple_nested_bool_static_array_field
+        field_type: 34
+        field_array_size: 5
+        nested_type_name: ~

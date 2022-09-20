@@ -79,6 +79,10 @@ bool EvolvingSubscription::init()
   qos_ = DATAREADER_QOS_DEFAULT;
   qos_.reliability().kind = RELIABLE_RELIABILITY_QOS;
 
+  // Use QoS settings that mimic rmw_fastrtps
+  qos_.endpoint().history_memory_policy =
+    eprosima::fastrtps::rtps::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+
   return true;
 }
 

@@ -49,8 +49,8 @@ extern "C" {
 
 // SEQUENCES =======================================================================================
 #define STATIC_ARRAY_OFFSET 32
-#define BOUNDED_SEQ_OFFSET 64
-#define UNBOUNDED_SEQ_OFFSET 96
+#define UNBOUNDED_SEQ_OFFSET 64
+#define BOUNDED_SEQ_OFFSET 96
 
 #ifdef __cplusplus
 }

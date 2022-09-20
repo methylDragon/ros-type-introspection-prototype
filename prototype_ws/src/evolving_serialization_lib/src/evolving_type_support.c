@@ -176,6 +176,427 @@ ets_add_bounded_wstring_member(
 }
 
 
+// DYNAMIC TYPE STATIC ARRAY MEMBERS ===============================================================
+void
+ets_add_bool_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_bool_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_byte_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_byte_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_char_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_char_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_float32_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_float32_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_float64_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_float64_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int8_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int8_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint8_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint8_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int16_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int16_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint16_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint16_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int32_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int32_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint32_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint32_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int64_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int64_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint64_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint64_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_string_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_string_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_wstring_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_wstring_static_array_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_bounded_string_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound)
+{
+  (ets->interface->add_bounded_string_static_array_member)(
+    ets->instance, builder, id, name, str_bound, bound);
+}
+
+
+void
+ets_add_bounded_wstring_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound)
+{
+  (ets->interface->add_bounded_wstring_static_array_member)(
+    ets->instance, builder, id, name, str_bound, bound);
+}
+
+
+// DYNAMIC TYPE UNBOUNDED SEQUENCE MEMBERS =========================================================
+void
+ets_add_bool_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_bool_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_byte_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_byte_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_char_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_char_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_float32_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_float32_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_float64_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_float64_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_int8_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_int8_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_uint8_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_uint8_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_int16_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_int16_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_uint16_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_uint16_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_int32_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_int32_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_uint32_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_uint32_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_int64_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_int64_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_uint64_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_uint64_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_string_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_string_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_wstring_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name)
+{
+  (ets->interface->add_wstring_unbounded_sequence_member)(ets->instance, builder, id, name);
+}
+
+
+void
+ets_add_bounded_string_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t str_bound)
+{
+  (ets->interface->add_bounded_string_unbounded_sequence_member)(
+    ets->instance, builder, id, name, str_bound);
+}
+
+
+void
+ets_add_bounded_wstring_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t str_bound)
+{
+  (ets->interface->add_bounded_wstring_unbounded_sequence_member)(
+    ets->instance, builder, id, name, str_bound);
+}
+
+
+// DYNAMIC TYPE BOUNDED SEQUENCE MEMBERS ===========================================================
+void
+ets_add_bool_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_bool_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_byte_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_byte_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_char_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_char_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_float32_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_float32_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_float64_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_float64_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int8_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int8_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint8_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint8_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int16_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int16_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint16_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint16_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int32_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int32_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint32_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint32_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_int64_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_int64_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_uint64_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_uint64_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_string_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_string_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_wstring_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, uint32_t bound)
+{
+  (ets->interface->add_wstring_bounded_sequence_member)(ets->instance, builder, id, name, bound);
+}
+
+
+void
+ets_add_bounded_string_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound)
+{
+  (ets->interface->add_bounded_string_bounded_sequence_member)(
+    ets->instance, builder, id, name, str_bound, bound);
+}
+
+
+void
+ets_add_bounded_wstring_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound)
+{
+  (ets->interface->add_bounded_wstring_bounded_sequence_member)(
+    ets->instance, builder, id, name, str_bound, bound);
+}
+
+
 // DYNAMIC TYPE NESTED MEMBERS =====================================================================
 void
 ets_add_nested_struct_member(
@@ -183,6 +604,35 @@ ets_add_nested_struct_member(
   uint32_t id, const char * name, void * nested_struct)
 {
   (ets->interface->add_nested_struct_member)(ets->instance, builder, id, name, nested_struct);
+}
+
+
+void
+ets_add_nested_struct_static_array_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  void * nested_struct, uint32_t bound)
+{
+  (ets->interface->add_nested_struct_static_array_member)(
+    ets->instance, builder, id, name, nested_struct, bound);
+}
+
+
+void
+ets_add_nested_struct_unbounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name, void * nested_struct)
+{
+  (ets->interface->add_nested_struct_unbounded_sequence_member)(
+    ets->instance, builder, id, name, nested_struct);
+}
+
+
+void
+ets_add_nested_struct_bounded_sequence_member(
+  EvolvingTypeSupport * ets, void * builder, uint32_t id, const char * name,
+  void * nested_struct, uint32_t bound)
+{
+  (ets->interface->add_nested_struct_bounded_sequence_member)(
+    ets->instance, builder, id, name, nested_struct, bound);
 }
 
 

@@ -108,19 +108,283 @@ fastrtps__add_wstring_member(
 void
 fastrtps__add_bounded_string_member(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
-  uint32_t id, const char * name, uint32_t bound);
+  uint32_t id, const char * name,
+  uint32_t bound);
 
 void
 fastrtps__add_bounded_wstring_member(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
-  uint32_t id, const char * name, uint32_t bound);
+  uint32_t id, const char * name,
+  uint32_t bound);
+
+
+// DYNAMIC TYPE STATIC ARRAY MEMBERS ===============================================================
+void
+fastrtps__add_bool_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_byte_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_char_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_float32_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_float64_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int8_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint8_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int16_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint16_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int32_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint32_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int64_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint64_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_string_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_wstring_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_bounded_string_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound);
+
+void
+fastrtps__add_bounded_wstring_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound);
+
+
+// DYNAMIC TYPE UNBOUNDED SEQUENCE MEMBERS =========================================================
+void
+fastrtps__add_bool_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_byte_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_char_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_float32_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_float64_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_int8_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_uint8_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_int16_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_uint16_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_int32_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_uint32_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_int64_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_uint64_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_string_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_wstring_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name);
+
+void
+fastrtps__add_bounded_string_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound);
+
+void
+fastrtps__add_bounded_wstring_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound);
+
+
+// DYNAMIC TYPE BOUNDED SEQUENCE MEMBERS ===========================================================
+void
+fastrtps__add_bool_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_byte_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_char_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_float32_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_float64_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int8_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint8_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int16_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint16_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int32_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint32_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_int64_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_uint64_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_string_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_wstring_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t bound);
+
+void
+fastrtps__add_bounded_string_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound);
+
+void
+fastrtps__add_bounded_wstring_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  uint32_t str_bound, uint32_t bound);
 
 
 // DYNAMIC TYPE NESTED MEMBERS =====================================================================
 void
 fastrtps__add_nested_struct_member(
-  EvolvingFastRtpsTypeSupportImpl * instance, void * builder,
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder,
   uint32_t id, const char * name, void * nested_struct);
+
+void
+fastrtps__add_nested_struct_static_array_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  void * nested_struct, uint32_t bound);
+
+void
+fastrtps__add_nested_struct_unbounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  void * nested_struct);
+
+void
+fastrtps__add_nested_struct_bounded_sequence_member(
+  EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder, uint32_t id, const char * name,
+  void * nested_struct, uint32_t bound);
+
 
 // DYNAMIC DATA UTILS ==============================================================================
 void

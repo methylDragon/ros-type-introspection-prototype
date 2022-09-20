@@ -97,7 +97,14 @@ bool BasicPublisher::init()
   }
 
   // CREATE THE WRITER
-  writer_ = mp_publisher->create_datawriter(topic_, DATAWRITER_QOS_DEFAULT, &m_listener);
+  // Use QoS settings that mimic rmw_fastrtps
+  DataWriterQos wqos;
+  wqos.endpoint().history_memory_policy =
+    eprosima::fastrtps::rtps::PREALLOCATED_WITH_REALLOC_MEMORY_MODE;
+  wqos.publish_mode().kind =
+    eprosima::fastdds::dds::ASYNCHRONOUS_PUBLISH_MODE;
+
+  writer_ = mp_publisher->create_datawriter(topic_, wqos, &m_listener);
   if (writer_ == nullptr) {
     return false;
   }
