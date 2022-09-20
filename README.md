@@ -36,6 +36,6 @@ source install/setup.bash
 
 ## Notes
 
-This repo uses [a branch of a fork of the FastDDS repository](https://github.com/methylDragon/Fast-DDS) with bugfixes that have yet to be released, the relevant `CMakeLists.txt` files have been modified to force the use of the fork's version of FastRTPS, masking the version of FastRTPS installed with ROS 2.
+This repo uses [a fork of the FastDDS repository](https://github.com/methylDragon/Fast-DDS) with bugfixes that have yet to be released, the relevant `CMakeLists.txt` files have been modified to force the use of the fork's version of FastRTPS, masking the version of FastRTPS installed with ROS 2.
 
 The fixes are just for utility functions that don't affect what is going on the wire and are used just for prototype convenience reasons.
