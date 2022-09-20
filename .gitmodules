@@ -1,0 +1,4 @@
+[submodule "prototype_ws/src/Fast-DDS"]
+	path = prototype_ws/src/Fast-DDS
+	url = https://github.com/methylDragon/Fast-DDS.git
+	branch = ch3/hotfix-dynamic-data-helper
