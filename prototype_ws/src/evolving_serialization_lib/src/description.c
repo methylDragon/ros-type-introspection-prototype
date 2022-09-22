@@ -153,7 +153,7 @@ populate_individual_type_description(
   individual_description_struct->fields =
     malloc(sizeof(type_description_field_t) * individual_description_struct->field_count);
 
-  size_t __field_counter = 0;
+  size_t _field_counter = 0;
 
   while (_field != NULL) {
     // Ideally we'd do some try-catch here to finalize the field if we failed
@@ -170,7 +170,7 @@ populate_individual_type_description(
       _field_struct->nested_type_name = strdup(_nested_type_name);
     }  // NULL by default from zero initialization
 
-    individual_description_struct->fields[__field_counter++] = _field_struct;
+    individual_description_struct->fields[_field_counter++] = _field_struct;
     _field = _field->next;
   }
 
@@ -241,6 +241,32 @@ create_type_description_from_yaml(const char * path)
 
   return description_struct;
 }
+
+
+type_description_t *
+get_ref_description_as_type_description(type_description_t * full_description, const char * key)
+{
+  // Ensure referenced type exists
+  void * ref_lookup =
+    g_hash_table_lookup(full_description->referenced_type_descriptions, key);
+
+  if (ref_lookup == NULL) {
+    printf("Referenced type description: [%s] could not be found in description!", key);
+    return NULL;
+  }
+
+  type_description_t * out = malloc(sizeof(type_description_t));
+  if (out == NULL) {
+    printf("Could not allocate type_description!\n");
+    return NULL;
+  }
+
+  out->type_description = (individual_type_description_t *)(ref_lookup);
+  out->referenced_type_descriptions = full_description->referenced_type_descriptions;
+
+  return out;
+}
+
 
 // =================================================================================================
 // Printing

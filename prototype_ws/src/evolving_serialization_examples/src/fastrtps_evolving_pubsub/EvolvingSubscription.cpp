@@ -197,6 +197,26 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     std::cout << "Dynamic type is equal!" << std::endl;
   } else {
     std::cout << "Dynamic type is NOT equal!" << std::endl;
+
+    std::map<std::string, eprosima::fastrtps::types::DynamicTypeMember *> dyn_map;
+    dyn_type->get_all_members_by_name(dyn_map);
+
+    std::map<std::string, eprosima::fastrtps::types::DynamicTypeMember *> evolving_map;
+    evolving_type->get_all_members_by_name(evolving_map);
+
+    std::cout << "\nRECEIVED:" << std::endl;
+    for (auto const & x : dyn_map) {
+      std::cout << x.first << ':' << x.second << std::endl;
+    }
+
+    std::cout << "\nLOADED:" << std::endl;
+    for (auto const & x : evolving_map) {
+      std::cout << x.first << ':' << x.second << std::endl;
+    }
+    std::cout << std::endl;
+
+    // dyn_type
+    // std::cout << dyn_type->get_members_count() << " " << evolving_type->get_members_count() << std::endl;
   }
 
   TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(evolving_type));

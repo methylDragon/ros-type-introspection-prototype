@@ -48,6 +48,7 @@ extern "C" {
 
 
 // SEQUENCES =======================================================================================
+#define SEQ_T_DELIMITER 32
 #define STATIC_ARRAY_OFFSET 32
 #define UNBOUNDED_SEQ_OFFSET 64
 #define BOUNDED_SEQ_OFFSET 96

@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef BASIC_PUBLISHER_H_
-#define BASIC_PUBLISHER_H_
+#ifndef EVOLVING_PUBLISHER_H_
+#define EVOLVING_PUBLISHER_H_
 
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 
-class BasicPublisher
+class EvolvingPublisher
 {
 public:
-  BasicPublisher();
+  EvolvingPublisher();
 
-  virtual ~BasicPublisher();
+  virtual ~EvolvingPublisher();
 
   bool init();
   bool publish(bool waitForListener = true);
@@ -67,4 +67,4 @@ public:
 };
 
 
-#endif /* BASIC_PUBLISHER_H_ */
+#endif /* EVOLVING_PUBLISHER_H_ */

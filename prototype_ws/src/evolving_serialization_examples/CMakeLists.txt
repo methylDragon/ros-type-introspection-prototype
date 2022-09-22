@@ -36,50 +36,9 @@ include_directories(
   ${evolving_fastrtps_c_INCLUDE_DIRS}
 )
 
-
-# YAML Parsing
+add_subdirectory(src/fastrtps_evolving_pubsub)
+add_subdirectory(src/fastrtps_evolving_walkthrough)
 add_executable(flat_msg_yaml_parsing "src/yaml_parsing/flat_msg_yaml_parsing.c")
-ament_target_dependencies(flat_msg_yaml_parsing evolving_serialization_lib)
-
-add_executable(nested_msg_yaml_parsing "src/yaml_parsing/nested_msg_yaml_parsing.c")
-ament_target_dependencies(nested_msg_yaml_parsing evolving_serialization_lib)
-
-install(TARGETS flat_msg_yaml_parsing RUNTIME DESTINATION lib/${PROJECT_NAME})
-install(TARGETS nested_msg_yaml_parsing RUNTIME DESTINATION lib/${PROJECT_NAME})
-
-
-# Evolving Sub
-add_executable(fastrtps_evolving_sub_publisher
-  "src/fastrtps_evolving_sub/BasicPublisher.cpp")
-target_link_libraries(fastrtps_evolving_sub_publisher
-  ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_fastrtps_c_LIBRARIES}
-  fastrtps
-  fastcdr
-)
-
-add_executable(fastrtps_evolving_sub_evolving_subscription
-  "src/fastrtps_evolving_sub/EvolvingSubscription.cpp")
-target_link_libraries(fastrtps_evolving_sub_evolving_subscription
-  ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_fastrtps_c_LIBRARIES}
-  fastrtps
-  fastcdr
-)
-
-install(TARGETS fastrtps_evolving_sub_publisher RUNTIME DESTINATION lib/${PROJECT_NAME})
-install(TARGETS fastrtps_evolving_sub_evolving_subscription RUNTIME DESTINATION lib/${PROJECT_NAME})
-
-
-# FastRTPS Evolving Walkthrough
-add_executable(fastrtps_evolving_walkthrough "src/fastrtps_evolving_walkthrough/walkthrough.cpp")
-target_link_libraries(fastrtps_evolving_walkthrough
-  ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_fastrtps_c_LIBRARIES}
-  fastrtps
-  fastcdr
-)
-
-install(TARGETS fastrtps_evolving_walkthrough RUNTIME DESTINATION lib/${PROJECT_NAME})
+add_subdirectory(src/yaml_parsing)
 
 ament_package()

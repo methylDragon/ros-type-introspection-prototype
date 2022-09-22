@@ -27,7 +27,7 @@ e.g. `evolving_fastrtps_c`, a `C++` implementation of the `C` ETS interface, cal
 
 ```shell
 git clone https://github.com/methylDragon/ros-type-introspection-prototype.git
-git module update --init --recursive
+git submodule update --init --recursive
 
 cd prototype_ws
 colcon build

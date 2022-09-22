@@ -100,6 +100,14 @@ type_description_t *
 create_type_description_from_yaml(const char * path);
 
 
+/// Create a new type_description_t with a referenced individual_type_description_t in the description field
+///
+/// This pulls the info from the passed in full_description and copies the pointers
+/// It is NOT a deep copy! Just free the resulting type_description_t * when done
+type_description_t *
+get_ref_description_as_type_description(type_description_t * full_description, const char * key);
+
+
 // =================================================================================================
 // Printing
 // =================================================================================================

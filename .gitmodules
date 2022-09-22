@@ -1,4 +1,8 @@
-[submodule "prototype_ws/src/Fast-DDS"]
-	path = prototype_ws/src/Fast-DDS
+[submodule "Fast-DDS"]
+	path = prototype_ws/src/external/Fast-DDS
 	url = https://github.com/methylDragon/Fast-DDS.git
+	branch = master
+[submodule "CycloneDDS"]
+	path = prototype_ws/src/external/cyclonedds
+	url = https://github.com/eclipse-cyclonedds/cyclonedds.git
 	branch = master

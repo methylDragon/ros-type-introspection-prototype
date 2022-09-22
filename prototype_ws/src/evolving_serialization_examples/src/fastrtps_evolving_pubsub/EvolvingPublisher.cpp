@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "BasicPublisher.h"
+#include "EvolvingPublisher.h"
 
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/PublisherAttributes.h>
@@ -30,46 +30,61 @@
 
 #include <thread>
 
+#include "evolving_serialization_lib/yaml_parser.h"
+#include "evolving_serialization_lib/description.h"
+#include "evolving_serialization_lib/tree_traverse.h"
+#include "evolving_serialization_lib/evolving_type_support.h"
+#include "evolving_fastrtps_c/type_support.h"
+
 using namespace eprosima::fastdds::dds;
 
+static EvolvingTypeSupport * ets = create_evolving_typesupport(
+  create_fastrtps_evolving_typesupport_impl(),
+  create_fastrtps_evolving_typesupport_interface());
 
-BasicPublisher::BasicPublisher()
+EvolvingPublisher::EvolvingPublisher()
 : mp_participant(nullptr), mp_publisher(nullptr)
 {
 }
 
 
-bool BasicPublisher::init()
+bool EvolvingPublisher::init()
 {
   using namespace eprosima::fastrtps::types;
 
-  // Create type
-  auto type_factory = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
-  DynamicTypeBuilder_ptr builder = type_factory->create_struct_builder();
+  char * flat_yaml_path =
+    g_strjoin("/", g_path_get_dirname(__FILE__), ".", "example_msg.yaml", NULL);
 
-  /*
-   * TODO(CH3): Eventually, we want to do this automatically with the evolving lib
-   */
+  type_description_t * full_description_struct = create_type_description_from_yaml(flat_yaml_path);
 
-  builder->add_member(0, "bool_field", type_factory->create_bool_type());
-  builder->add_member(1, "byte_field", type_factory->create_byte_type());
-  builder->add_member(2, "int32_field", type_factory->create_int32_type());
-  builder->add_member(
-    3, "string_field",
-    type_factory->create_string_type(eprosima::fastrtps::types::MAX_STRING_LENGTH));
-  builder->set_name("ExampleMsg");
-
-  DynamicType_ptr example_msg_type(builder->build());
+  auto example_msg_type = eprosima::fastrtps::types::DynamicType_ptr(
+    std::move(
+      *reinterpret_cast<eprosima::fastrtps::types::DynamicType_ptr *>(
+        ets_construct_type_from_description(ets, full_description_struct)
+      )
+    )
+  );
 
   // Create and Populate Data
   this->msg_data_ = DynamicDataFactory::get_instance()->create_data(example_msg_type);
 
-  msg_data_->set_bool_value(true, 0);
-  msg_data_->set_byte_value(0, 1);
-  msg_data_->set_int32_value(1, 2);
-  msg_data_->set_string_value("Some dynamic string value", 3);
+  this->msg_data_->set_string_value("A message!", 0);
+  auto bool_array = this->msg_data_->loan_value(1);
+  for (uint32_t i = 0; i < 5; ++i) {
+    bool_array->set_bool_value(false, bool_array->get_array_index({i}));
+  }
+  this->msg_data_->return_loaned_value(bool_array);
 
-  DynamicDataHelper::print(msg_data_);
+  std::map<std::string, eprosima::fastrtps::types::DynamicTypeMember *> evolving_map;
+  example_msg_type->get_all_members_by_name(evolving_map);
+
+  for (auto const & x : evolving_map) {
+    std::cout << x.first << ':' << x.second << std::endl;
+  }
+
+  std::cout << "\n* * * = INITIAL MESSAGE CONSTRUCTED = * * *\n" << std::endl;
+  DynamicDataHelper::print(this->msg_data_);
+  std::cout << "\n* * * * * * * * * * * * * * * * * * * * * *\n" << std::endl;
 
   TypeSupport example_msg_ts(new eprosima::fastrtps::types::DynamicPubSubType(example_msg_type));
 
@@ -82,7 +97,7 @@ bool BasicPublisher::init()
     return false;
   }
 
-  example_msg_ts.get()->auto_fill_type_information(false);
+  example_msg_ts.get()->auto_fill_type_information(true);
   example_msg_ts.get()->auto_fill_type_object(true);
   example_msg_ts.register_type(mp_participant);
 
@@ -113,7 +128,7 @@ bool BasicPublisher::init()
 }
 
 
-BasicPublisher::~BasicPublisher()
+EvolvingPublisher::~EvolvingPublisher()
 {
   if (writer_ != nullptr) {
     mp_publisher->delete_datawriter(writer_);
@@ -128,7 +143,7 @@ BasicPublisher::~BasicPublisher()
 }
 
 
-void BasicPublisher::PubListener::on_publication_matched(
+void EvolvingPublisher::PubListener::on_publication_matched(
   eprosima::fastdds::dds::DataWriter *,
   const eprosima::fastdds::dds::PublicationMatchedStatus & info)
 {
@@ -147,7 +162,7 @@ void BasicPublisher::PubListener::on_publication_matched(
 }
 
 
-void BasicPublisher::runThread(uint32_t sleep)
+void EvolvingPublisher::runThread(uint32_t sleep)
 {
   using namespace eprosima::fastrtps::types;
 
@@ -155,25 +170,6 @@ void BasicPublisher::runThread(uint32_t sleep)
     if (publish(true)) {
       std::cout << "\n== SENT ==" << std::endl;
       DynamicDataHelper::print(msg_data_);
-
-      // std::string message;
-      // m_Hello->get_string_value(message, 0);
-      // uint32_t index;
-      // m_Hello->get_uint32_value(index, 1);
-      // std::string aux_array = "[";
-      // eprosima::fastrtps::types::DynamicData * array = m_Hello->loan_value(2);
-      // for (uint32_t i = 0; i < 5; ++i) {
-      //   aux_array += "[";
-      //   for (uint32_t j = 0; j < 2; ++j) {
-      //     uint32_t elem;
-      //     array->get_uint32_value(elem, array->get_array_index({i, j}));
-      //     aux_array += std::to_string(elem) + (j == 1 ? "]" : ", ");
-      //   }
-      //   aux_array += (i == 4 ? "]" : "], ");
-      // }
-      // m_Hello->return_loaned_value(array);
-      // std::cout << "Message: " << message << " with index: " << index
-      //           << " array: " << aux_array << " SENT" << std::endl;
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
@@ -181,10 +177,10 @@ void BasicPublisher::runThread(uint32_t sleep)
 }
 
 
-void BasicPublisher::run(uint32_t sleep)
+void EvolvingPublisher::run(uint32_t sleep)
 {
   stop = false;
-  std::thread thread(&BasicPublisher::runThread, this, sleep);
+  std::thread thread(&EvolvingPublisher::runThread, this, sleep);
 
   std::cout << "Publisher running. Please press enter to stop the Publisher at any time."
             << std::endl;
@@ -195,34 +191,28 @@ void BasicPublisher::run(uint32_t sleep)
 }
 
 
-bool BasicPublisher::publish(bool waitForListener)
+bool EvolvingPublisher::publish(bool waitForListener)
 {
   if (m_listener.firstConnected || !waitForListener || m_listener.n_matched > 0) {
     bool bool_;
-    msg_data_->get_bool_value(bool_, 0);
-    msg_data_->set_bool_value(!bool_, 0);
+    eprosima::fastrtps::types::DynamicData * bool_array_ = msg_data_->loan_value(1);
+    bool_array_->get_bool_value(bool_, bool_array_->get_array_index({0}));
 
-    unsigned char byte_;
-    msg_data_->get_byte_value(byte_, 1);
-    msg_data_->set_byte_value(++byte_, 1);
+    for (uint32_t i = 0; i < 5; i++) {
+      bool_array_->set_bool_value(!bool_, bool_array_->get_array_index({i}));
+    }
 
+    msg_data_->return_loaned_value(bool_array_);
 
-    int32_t index_;
-    msg_data_->get_int32_value(index_, 2);
-    msg_data_->set_int32_value(index_ + 1, 2);
+    float float_;
+    eprosima::fastrtps::types::DynamicData * inner_ = msg_data_->loan_value(2);
+    eprosima::fastrtps::types::DynamicData * inner_inner_ = inner_->loan_value(0);
 
-    // eprosima::fastrtps::types::DynamicData * array = m_Hello->loan_value(2);
-    // array->set_uint32_value(10 + index, array->get_array_index({0, 0}));
-    // array->set_uint32_value(20 + index, array->get_array_index({1, 0}));
-    // array->set_uint32_value(30 + index, array->get_array_index({2, 0}));
-    // array->set_uint32_value(40 + index, array->get_array_index({3, 0}));
-    // array->set_uint32_value(50 + index, array->get_array_index({4, 0}));
-    // array->set_uint32_value(60 + index, array->get_array_index({0, 1}));
-    // array->set_uint32_value(70 + index, array->get_array_index({1, 1}));
-    // array->set_uint32_value(80 + index, array->get_array_index({2, 1}));
-    // array->set_uint32_value(90 + index, array->get_array_index({3, 1}));
-    // array->set_uint32_value(100 + index, array->get_array_index({4, 1}));
-    // m_Hello->return_loaned_value(array);
+    inner_inner_->get_float32_value(float_, 0);
+    inner_inner_->set_float32_value(float_ + 1, 0);
+
+    inner_->return_loaned_value(inner_inner_);
+    msg_data_->return_loaned_value(inner_);
 
     // The writer can write anything! Just pass it an appropriate DynamicData
     writer_->write(msg_data_.get());
@@ -238,7 +228,7 @@ int main(int argc, char * argv[])
   (void)argc;
   (void)argv;
 
-  BasicPublisher pub;
+  EvolvingPublisher pub;
   if (pub.init()) {
     pub.run(1000);
   }

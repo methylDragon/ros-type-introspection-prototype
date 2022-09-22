@@ -727,24 +727,14 @@ fastrtps__construct_type_from_description(
             return nullptr;
           }
 
-          // Ensure referenced type exists
-          auto ref_lookup =
-            g_hash_table_lookup(description->referenced_type_descriptions, field->nested_type_name);
+          // Create a new type_description_t to pass to the next layer
+          std::shared_ptr<type_description_t> recurse_description(
+            std::move(get_ref_description_as_type_description(description, field->nested_type_name))
+          );
 
-          if (ref_lookup == NULL) {
-            std::cerr << "Referenced type description: [" << field->nested_type_name
-                      << "] could not be found in description!" << std::endl;
+          if (recurse_description.get() == NULL) {
             return nullptr;
           }
-
-          // Create a new type_description_t to pass to the next layer
-          std::shared_ptr<type_description_t> recurse_description(new type_description_t);
-
-          recurse_description->type_description =
-            static_cast<individual_type_description_t *>(ref_lookup);
-
-          recurse_description->referenced_type_descriptions =
-            description->referenced_type_descriptions;
 
           // Recurse
           auto nested_struct = fastrtps__construct_type_from_description(
