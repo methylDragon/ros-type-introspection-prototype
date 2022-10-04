@@ -52,10 +52,9 @@ bool EvolvingPublisher::init()
 {
   using namespace eprosima::fastrtps::types;
 
-  char * flat_yaml_path =
-    g_strjoin("/", g_path_get_dirname(__FILE__), ".", "example_msg.yaml", NULL);
-
-  type_description_t * full_description_struct = create_type_description_from_yaml_file(flat_yaml_path);
+  char * msg_path =
+    g_strjoin("/", g_path_get_dirname(__FILE__), "..", "..", "msg", "example_pub_msg.yaml", NULL);
+  type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
 
   auto example_msg_type = eprosima::fastrtps::types::DynamicType_ptr(
     std::move(

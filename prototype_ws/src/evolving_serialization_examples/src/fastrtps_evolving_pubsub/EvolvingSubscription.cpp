@@ -173,10 +173,9 @@ void EvolvingSubscription::SubListener::on_type_discovery(
    */
 
   // Loading from the yaml "simulates" type description distribution
-  char * flat_yaml_path =
-    g_strjoin("/", g_path_get_dirname(__FILE__), ".", "example_msg.yaml", NULL);
-
-  type_description_t * full_description_struct = create_type_description_from_yaml_file(flat_yaml_path);
+  char * msg_path =
+    g_strjoin("/", g_path_get_dirname(__FILE__), "..", "..", "msg", "example_pub_msg.yaml", NULL);
+  type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
   print_type_description(full_description_struct);
 
   // NOTE(CH3): I hate that I have to do this...

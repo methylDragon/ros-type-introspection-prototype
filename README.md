@@ -30,6 +30,8 @@ git clone https://github.com/methylDragon/ros-type-introspection-prototype.git
 git submodule update --init --recursive
 
 cd prototype_ws
+
+rosdep install --from-paths src -y --ignore-src
 colcon build
 source install/setup.bash
 ```
