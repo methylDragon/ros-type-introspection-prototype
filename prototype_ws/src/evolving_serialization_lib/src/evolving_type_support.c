@@ -16,13 +16,8 @@
 
 /// Base interface redirections
 
-// =================================================================================================
-// FUNCTION REDIRECTION USING INTERFACE
-// =================================================================================================
-
-// CORE ============================================================================================
 EvolvingTypeSupport *
-create_evolving_typesupport(void * instance, EvolvingTypeSupportInterface * interface)
+ets_init(void * instance, EvolvingTypeSupportInterface * interface)
 {
   EvolvingTypeSupport * ts = (EvolvingTypeSupport *) malloc(sizeof(EvolvingTypeSupport));
   ts->instance = instance;
@@ -30,24 +25,52 @@ create_evolving_typesupport(void * instance, EvolvingTypeSupportInterface * inte
   return ts;
 }
 
+// =================================================================================================
+// FUNCTION REDIRECTION USING INTERFACE
+// =================================================================================================
+
+// CORE ============================================================================================
+void
+ets_fini(EvolvingTypeSupport * ets)
+{
+  (ets->interface->ets_fini)(ets->instance);
+  free(ets);
+}
+
 
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-ets_create_struct_builder(EvolvingTypeSupport * ets, const char * name)
+ets_struct_type_builder_init(EvolvingTypeSupport * ets, const char * name)
 {
-  return (ets->interface->create_struct_builder)(ets->instance, name);
+  return (ets->interface->struct_type_builder_init)(ets->instance, name);
 }
 
-void *
-ets_finalize_struct_builder(EvolvingTypeSupport * ets, void * builder)
+
+void
+ets_struct_type_builder_fini(EvolvingTypeSupport * ets, void * builder)
 {
-  return (ets->interface->finalize_struct_builder)(ets->instance, builder);
+  (ets->interface->struct_type_builder_fini)(ets->instance, builder);
 }
+
+
+void *
+ets_build_struct_type(EvolvingTypeSupport * ets, void * builder)
+{
+  return (ets->interface->build_struct_type)(ets->instance, builder);
+}
+
 
 void *
 ets_construct_type_from_description(EvolvingTypeSupport * ets, type_description_t * description)
 {
   return (ets->interface->construct_type_from_description)(ets->instance, description);
+}
+
+
+void
+ets_type_fini(EvolvingTypeSupport * ets, void * type)
+{
+  (ets->interface->type_fini)(ets->instance, type);
 }
 
 // DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================

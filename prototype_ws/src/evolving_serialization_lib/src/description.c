@@ -41,6 +41,7 @@ get_zero_initialized_type_description_field(void)
   return out;
 }
 
+
 rcl_ret_t
 type_description_field_fini(type_description_field_t * type_description_field)
 {
@@ -71,6 +72,7 @@ get_zero_initialized_individual_type_description(void)
   return out;
 }
 
+
 rcl_ret_t
 individual_type_description_fini(individual_type_description_t * individual_type_description)
 {
@@ -97,6 +99,7 @@ _free_data(gpointer data)
   free(data);
 }
 
+
 void
 _free_individual_type_description(gpointer data)
 {
@@ -104,6 +107,7 @@ _free_individual_type_description(gpointer data)
     printf("Could not finalize individual_type_description!\n");
   }
 }
+
 
 type_description_t *
 get_zero_initialized_type_description(void)
@@ -120,6 +124,7 @@ get_zero_initialized_type_description(void)
 
   return out;
 }
+
 
 rcl_ret_t
 type_description_fini(type_description_t * type_description)
@@ -214,32 +219,31 @@ populate_type_description(type_description_t * description_struct, GNode * full_
 
 
 type_description_t *
-create_type_description_from_yaml(const char * path)
+create_type_description_from_yaml_tree(GNode * root)
 {
-  char * path_ = strdup(path);
-
-  // Parse yaml
-  GNode * cfg = g_node_new(path_);
-  yaml_parser_t parser;
-  FILE * source = fopen(path_, "rb");
-
-  yaml_parser_initialize(&parser);
-  yaml_parser_set_input_file(&parser, source);
-  process_layer(&parser, cfg, false);  // Recursive parsing
-
-  yaml_parser_delete(&parser);
-  fclose(source);
-  g_free(path_);
-
   // Create type description struct
   type_description_t * description_struct = get_zero_initialized_type_description();
-  populate_type_description(description_struct, cfg);
-
-  // Cleanup parsed tree (This is ok since the population function copies any relevant data)
-  g_node_traverse(cfg, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_free_node_data_fn, NULL);
-  g_node_destroy(cfg);
+  populate_type_description(description_struct, root);
 
   return description_struct;
+}
+
+
+type_description_t *
+create_type_description_from_yaml_file(const char * path)
+{
+  char * path_ = strdup(path);
+  GNode * root = parse_yaml_file(path_);
+
+  g_free(path_);
+
+  type_description_t * out = create_type_description_from_yaml_tree(root);
+
+  // Cleanup parsed tree (This is ok since the population function copies any relevant data)
+  g_node_traverse(root, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_free_node_data_fn, NULL);
+  g_node_destroy(root);
+
+  return out;
 }
 
 
@@ -303,7 +307,7 @@ print_individual_type_description(individual_type_description_t * input)
 
 
 static void
-_for_each_fn(gpointer key, gpointer value, gpointer user_data)
+_print_type_description_foreach(gpointer key, gpointer value, gpointer user_data)
 {
   (void)key;
   (void)user_data;
@@ -326,7 +330,7 @@ print_type_description(type_description_t * input)
   print_individual_type_description(input->type_description);
 
   printf("\n== [REFERENCED DESCRIPTIONS] ==\n");
-  g_hash_table_foreach(input->referenced_type_descriptions, _for_each_fn, NULL);
+  g_hash_table_foreach(input->referenced_type_descriptions, _print_type_description_foreach, NULL);
 
   printf("\n---\n\n");
 }

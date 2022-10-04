@@ -38,7 +38,7 @@
 
 using namespace eprosima::fastdds::dds;
 
-static EvolvingTypeSupport * ets = create_evolving_typesupport(
+static EvolvingTypeSupport * ets = ets_init(
   create_fastrtps_evolving_typesupport_impl(),
   create_fastrtps_evolving_typesupport_interface());
 
@@ -55,7 +55,7 @@ bool EvolvingPublisher::init()
   char * flat_yaml_path =
     g_strjoin("/", g_path_get_dirname(__FILE__), ".", "example_msg.yaml", NULL);
 
-  type_description_t * full_description_struct = create_type_description_from_yaml(flat_yaml_path);
+  type_description_t * full_description_struct = create_type_description_from_yaml_file(flat_yaml_path);
 
   auto example_msg_type = eprosima::fastrtps::types::DynamicType_ptr(
     std::move(
@@ -233,5 +233,6 @@ int main(int argc, char * argv[])
     pub.run(1000);
   }
 
+  ets_fini(ets);
   return 0;
 }

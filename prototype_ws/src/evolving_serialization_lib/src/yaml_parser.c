@@ -85,3 +85,22 @@ void process_layer(yaml_parser_t * parser, GNode * data, bool seq)
     }
   }
 }
+
+
+GNode * parse_yaml_file(char * path)
+{
+  GNode * root = g_node_new(path);
+  yaml_parser_t parser;
+
+  FILE * source = fopen(path, "rb");
+
+  yaml_parser_initialize(&parser);
+  yaml_parser_set_input_file(&parser, source);
+
+  process_layer(&parser, root, false);  // Recursive parsing
+
+  yaml_parser_delete(&parser);
+  fclose(source);
+
+  return root;
+}

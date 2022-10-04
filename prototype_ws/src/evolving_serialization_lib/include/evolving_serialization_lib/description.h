@@ -89,16 +89,14 @@ populate_individual_type_description(
   individual_type_description_t * individual_description_struct,
   GNode * description_node);
 
+type_description_t *
+populate_type_description(type_description_t * description_struct, GNode * full_description_node);
 
 type_description_t *
-populate_type_description(
-  type_description_t * description_struct,
-  GNode * full_description_node);
-
+create_type_description_from_yaml_tree(GNode * root);
 
 type_description_t *
-create_type_description_from_yaml(const char * path);
-
+create_type_description_from_yaml_file(const char * path);
 
 /// Create a new type_description_t with a referenced individual_type_description_t in the description field
 ///

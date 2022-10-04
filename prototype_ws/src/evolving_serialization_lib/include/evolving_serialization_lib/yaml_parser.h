@@ -27,6 +27,9 @@ extern "C" {
 
 void process_layer(yaml_parser_t * parser, GNode * data, bool seq);
 
+/// Parse a yaml file into a GLib n-ary tree. Ownership of allocated pointer belongs to caller.
+GNode * parse_yaml_file(char * path);
+
 #ifdef __cplusplus
 }
 #endif

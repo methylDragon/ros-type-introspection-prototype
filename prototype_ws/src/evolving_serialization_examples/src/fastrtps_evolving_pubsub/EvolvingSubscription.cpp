@@ -43,7 +43,7 @@ using eprosima::fastrtps::types::ReturnCode_t;
 
 
 // This is the redirection struct!
-static EvolvingTypeSupport * ets = create_evolving_typesupport(
+static EvolvingTypeSupport * ets = ets_init(
   create_fastrtps_evolving_typesupport_impl(),
   create_fastrtps_evolving_typesupport_interface());
 
@@ -158,7 +158,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
    * Equivalent base FastDDS DynamicType code (without dynamically traversing the type):
    *
    * auto type_factory = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
-   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr builder = type_factory->create_struct_builder();
+   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr builder = type_factory->struct_type_builder_init();
    *
    * builder->add_member(0, "bool_field", type_factory->create_bool_type());
    * builder->add_member(1, "byte_field", type_factory->create_byte_type());
@@ -176,7 +176,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   char * flat_yaml_path =
     g_strjoin("/", g_path_get_dirname(__FILE__), ".", "example_msg.yaml", NULL);
 
-  type_description_t * full_description_struct = create_type_description_from_yaml(flat_yaml_path);
+  type_description_t * full_description_struct = create_type_description_from_yaml_file(flat_yaml_path);
   print_type_description(full_description_struct);
 
   // NOTE(CH3): I hate that I have to do this...
@@ -270,5 +270,6 @@ int main(int argc, char * argv[])
     sub.run();
   }
 
+  ets_fini(ets);
   return 0;
 }

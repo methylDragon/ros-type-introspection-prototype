@@ -11,9 +11,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -27,18 +27,15 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #################################################
 find_package(ament_cmake_ros REQUIRED)
 find_package(evolving_serialization_lib REQUIRED)
-find_package(evolving_fastrtps_c REQUIRED)
-find_package(fastrtps "2.8.0" REQUIRED)
 
 include_directories(
   include
   ${evolving_serialization_lib_INCLUDE_DIRS}
-  ${evolving_fastrtps_c_INCLUDE_DIRS}
 )
 
 add_subdirectory(src/fastrtps_evolving_pubsub)
 add_subdirectory(src/fastrtps_evolving_walkthrough)
-add_executable(flat_msg_yaml_parsing "src/yaml_parsing/flat_msg_yaml_parsing.c")
+add_subdirectory(src/protobuf_evolving_pubsub)
 add_subdirectory(src/yaml_parsing)
 
 ament_package()

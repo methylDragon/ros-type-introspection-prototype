@@ -44,20 +44,8 @@ int main()
   char * nested_yaml_path = g_strjoin("/", main_dir, "..", "..", "msg", DESCRIPTION_FILE, NULL);
   printf("\nINPUT DESCRIPTION: %s\n\n", nested_yaml_path);
 
-  GNode * cfg = g_node_new(nested_yaml_path);
-  yaml_parser_t parser;
-
-  FILE * source = fopen(nested_yaml_path, "rb");
-
-  yaml_parser_initialize(&parser);
-  yaml_parser_set_input_file(&parser, source);
-
-  process_layer(&parser, cfg, false);  // Recursive parsing
-
-  yaml_parser_delete(&parser);
-  fclose(source);
+  GNode * cfg = parse_yaml_file(nested_yaml_path);
   g_free(nested_yaml_path);
-
 
   // Traverse description tree =====================================================================
   // (Using g_node_traverse())

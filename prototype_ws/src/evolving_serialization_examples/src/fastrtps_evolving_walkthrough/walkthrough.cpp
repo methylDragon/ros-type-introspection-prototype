@@ -23,7 +23,7 @@
 
 using namespace eprosima::fastrtps::types;
 
-static EvolvingTypeSupport * ets = create_evolving_typesupport(
+static EvolvingTypeSupport * ets = ets_init(
   create_fastrtps_evolving_typesupport_impl(),
   create_fastrtps_evolving_typesupport_interface());
 
@@ -35,7 +35,7 @@ int main(int argc, char * argv[])
 
 
   // FLAT EXAMPLE
-  auto flat_builder = ets_create_struct_builder(ets, "flat");
+  auto flat_builder = ets_struct_type_builder_init(ets, "flat");
   ets_add_bool_member(ets, flat_builder, 0, "bool_field");
   ets_add_int32_member(ets, flat_builder, 1, "int32_field");
   ets_add_string_member(ets, flat_builder, 2, "string_field");
@@ -50,7 +50,7 @@ int main(int argc, char * argv[])
 
   // SEQUENCE/ARRAY EXAMPLE
   int bound = 5;
-  auto seq_builder = ets_create_struct_builder(ets, "flat");
+  auto seq_builder = ets_struct_type_builder_init(ets, "flat");
 
   ets_add_bool_static_array_member(ets, seq_builder, 0, "bool_array_field", bound);
   ets_add_int16_unbounded_sequence_member(ets, seq_builder, 1, "int16_array_field");
@@ -90,14 +90,14 @@ int main(int argc, char * argv[])
 
 
   // NESTED EXAMPLE
-  auto inner_builder = ets_create_struct_builder(ets, "inner");
+  auto inner_builder = ets_struct_type_builder_init(ets, "inner");
   ets_add_bool_member(ets, inner_builder, 0, "inner_bool_field");
 
-  auto outer_builder = ets_create_struct_builder(ets, "outer");
+  auto outer_builder = ets_struct_type_builder_init(ets, "outer");
   ets_add_bool_member(ets, outer_builder, 0, "outer_bool_field");
   ets_add_nested_struct_member(
     ets, outer_builder, 1, "outer_nested_field",
-    ets_finalize_struct_builder(ets, inner_builder)
+    ets_build_struct_type(ets, inner_builder)
   );
 
   DynamicData_ptr nested_data(DynamicDataFactory::get_instance()->create_data(
@@ -114,7 +114,7 @@ int main(int argc, char * argv[])
     g_strjoin("/", g_path_get_dirname(__FILE__), "..", "..", "msg", "nested.yaml", NULL);
 
   type_description_t * yaml_description =
-    create_type_description_from_yaml(nested_yaml_path);
+    create_type_description_from_yaml_file(nested_yaml_path);
   // print_type_description(yaml_description);
 
   // Yes.. I know it's disgusting

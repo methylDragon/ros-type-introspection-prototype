@@ -33,10 +33,16 @@ typedef struct evolving_type_support_interface
   /// Luckily for us, FastRTPS mimics the spec quite well
 
 
+  // CORE
+  void (* ets_fini)(void * instance);
+
+
   // DYNAMIC TYPE CONSTRUCTION
-  void * (*create_struct_builder)(void * instance, const char * name);
-  void * (*finalize_struct_builder)(void * instance, void * builder);
+  void * (*struct_type_builder_init)(void * instance, const char * name);
+  void (* struct_type_builder_fini)(void * instance, void * builder);
+  void * (*build_struct_type)(void * instance, void * builder);
   void * (*construct_type_from_description)(void * instance, type_description_t * description);
+  void (* type_fini)(void * instance, void * type);
 
 
   // DYNAMIC TYPE PRIMITIVE MEMBERS
@@ -219,15 +225,17 @@ typedef struct
 } EvolvingTypeSupport;
 
 EvolvingTypeSupport *
-create_evolving_typesupport(void * instance, EvolvingTypeSupportInterface * interface);
+ets_init(void * instance, EvolvingTypeSupportInterface * interface);
 
+void
+ets_fini(EvolvingTypeSupport * ets);
 
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-ets_create_struct_builder(EvolvingTypeSupport * ets, const char * name);
+ets_struct_type_builder_init(EvolvingTypeSupport * ets, const char * name);
 
 void *
-ets_finalize_struct_builder(EvolvingTypeSupport * ets, void * builder);
+ets_build_struct_type(EvolvingTypeSupport * ets, void * builder);
 
 void *
 ets_construct_type_from_description(EvolvingTypeSupport * ets, type_description_t * description);
