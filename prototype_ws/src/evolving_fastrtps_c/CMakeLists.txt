@@ -27,14 +27,8 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 #################################################
 find_package(ament_cmake_ros REQUIRED)
 find_package(evolving_serialization_lib REQUIRED)
-# find_package(fastrtps_cmake_module REQUIRED)
 find_package(fastcdr REQUIRED CONFIG)
 find_package(fastrtps "2.8.0" REQUIRED CONFIG)
-
-# find_package(FastRTPS 2.3 REQUIRED MODULE)
-
-# find_package(fastrtps REQUIRED)
-# find_package(fastcdr REQUIRED)
 
 include_directories(
   include

@@ -24,7 +24,7 @@
 #include <fastrtps/types/DynamicTypePtr.h>
 
 #include <evolving_serialization_lib/evolving_type_support.h>
-#include "evolving_serialization_lib/types.h"
+#include <evolving_serialization_lib/types.h>
 
 #include <evolving_fastrtps_c/type_support.h>
 
@@ -60,16 +60,27 @@ create_fastrtps_evolving_typesupport_interface()
     (EvolvingTypeSupportInterface *) calloc(1, sizeof(EvolvingTypeSupportInterface));
 
 
+  // CORE ==========================================================================================
+  fastrtps_ets->ets_fini =
+    (void (*)(void *))fastrtps__ets_fini;
+
+
   // DYNAMIC TYPE METHODS ==========================================================================
   // DYNAMIC TYPE CONSTRUCTION
-  fastrtps_ets->create_struct_builder =
-    (void * (*)(void *, const char *))fastrtps__create_struct_builder;
+  fastrtps_ets->struct_type_builder_init =
+    (void * (*)(void *, const char *))fastrtps__struct_type_builder_init;
 
-  fastrtps_ets->finalize_struct_builder =
-    (void * (*)(void *, void *))fastrtps__finalize_struct_builder;
+  fastrtps_ets->struct_type_builder_fini =
+    (void (*)(void *, void *))fastrtps__struct_type_builder_fini;
+
+  fastrtps_ets->build_struct_type =
+    (void * (*)(void *, void *))fastrtps__build_struct_type;
 
   fastrtps_ets->construct_type_from_description =
     (void * (*)(void *, type_description_t *))fastrtps__construct_type_from_description;
+
+  fastrtps_ets->type_fini =
+    (void (*)(void *, void *))fastrtps__type_fini;
 
 
   // DYNAMIC TYPE PRIMITIVE MEMBERS
@@ -388,9 +399,16 @@ create_fastrtps_evolving_typesupport_interface()
 }
 
 
+void
+fastrtps__ets_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl)
+{
+  ets_impl->factory_->delete_instance();
+}
+
+
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name)
+fastrtps__struct_type_builder_init(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name)
 {
   DynamicTypeBuilder * builder = ets_impl->factory_->create_struct_builder();
   builder->set_name(name);
@@ -398,8 +416,16 @@ fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, cons
   return builder;
 }
 
+
+void
+fastrtps__struct_type_builder_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder)
+{
+  ets_impl->factory_->delete_builder((DynamicTypeBuilder *)builder);
+}
+
+
 void *
-fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder)
+fastrtps__build_struct_type(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder)
 {
   (void) ets_impl;
 
@@ -414,6 +440,7 @@ fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, vo
   );
 }
 
+
 void *
 fastrtps__construct_type_from_description(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, type_description_t * description)
@@ -423,7 +450,7 @@ fastrtps__construct_type_from_description(
   auto builder = DynamicTypeBuilder_ptr(
     std::move(
       static_cast<DynamicTypeBuilder *>(
-        fastrtps__create_struct_builder(ets_impl, main_description->type_name)
+        fastrtps__struct_type_builder_init(ets_impl, main_description->type_name)
       )
     )
   );
@@ -778,7 +805,16 @@ fastrtps__construct_type_from_description(
     }
   }
 
-  return fastrtps__finalize_struct_builder(ets_impl, builder.get());
+  return fastrtps__build_struct_type(ets_impl, builder.get());
+}
+
+
+void
+fastrtps__type_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * type)
+{
+  // You typically don't need to call this because the DynamicType_ptr should manage the
+  // destruction for you
+  ets_impl->factory_->delete_type((eprosima::fastrtps::types::DynamicType *)type);
 }
 
 

@@ -31,17 +31,25 @@ create_fastrtps_evolving_typesupport_impl();
 EvolvingTypeSupportInterface *
 create_fastrtps_evolving_typesupport_interface();
 
+void
+fastrtps__ets_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl);
 
 // DYNAMIC TYPE CONSTRUCTION =======================================================================
 void *
-fastrtps__create_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name);
+fastrtps__struct_type_builder_init(EvolvingFastRtpsTypeSupportImpl * ets_impl, const char * name);
+
+void
+fastrtps__struct_type_builder_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder);
 
 void *
-fastrtps__finalize_struct_builder(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder);
+fastrtps__build_struct_type(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * builder);
 
 void *
 fastrtps__construct_type_from_description(
   EvolvingFastRtpsTypeSupportImpl * ets_impl, type_description_t * description);
+
+void
+fastrtps__type_fini(EvolvingFastRtpsTypeSupportImpl * ets_impl, void * type);
 
 
 // DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
