@@ -35,7 +35,7 @@ include_directories(
 
 add_subdirectory(src/fastrtps_evolving_pubsub)
 add_subdirectory(src/fastrtps_evolving_walkthrough)
-add_subdirectory(src/protobuf_evolving_pubsub)
+add_subdirectory(src/protobuf_evolving_ser)
 add_subdirectory(src/yaml_parsing)
 
 ament_package()

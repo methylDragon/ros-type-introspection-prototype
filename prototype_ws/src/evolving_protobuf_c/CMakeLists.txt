@@ -68,10 +68,8 @@ install(
 )
 
 ament_export_include_directories("include/${PROJECT_NAME}")
-# ament_export_libraries(${PROJECT_NAME})
 ament_export_libraries(protogen)
-# ament_export_targets(${PROJECT_NAME})
 ament_export_targets(protogen)
 
-# ament_export_dependencies(protobuf)
+ament_export_dependencies(Protobuf)
 ament_package()

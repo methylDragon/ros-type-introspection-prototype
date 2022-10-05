@@ -1,0 +1,17 @@
+ETS
+- ETS data getters and setters
+- And proper freeing too!
+
+Description
+- Add field
+  - Bonus: Implement hash set to check for duplicate fields
+- Add referenced type description
+  - Needs individual type description copy method
+  - Bonus: Equality check
+- Add referenced full type description
+  - "merge" the hash tables, by copy
+  - Bonus: Equality check
+
+**
+Design
+- Redefine string spec: Currently we can only define one bound (for a sequence), but if that sequence contains strings, how do we define the string bound as well? There's only one field for two values

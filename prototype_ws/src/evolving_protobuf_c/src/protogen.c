@@ -135,7 +135,7 @@ void _append_field_from_yaml(GNode * field_node, char ** proto_str)
 }
 
 
-void append_individual_type_description_from_yaml(GNode * description_node, char ** proto_str)
+void append_individual_type_description_from_yaml_tree(GNode * description_node, char ** proto_str)
 {
   APPEND_STR(proto_str, "message ");
   APPEND_STR(proto_str, (char *) get_child_value_by_key(description_node, "type_name"));
@@ -173,14 +173,14 @@ char * generate_proto_from_yaml_tree(GNode * root)
   APPEND_STR(&proto_str, "syntax = \"proto3\";\n\n");
 
   GNode * main_description = get_child_by_key(root, "type_description");
-  append_individual_type_description_from_yaml(main_description, &proto_str);
+  append_individual_type_description_from_yaml_tree(main_description, &proto_str);
 
   GNode * ref_descriptions =
     get_child_by_key(root, "referenced_type_descriptions");
   GNode * ref_description = g_node_nth_child(ref_descriptions, 0);
 
   while (ref_description != NULL) {
-    append_individual_type_description_from_yaml(ref_description, &proto_str);
+    append_individual_type_description_from_yaml_tree(ref_description, &proto_str);
     ref_description = ref_description->next;
   }
 

@@ -1,0 +1,41 @@
+# A message with a sequence of nested messages
+
+type_description:
+  type_name: ExampleMsg
+  fields:
+    -
+      field_name: string_field
+      field_type: 15
+      field_array_size: ~
+      nested_type_name: ~
+
+    -
+      field_name: bool_static_array_field
+      field_type: 34  # 2 + 32 (static array offset)
+      field_array_size: 5
+      nested_type_name: ~
+
+    -
+      field_name: nested_field  # sequences of nested objects don't work in FastDDS yet
+      field_type: 1
+      field_array_size: ~
+      nested_type_name: inner
+
+referenced_type_descriptions:
+  -
+    type_name: inner
+    fields:
+      -
+        field_name: doubly_nested_seq_of_msg_field
+        field_type: 33  # 1 + 32 (static array offset)
+        field_array_size: ~
+        nested_type_name: inner_inner
+
+  -
+    type_name: inner_inner
+    fields:
+      -
+        field_name: doubly_nested_float32_field
+        field_type: 5
+        field_array_size: ~
+        nested_type_name: ~

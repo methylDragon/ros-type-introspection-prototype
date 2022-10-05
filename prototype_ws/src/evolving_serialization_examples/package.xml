@@ -14,6 +14,7 @@
   <build_depend>evolving_fastrtps_c</build_depend>
   <build_depend>evolving_protobuf_c</build_depend>
   <build_depend>evolving_serialization_lib</build_depend>
+  <build_depend>mosquitto-dev</build_depend>
   <build_depend>pkg-config</build_depend>
   <build_depend>protobuf</build_depend>
   <build_depend>rcl</build_depend>
