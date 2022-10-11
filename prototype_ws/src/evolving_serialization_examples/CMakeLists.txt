@@ -2,10 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 project(evolving_serialization_examples)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-#################################################
-# compiler settings
-#################################################
 
+# COMPILER SETTINGS ================================================================================
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
@@ -22,17 +20,13 @@ endif()
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-#################################################
-# package dependencies
-#################################################
+
+# DEPS =============================================================================================
 find_package(ament_cmake_ros REQUIRED)
 find_package(evolving_serialization_lib REQUIRED)
 
-include_directories(
-  include
-  ${evolving_serialization_lib_INCLUDE_DIRS}
-)
 
+# TARGETS ==========================================================================================
 add_subdirectory(src/fastrtps_evolving_pubsub)
 add_subdirectory(src/fastrtps_evolving_walkthrough)
 add_subdirectory(src/protobuf_evolving_ser)

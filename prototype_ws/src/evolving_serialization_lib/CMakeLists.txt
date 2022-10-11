@@ -3,18 +3,15 @@ project(evolving_serialization_lib)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
-#################################################
-# compiler settings
-#################################################
-
+# COMPILER SETTINGS ================================================================================
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
 endif()
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -24,30 +21,17 @@ endif()
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 
-#################################################
-# package dependencies
-#################################################
+# DEPS =============================================================================================
+find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
 find_package(rcl REQUIRED)
 find_package(yaml REQUIRED)
 
 # Glib
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLIB REQUIRED glib-2.0)
+include(glib-extras.cmake)
 
-set(DEPENDENCIES
-  rcl
-  PkgConfig
-  yaml
-  GLIB
-)
 
-include_directories(
-  ${GLIB_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-  ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-
+# TARGETS ==========================================================================================
 add_library(${PROJECT_NAME}
   "src/impl/tree_traverse_impl.c"
 
@@ -56,9 +40,20 @@ add_library(${PROJECT_NAME}
   "src/description.c"
   "src/evolving_type_support.c"
 )
-ament_target_dependencies(${PROJECT_NAME} ${DEPENDENCIES})
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_include_directories(${PROJECT_NAME} PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
+)
+target_link_libraries(${PROJECT_NAME} PUBLIC
+  evolving_serialization_lib::GLIB
+  rcl::rcl
+  yaml
+)
 
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}
+
+# INSTALL AND EXPORT ===============================================================================
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}-export
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -69,13 +64,10 @@ install(
   DESTINATION include/${PROJECT_NAME}
 )
 
-ament_export_include_directories("include/${PROJECT_NAME}")
-ament_export_include_directories("${GLIB_INCLUDE_DIRS}")
-ament_export_libraries(${PROJECT_NAME})
-ament_export_libraries(${GLIB_LIBRARIES})
-ament_export_targets(${PROJECT_NAME})
-
+ament_export_targets(${PROJECT_NAME}-export HAS_LIBRARY_TARGET)
 ament_export_dependencies(ament_cmake)
+ament_export_dependencies(ament_cmake_ros)
 ament_export_dependencies(rcl)
+ament_export_dependencies(yaml)
 
-ament_package()
+ament_package(CONFIG_EXTRAS glib-extras.cmake)

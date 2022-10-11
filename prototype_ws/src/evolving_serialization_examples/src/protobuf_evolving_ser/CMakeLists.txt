@@ -1,20 +1,14 @@
 find_package(evolving_protobuf_c)
 
 # Protobuf Evolving Pub Sub ========================================================================
-include_directories(${evolving_protobuf_c_INCLUDE_DIRS})
-
 add_executable(protogen_demo "protogen_demo.cpp")
 target_link_libraries(protogen_demo
-  ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_protobuf_c_LIBRARIES}
-  protobuf
+  evolving_protobuf_c::protogen
 )
 
 add_executable(protobuf_evolving_ser "protobuf_evolving_ser.cpp")
 target_link_libraries(protobuf_evolving_ser
-  ${evolving_serialization_lib_LIBRARIES}
-  ${evolving_protobuf_c_LIBRARIES}
-  protobuf
+  evolving_protobuf_c::protogen
 )
 
 install(TARGETS protogen_demo RUNTIME DESTINATION lib/${PROJECT_NAME})

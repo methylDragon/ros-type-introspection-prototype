@@ -32,11 +32,12 @@ git submodule update --init --recursive
 cd prototype_ws
 
 rosdep install --from-paths src -y --ignore-src
-colcon build
+colcon build --packages-select fastrtps
 source install/setup.bash
+colcon build
 ```
 
-## Notes
+## Extra Notes
 
 This repo uses [a fork of the FastDDS repository](https://github.com/methylDragon/Fast-DDS) with bugfixes that have yet to be released, the relevant `CMakeLists.txt` files have been modified to force the use of the fork's version of FastRTPS, masking the version of FastRTPS installed with ROS 2.
 
