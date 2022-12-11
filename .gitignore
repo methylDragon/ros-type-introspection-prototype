@@ -1,6 +1,14 @@
-
 prototype_ws/build/
-
 prototype_ws/install/
-
 prototype_ws/log/
+
+# We want to isolate the repos we're editing
+prototype_ws/src/ros2_repos/*
+!prototype_ws/src/ros2_repos/ros2
+
+prototype_ws/src/ros2_repos/ros2/*
+!prototype_ws/src/ros2_repos/ros2/rcl
+!prototype_ws/src/ros2_repos/ros2/rclcpp
+!prototype_ws/src/ros2_repos/ros2/rclpy
+!prototype_ws/src/ros2_repos/ros2/rmw
+!prototype_ws/src/ros2_repos/ros2/rmw_fastrtps

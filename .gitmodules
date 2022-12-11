@@ -1,8 +1,24 @@
-[submodule "Fast-DDS"]
-	path = prototype_ws/src/external/Fast-DDS
-	url = https://github.com/methylDragon/Fast-DDS.git
-	branch = master
-[submodule "CycloneDDS"]
-	path = prototype_ws/src/external/cyclonedds
-	url = https://github.com/eclipse-cyclonedds/cyclonedds.git
-	branch = master
+[submodule "rcl"]
+     path = prototype_ws/src/ros2_repos/ros2/rcl
+     url = https://github.com/ros2/rcl.git
+     branch = runtime_interface_reflection
+
+[submodule "rclcpp"]
+     path = prototype_ws/src/ros2_repos/ros2/rclcpp
+     url = https://github.com/ros2/rclcpp.git
+     branch = runtime_interface_reflection
+
+ [submodule "rclpy"]
+     path = prototype_ws/src/ros2_repos/ros2/rclpy
+     url = https://github.com/ros2/rclpy.git
+     branch = runtime_interface_reflection
+
+ [submodule "rmw"]
+     path = prototype_ws/src/ros2_repos/ros2/rmw
+     url = https://github.com/ros2/rmw.git
+     branch = runtime_interface_reflection
+
+ [submodule "rmw_fastrtps"]
+     path = prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
+     url = https://github.com/ros2/rmw_fastrtps.git
+     branch = runtime_interface_reflection

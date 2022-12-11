@@ -27,12 +27,13 @@ e.g. `evolving_fastrtps_c`, a `C++` implementation of the `C` ETS interface, cal
 
 ```shell
 git clone https://github.com/methylDragon/ros-type-introspection-prototype.git
-git submodule update --init --recursive
-
+cd ros-type-introspection-prototype
+mkdir -p prototype_ws/src/ros2_repos
 cd prototype_ws
 
+vcs import src/ros2_repos < src/ros2.repos
+
 rosdep install --from-paths src -y --ignore-src
-colcon build --packages-select fastrtps
 source install/setup.bash
 colcon build
 ```
