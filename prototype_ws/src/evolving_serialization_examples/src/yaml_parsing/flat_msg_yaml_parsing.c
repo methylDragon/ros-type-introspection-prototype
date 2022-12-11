@@ -32,8 +32,6 @@
 #include <evolving_serialization_lib/tree_traverse.h>
 #include <evolving_serialization_lib/description.h>
 
-#include <rcl/types.h>
-
 const char * DESCRIPTION_FILE = "flat.yaml";
 
 int main()
@@ -65,7 +63,7 @@ int main()
 
   // Get array field by string reference
   // Get fields of main type description
-  assert(get_gnode_by_str_ref("type_description.fields", cfg, &out) == RCL_RET_OK);
+  assert(get_gnode_by_str_ref("type_description.fields", cfg, &out) == true);
 
   // Print
   // g_node_traverse(out, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_print_fn, NULL);
@@ -73,7 +71,7 @@ int main()
 
   // Get element of array field by string reference
   // Get third field of main type description
-  assert(get_gnode_by_str_ref("type_description.fields[2]", cfg, &out) == RCL_RET_OK);
+  assert(get_gnode_by_str_ref("type_description.fields[2]", cfg, &out) == true);
 
   // Print
   // g_node_traverse(out, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_print_fn, NULL);

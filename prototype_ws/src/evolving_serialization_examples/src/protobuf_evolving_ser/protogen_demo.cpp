@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <glib.h>
+#include <cassert>
 #include <iostream>
 
 #include <evolving_protobuf_c/protogen.h>

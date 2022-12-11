@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <rcl/types.h>
-
 #include <impl/tree_traverse_impl.h>
+
+#include <assert.h>
+#include <stdbool.h>
 
 
 // =================================================================================================

@@ -17,8 +17,9 @@
 #ifndef EVOLVING_SERIALIZATION_LIB__DESCRIPTION_H_
 #define EVOLVING_SERIALIZATION_LIB__DESCRIPTION_H_
 
-#include <glib.h>
 #include <evolving_serialization_lib/types.h>
+#include <glib.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,12 +36,14 @@ typedef struct type_description_field_t
 
   uint64_t field_array_size;
   char * nested_type_name;
+
+  // TODO(methylDragon): !!! We need a nested field array size (e.g. for string bounds)
 } type_description_field_t;
 
 type_description_field_t *
 get_zero_initialized_type_description_field(void);
 
-rcl_ret_t
+bool
 type_description_field_fini(type_description_field_t * type_description_field);
 
 
@@ -57,13 +60,15 @@ typedef struct individual_type_description_t
 individual_type_description_t *
 get_zero_initialized_individual_type_description(void);
 
-rcl_ret_t
+bool
 individual_type_description_fini(individual_type_description_t * individual_type_description);
 
 
 // TYPE DESCRIPTION ================================================================================
 typedef struct type_description_t
 {
+  // TODO(methylDragon): !!! We need serialization metadata
+
   individual_type_description_t * type_description;
 
   // Hash-table of char * -> individual_type_description_t *
@@ -77,7 +82,7 @@ typedef struct type_description_t
 type_description_t *
 get_zero_initialized_type_description(void);
 
-rcl_ret_t
+bool
 type_description_fini(type_description_t * type_description);
 
 

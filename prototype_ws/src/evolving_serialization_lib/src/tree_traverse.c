@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <rcl/types.h>
-
-#include <impl/tree_traverse_impl.h>
 #include <evolving_serialization_lib/tree_traverse.h>
+#include <impl/tree_traverse_impl.h>
 
+#include <stdio.h>
 
 // =================================================================================================
 // Utils
@@ -107,7 +106,7 @@ g_node_str_child_find(GNode * root, GTraverseType order, GTraverseFlags flags, c
 }
 
 
-rcl_ret_t
+bool
 get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
 {
   char * _r = strdup(ref);
@@ -129,7 +128,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
         printf("Cannot index into children for a NULL node!\n");
         free(_r);
         *out_node = NULL;
-        return RCL_RET_ERROR;
+        return false;
       }
 
       int _idx = _get_idx_from_idx_token(_tok, "]");
@@ -139,7 +138,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
         printf("Index [%d] out of bounds for node with [%d] children!\n", _idx, _n_children);
         free(_r);
         *out_node = NULL;
-        return RCL_RET_ERROR;
+        return false;
       }
 
       _idx = _idx < 0 ? _n_children + _idx : _idx;  // Normalize index
@@ -162,7 +161,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
           printf("Token [%s] unresolvable explicitly!\n", _tok);
           free(_r);
           *out_node = NULL;
-          return RCL_RET_ERROR;
+          return false;
         }
 
         // Redirectable, but no referenced types
@@ -170,7 +169,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
           printf("Field token %s unresolvable explicitly, and no referenced types found!\n", _tok);
           free(_r);
           *out_node = NULL;
-          return RCL_RET_ERROR;
+          return false;
         }
 
         if (_get_field_type_idx(_field_type_node) == NESTED_T_IDX) {
@@ -185,7 +184,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
               "redirection to referenced type.\n", _tok);
             free(_r);
             *out_node = NULL;
-            return RCL_RET_ERROR;
+            return false;
           }
 
           printf("Redirecting to nested_type description: [%s]\n", _nested_type_name);
@@ -201,7 +200,7 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
               _tok, _nested_type_name);
             free(_r);
             *out_node = NULL;
-            return RCL_RET_ERROR;
+            return false;
           }
 
           _traverse_node = g_node_str_child_find(_ref_node, G_LEVEL_ORDER, G_TRAVERSE_ALL, _tok);
@@ -215,9 +214,9 @@ get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node)
 
   if (_traverse_node) {
     *out_node = _traverse_node;
-    return RCL_RET_OK;
+    return true;
   }
 
   *out_node = NULL;
-  return RCL_RET_ERROR;
+  return false;
 }

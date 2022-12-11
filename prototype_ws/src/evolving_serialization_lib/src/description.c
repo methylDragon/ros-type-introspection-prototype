@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <rcl/types.h>
-
 #include <evolving_serialization_lib/description.h>
 #include <evolving_serialization_lib/tree_traverse.h>
 #include <evolving_serialization_lib/yaml_parser.h>
@@ -42,14 +40,14 @@ get_zero_initialized_type_description_field(void)
 }
 
 
-rcl_ret_t
+bool
 type_description_field_fini(type_description_field_t * type_description_field)
 {
   free(type_description_field->field_name);
   free(type_description_field->nested_type_name);
 
   free(type_description_field);
-  return RCL_RET_OK;
+  return true;
 }
 
 
@@ -73,22 +71,22 @@ get_zero_initialized_individual_type_description(void)
 }
 
 
-rcl_ret_t
+bool
 individual_type_description_fini(individual_type_description_t * individual_type_description)
 {
   free(individual_type_description->type_name);
   free(individual_type_description->type_version_hash);
 
   for (size_t i = 0; i < individual_type_description->field_count; i++) {
-    if (type_description_field_fini(individual_type_description->fields[i]) != RCL_RET_OK) {
+    if (type_description_field_fini(individual_type_description->fields[i]) != true) {
       printf("Could not finalize individual_type_description!\n");
-      return RCL_RET_ERROR;
+      return false;
     }
   }
   free(individual_type_description->fields);
 
   free(individual_type_description);
-  return RCL_RET_OK;
+  return true;
 }
 
 
@@ -103,7 +101,7 @@ _free_data(gpointer data)
 void
 _free_individual_type_description(gpointer data)
 {
-  if (individual_type_description_fini((individual_type_description_t *) data) != RCL_RET_OK) {
+  if (individual_type_description_fini((individual_type_description_t *) data) != true) {
     printf("Could not finalize individual_type_description!\n");
   }
 }
@@ -126,17 +124,17 @@ get_zero_initialized_type_description(void)
 }
 
 
-rcl_ret_t
+bool
 type_description_fini(type_description_t * type_description)
 {
   g_hash_table_destroy(type_description->referenced_type_descriptions);
 
   if (!individual_type_description_fini(type_description->type_description)) {
-    return RCL_RET_ERROR;
+    return false;
   }
 
   free(type_description);
-  return RCL_RET_OK;
+  return true;
 }
 
 
@@ -148,6 +146,8 @@ populate_individual_type_description(
   individual_type_description_t * individual_description_struct,
   GNode * description_node)
 {
+  // TODO(methylDragon):: We need to populate the hash
+
   individual_description_struct->type_name =
     strdup(get_child_value_by_key(description_node, "type_name"));
 

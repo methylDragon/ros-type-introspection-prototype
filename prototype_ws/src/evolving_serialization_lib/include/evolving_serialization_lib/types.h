@@ -15,7 +15,7 @@
 #ifndef EVOLVING_SERIALIZATION_LIB__TYPES_H_
 #define EVOLVING_SERIALIZATION_LIB__TYPES_H_
 
-#include <rcl/types.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -32,8 +32,6 @@
 #include <evolving_serialization_lib/tree_traverse.h>
 #include <evolving_serialization_lib/description.h>
 
-#include <rcl/types.h>
-
 char * DESCRIPTION_FILE = "nested.yaml";
 
 
@@ -52,7 +50,7 @@ int main()
   GNode * out = NULL;
 
   // Get fields of main type description
-  assert(get_gnode_by_str_ref("type_description.fields[0].fields", cfg, &out) == RCL_RET_OK);
+  assert(get_gnode_by_str_ref("type_description.fields[0].fields", cfg, &out) == true);
 
   // Print
   // g_node_traverse(out, G_PRE_ORDER, G_TRAVERSE_ALL, -1, gnode_print_fn, NULL);
@@ -61,7 +59,7 @@ int main()
   // Get field name of first elements of fields of a nested type description
   // The redirection happens automatically!
   assert(
-    get_gnode_by_str_ref("type_description.fields[0].fields[0].field_name", cfg, &out) == RCL_RET_OK
+    get_gnode_by_str_ref("type_description.fields[0].fields[0].field_name", cfg, &out) == true
   );
 
   // Print

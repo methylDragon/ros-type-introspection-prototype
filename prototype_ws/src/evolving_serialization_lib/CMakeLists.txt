@@ -24,8 +24,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # DEPS =============================================================================================
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_ros REQUIRED)
-find_package(rcl REQUIRED)
-find_package(yaml REQUIRED)
+find_package(libyaml_vendor REQUIRED)
 
 # Glib
 include(glib-extras.cmake)
@@ -47,7 +46,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC
   evolving_serialization_lib::GLIB
-  rcl::rcl
   yaml
 )
 
@@ -67,7 +65,6 @@ install(
 ament_export_targets(${PROJECT_NAME}-export HAS_LIBRARY_TARGET)
 ament_export_dependencies(ament_cmake)
 ament_export_dependencies(ament_cmake_ros)
-ament_export_dependencies(rcl)
-ament_export_dependencies(yaml)
+ament_export_dependencies(libyaml_vendor)
 
 ament_package(CONFIG_EXTRAS glib-extras.cmake)

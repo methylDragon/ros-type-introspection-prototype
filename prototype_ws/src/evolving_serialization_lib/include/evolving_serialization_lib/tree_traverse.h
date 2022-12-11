@@ -17,8 +17,10 @@
 #ifndef EVOLVING_SERIALIZATION_LIB__TREE_TRAVERSE_H_
 #define EVOLVING_SERIALIZATION_LIB__TREE_TRAVERSE_H_
 
-#include <glib.h>
 #include <evolving_serialization_lib/types.h>
+
+#include <glib.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -60,7 +62,7 @@ g_node_str_child_find(GNode * root, GTraverseType order, GTraverseFlags flags, c
 
 /// Get GNode from glib N-ary tree by string reference
 /// Also redirects nested types to referenced_type_descriptions!
-rcl_ret_t
+bool
 get_gnode_by_str_ref(char * ref, GNode * root, GNode ** out_node);
 
 #ifdef __cplusplus

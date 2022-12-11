@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
-  <name>evolving_protobuf_c</name>
+  <name>runtime_type_support_examples</name>
   <version>0.0.1</version>
-  <description>Protobuf evolving type support implementation for use with C/C++.</description>
+  <description>Runtime Type Support.</description>
   <maintainer email="brandon@openrobotics.org">Brandon Ong</maintainer>
 
   <license>Apache License 2.0</license>
@@ -11,11 +11,19 @@
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
+  <build_depend>evolving_fastrtps_c</build_depend>
+  <build_depend>evolving_protobuf_c</build_depend>
   <build_depend>evolving_serialization_lib</build_depend>
-  <build_depend>protobuf-dev</build_depend>
+  <build_depend>mosquitto-dev</build_depend>
+  <build_depend>pkg-config</build_depend>
+  <build_depend>protobuf</build_depend>
   <build_depend>rcl</build_depend>
+  <build_depend>rclcpp</build_depend>
+  <build_depend>yaml</build_depend>
 
+  <exec_depend>protobuf</exec_depend>
   <exec_depend>rcl</exec_depend>
+  <exec_depend>rclcpp</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

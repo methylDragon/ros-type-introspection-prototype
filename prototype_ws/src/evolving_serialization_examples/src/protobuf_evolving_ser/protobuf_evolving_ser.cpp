@@ -14,7 +14,6 @@
 
 // With code blocks from:
 // https://vdna.be/site/index.php/2016/05/google-protobuf-at-run-time-deserialization-example-in-c/
-// https://github.com/eclipse/mosquitto/tree/master/examples
 
 #include <glib.h>
 #include <iostream>
