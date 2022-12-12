@@ -23,7 +23,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # DEPS =============================================================================================
 find_package(ament_cmake_ros REQUIRED)
-find_package(evolving_serialization_lib REQUIRED)
+find_package(serialization_support_lib REQUIRED)
 find_package(rcl REQUIRED)
 find_package(rclcpp REQUIRED)
 
@@ -31,7 +31,7 @@ find_package(rclcpp REQUIRED)
 # TARGETS ==========================================================================================
 add_executable(main "src/main.cpp")
 target_link_libraries(main
-  evolving_serialization_lib::evolving_serialization_lib
+  serialization_support_lib::serialization_support_lib
   rcl::rcl
   rclcpp::rclcpp
 )

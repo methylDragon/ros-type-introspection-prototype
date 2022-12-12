@@ -15,17 +15,17 @@
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 
-#include "evolving_serialization_lib/yaml_parser.h"
-#include "evolving_serialization_lib/description.h"
-#include "evolving_serialization_lib/tree_traverse.h"
-#include "evolving_serialization_lib/evolving_type_support.h"
-#include "evolving_fastrtps_c/type_support.h"
+#include "serialization_support_lib/yaml_parser.h"
+#include "serialization_support_lib/description.h"
+#include "serialization_support_lib/tree_traverse.h"
+#include "serialization_support_lib/api/serialization_support.h"
+#include "serialization_support_fastrtps_c/serialization_support.h"
 
 using namespace eprosima::fastrtps::types;
 
-static EvolvingTypeSupport * ets = ets_init(
-  create_fastrtps_evolving_typesupport_impl(),
-  create_fastrtps_evolving_typesupport_interface());
+static serialization_support_t * ser = ser_support_init(
+  create_fastrtps_ser_impl(),
+  create_fastrtps_ser_interface());
 
 
 int main(int argc, char * argv[])
@@ -33,43 +33,43 @@ int main(int argc, char * argv[])
   (void)argc;
   (void)argv;
 
+  // NOTE(methylDragon): The use of `auto` was deliberately avoided for explanatory purposes
 
   // FLAT EXAMPLE
-  auto flat_builder = ets_struct_type_builder_init(ets, "flat");
-  ets_add_bool_member(ets, flat_builder, 0, "bool_field");
-  ets_add_int32_member(ets, flat_builder, 1, "int32_field");
-  ets_add_string_member(ets, flat_builder, 2, "string_field");
+  ser_type_builder_t * flat_builder = ser_struct_type_builder_init(ser, "flat");
+  ser_add_bool_member(ser, flat_builder, 0, "bool_field");
+  ser_add_int32_member(ser, flat_builder, 1, "int32_field");
+  ser_add_string_member(ser, flat_builder, 2, "string_field");
 
-  DynamicData_ptr flat_data(DynamicDataFactory::get_instance()->create_data(
-      static_cast<DynamicTypeBuilder *>(flat_builder))
-  );
+  ser_dynamic_data_t * flat_data = ser_data_init_from_builder(ser, flat_builder);
+  ser_struct_type_builder_fini(ser, flat_builder);
 
   printf("\n== FLAT DATA EXAMPLE ==\n");
-  ets_print_dynamic_data(ets, flat_data.get());
+  ser_print_dynamic_data(ser, flat_data);
+  ser_data_fini(ser, flat_data);
 
 
   // SEQUENCE/ARRAY EXAMPLE
   int bound = 5;
-  auto seq_builder = ets_struct_type_builder_init(ets, "flat");
+  ser_type_builder_t * seq_builder = ser_struct_type_builder_init(ser, "flat");
 
-  ets_add_bool_static_array_member(ets, seq_builder, 0, "bool_array_field", bound);
-  ets_add_int16_unbounded_sequence_member(ets, seq_builder, 1, "int16_array_field");
-  ets_add_int32_bounded_sequence_member(ets, seq_builder, 2, "int32_seq_field", bound);
-  ets_add_string_member(ets, seq_builder, 3, "string_field");
-  ets_add_string_static_array_member(ets, seq_builder, 4, "string_array_field", bound);
+  ser_add_bool_static_array_member(ser, seq_builder, 0, "bool_array_field", bound);
+  ser_add_int16_unbounded_sequence_member(ser, seq_builder, 1, "int16_array_field");
+  ser_add_int32_bounded_sequence_member(ser, seq_builder, 2, "int32_seq_field", bound);
+  ser_add_string_member(ser, seq_builder, 3, "string_field");
+  ser_add_string_static_array_member(ser, seq_builder, 4, "string_array_field", bound);
 
-  DynamicData_ptr seq_data(DynamicDataFactory::get_instance()->create_data(
-      static_cast<DynamicTypeBuilder *>(seq_builder))
-  );
+  ser_dynamic_data_t * seq_data = ser_data_init_from_builder(ser, seq_builder);
+  ser_struct_type_builder_fini(ser, seq_builder);
 
   printf("\n== SEQ DATA EXAMPLE ==\n");
-  DynamicData * int16_seq = seq_data->loan_value(1);
-  DynamicData * int32_seq = seq_data->loan_value(2);
+  ser_dynamic_data_t * int16_seq = ser_loan_value(ser, seq_data, 1);
+  ser_dynamic_data_t * int32_seq = ser_loan_value(ser, seq_data, 2);
 
   MemberId id;
 
   for (int i = 0; i < 50; i++) {
-    int16_seq->insert_int16_value(i + 1, id);
+    ser_insert_int16_value(ser, int16_seq, i + 1, &id);
   }
 
   for (int i = 0; i < 6; i++) {
@@ -77,35 +77,36 @@ int main(int argc, char * argv[])
       std::cout << "We're purposely attempting to inserting the 6th element into the 5-bounded "
                 << "int32_seq_field! Expect an error!" << std::endl;
     }
-    int32_seq->insert_int32_value(i + 1, id);
+    ser_insert_int32_value(ser, int32_seq, i + 1, &id);
   }
 
   sleep(1);
   std::cout << std::endl;
 
-  seq_data->return_loaned_value(int16_seq);
-  seq_data->return_loaned_value(int32_seq);
+  ser_return_loaned_value(ser, seq_data, int16_seq);
+  ser_return_loaned_value(ser, seq_data, int32_seq);
 
-  ets_print_dynamic_data(ets, seq_data.get());
+  ser_print_dynamic_data(ser, seq_data);
+  ser_data_fini(ser, seq_data);
 
 
   // NESTED EXAMPLE
-  auto inner_builder = ets_struct_type_builder_init(ets, "inner");
-  ets_add_bool_member(ets, inner_builder, 0, "inner_bool_field");
+  ser_type_builder_t * inner_builder = ser_struct_type_builder_init(ser, "inner");
+  ser_add_bool_member(ser, inner_builder, 0, "inner_bool_field");
+  ser_dynamic_type_t * inner_type = ser_build_struct_type(ser, inner_builder);
 
-  auto outer_builder = ets_struct_type_builder_init(ets, "outer");
-  ets_add_bool_member(ets, outer_builder, 0, "outer_bool_field");
-  ets_add_nested_struct_member(
-    ets, outer_builder, 1, "outer_nested_field",
-    ets_build_struct_type(ets, inner_builder)
-  );
+  ser_type_builder_t * outer_builder = ser_struct_type_builder_init(ser, "outer");
+  ser_add_bool_member(ser, outer_builder, 0, "outer_bool_field");
+  ser_add_nested_struct_member(ser, outer_builder, 1, "outer_nested_field", inner_type);
 
-  DynamicData_ptr nested_data(DynamicDataFactory::get_instance()->create_data(
-      static_cast<DynamicTypeBuilder *>(outer_builder))
-  );
+  ser_dynamic_data_t * nested_data = ser_data_init_from_builder(ser, outer_builder);
+  ser_struct_type_builder_fini(ser, inner_builder);
+  ser_struct_type_builder_fini(ser, outer_builder);
+  ser_type_fini(ser, inner_type);
 
   printf("\n== NESTED DATA EXAMPLE ==\n");
-  ets_print_dynamic_data(ets, nested_data.get());
+  ser_print_dynamic_data(ser, nested_data);
+  ser_data_fini(ser, nested_data);
 
 
   // FROM YAML
@@ -117,21 +118,13 @@ int main(int argc, char * argv[])
     create_type_description_from_yaml_file(nested_yaml_path);
   // print_type_description(yaml_description);
 
-  // Yes.. I know it's disgusting
-  DynamicData_ptr yaml_data(
-    DynamicDataFactory::get_instance()->create_data(
-      eprosima::fastrtps::types::DynamicType_ptr(
-        std::move(
-          *reinterpret_cast<eprosima::fastrtps::types::DynamicType_ptr *>(
-            ets_construct_type_from_description(ets, yaml_description)
-          )
-        )
-      )
-    )
-  );
+  ser_dynamic_type_t * yaml_type = ser_construct_type_from_description(ser, yaml_description);
+  ser_dynamic_data_t * yaml_data = ser_data_init_from_type(ser, yaml_type);
 
   printf("\n== NESTED DATA FROM YAML EXAMPLE ==\n");
-  ets_print_dynamic_data(ets, yaml_data.get());
+  ser_print_dynamic_data(ser, yaml_data);
+  ser_data_fini(ser, yaml_data);
+  ser_type_fini(ser, yaml_type);
 
 
   return 0;

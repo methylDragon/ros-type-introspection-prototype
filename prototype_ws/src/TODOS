@@ -1,6 +1,5 @@
-ETS
-- ETS data getters and setters
-- And proper freeing too!
+SER SUPPORT
+- Proper freeing??
 
 Description
 - Add field

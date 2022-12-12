@@ -23,7 +23,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # DEPS =============================================================================================
 find_package(ament_cmake_ros REQUIRED)
-find_package(evolving_serialization_lib REQUIRED)
+find_package(serialization_support_lib REQUIRED)
 find_package(Protobuf REQUIRED)
 
 
@@ -34,7 +34,7 @@ target_include_directories(protogen PUBLIC
   "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>"
 )
 target_link_libraries(protogen
-  evolving_serialization_lib::evolving_serialization_lib
+  serialization_support_lib::serialization_support_lib
   ${PROTOBUF_LIBRARIES}
 )
 
@@ -52,7 +52,7 @@ install(
 )
 
 ament_export_targets(protogen-export HAS_LIBRARY_TARGET)
-ament_export_dependencies(evolving_serialization_lib)
+ament_export_dependencies(serialization_support_lib)
 ament_export_dependencies(Protobuf)
 
 ament_package()

@@ -31,6 +31,7 @@ public:
 
 private:
   eprosima::fastrtps::types::DynamicData_ptr msg_data_;
+  eprosima::fastrtps::types::DynamicType_ptr msg_type_;
 
   eprosima::fastdds::dds::DomainParticipant * mp_participant;
   eprosima::fastdds::dds::Publisher * mp_publisher;

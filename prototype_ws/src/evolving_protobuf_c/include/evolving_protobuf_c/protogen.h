@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 #include <glib.h>
-#include <evolving_serialization_lib/description.h>
+#include <serialization_support_lib/description.h>
 
 
 // FROM YAML TREE ==================================================================================

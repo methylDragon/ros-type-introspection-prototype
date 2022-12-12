@@ -18,9 +18,9 @@
 #include <stdio.h>
 #include "evolving_protobuf_c/protogen.h"
 
-#include <evolving_serialization_lib/tree_traverse.h>
-#include <evolving_serialization_lib/types.h>
-#include <evolving_serialization_lib/yaml_parser.h>
+#include <serialization_support_lib/tree_traverse.h>
+#include <serialization_support_lib/types.h>
+#include <serialization_support_lib/yaml_parser.h>
 
 
 // UTILS ===========================================================================================
@@ -46,49 +46,49 @@ static int _append_str(char ** str, const char * buf, int size)
 }
 
 
-void _append_basic_field(int field_type, char ** proto_str)
+void _append_basic_field(int field_type_id, char ** proto_str)
 {
-  switch (field_type % SEQ_T_DELIMITER) {
-    case BOOL_T_IDX:
+  switch (field_type_id % SEQ_T_DELIMITER) {
+    case BOOL_T_ID:
       APPEND_STR(proto_str, "bool ");
       break;
 
-    case FLOAT_32_T_IDX:
+    case FLOAT_32_T_ID:
       APPEND_STR(proto_str, "float ");
       break;
 
-    case FLOAT_64_T_IDX:
+    case FLOAT_64_T_ID:
       APPEND_STR(proto_str, "double ");
       break;
 
-    case INT_8_T_IDX:
-    case INT_16_T_IDX:
-    case INT_32_T_IDX:
+    case INT_8_T_ID:
+    case INT_16_T_ID:
+    case INT_32_T_ID:
       // This is the smallest available protobuf encoding for these types
       APPEND_STR(proto_str, "int32 ");
       break;
 
-    case BYTE_T_IDX:
-    case CHAR_T_IDX:
-    case UINT_8_T_IDX:
-    case UINT_16_T_IDX:
-    case UINT_32_T_IDX:
+    case BYTE_T_ID:
+    case CHAR_T_ID:
+    case UINT_8_T_ID:
+    case UINT_16_T_ID:
+    case UINT_32_T_ID:
       // This is the smallest available protobuf encoding for these types
       APPEND_STR(proto_str, "uint32 ");
       break;
 
-    case INT_64_T_IDX:
+    case INT_64_T_ID:
       APPEND_STR(proto_str, "int64 ");
       break;
 
-    case UINT_64_T_IDX:
+    case UINT_64_T_ID:
       APPEND_STR(proto_str, "uint64 ");
       break;
 
-    case STRING_T_IDX:
-    case WSTRING_T_IDX:
-    case BOUNDED_STRING_T_IDX:
-    case BOUNDED_WSTRING_T_IDX:
+    case STRING_T_ID:
+    case WSTRING_T_ID:
+    case BOUNDED_STRING_T_ID:
+    case BOUNDED_WSTRING_T_ID:
       // bytes, since we can't guarantee that the strings are UTF-8 to use string
       // Also, protobuf has no concept of array bounds
       APPEND_STR(proto_str, "bytes ");
@@ -108,17 +108,17 @@ void _append_field_from_yaml(GNode * field_node, char ** proto_str)
   // We're limited by the types that protobuf supports!
   // https://developers.google.com/protocol-buffers/docs/proto#scalar
 
-  int field_type = atoi((char *)get_child_value_by_key(field_node, "field_type"));
-  assert(field_type != 0);
+  int field_type_id = atoi((char *)get_child_value_by_key(field_node, "field_type_id"));
+  assert(field_type_id != 0);
 
   APPEND_STR(proto_str, "  ");
 
   // Handle arrays/sequences
-  if (field_type / SEQ_T_DELIMITER > 0) {
+  if (field_type_id / SEQ_T_DELIMITER > 0) {
     APPEND_STR(proto_str, "repeated ");
   }
 
-  if ((field_type % SEQ_T_DELIMITER) == NESTED_T_IDX) {
+  if ((field_type_id % SEQ_T_DELIMITER) == NESTED_T_ID) {
     char * _nested_type_name =
       nullify_string((char *)get_child_value_by_key(field_node, "nested_type_name"), "~");
     if (_nested_type_name == NULL) {
@@ -128,7 +128,7 @@ void _append_field_from_yaml(GNode * field_node, char ** proto_str)
     APPEND_STR(proto_str, _nested_type_name);
     APPEND_STR(proto_str, " ");
   } else {
-    _append_basic_field(field_type % SEQ_T_DELIMITER, proto_str);
+    _append_basic_field(field_type_id % SEQ_T_DELIMITER, proto_str);
   }
 
   char * _field_name = (char *) get_child_value_by_key(field_node, "field_name");
@@ -219,64 +219,64 @@ void _append_field(type_description_field_t * field, char ** proto_str)
   // We're limited by the types that protobuf supports!
   // https://developers.google.com/protocol-buffers/docs/proto#scalar
 
-  uint8_t field_type = field->field_type;
-  assert(field_type != 0);
+  uint8_t field_type_id = field->field_type_id;
+  assert(field_type_id != 0);
 
   APPEND_STR(proto_str, "  ");
 
   // Handle arrays/sequences
-  if (field_type / SEQ_T_DELIMITER > 0) {
+  if (field_type_id / SEQ_T_DELIMITER > 0) {
     APPEND_STR(proto_str, "repeated ");
   }
 
   // Handle base type
-  switch (field_type % SEQ_T_DELIMITER) {
-    case BOOL_T_IDX:
+  switch (field_type_id % SEQ_T_DELIMITER) {
+    case BOOL_T_ID:
       APPEND_STR(proto_str, "bool ");
       break;
 
-    case FLOAT_32_T_IDX:
+    case FLOAT_32_T_ID:
       APPEND_STR(proto_str, "float ");
       break;
 
-    case FLOAT_64_T_IDX:
+    case FLOAT_64_T_ID:
       APPEND_STR(proto_str, "double ");
       break;
 
-    case INT_8_T_IDX:
-    case INT_16_T_IDX:
-    case INT_32_T_IDX:
+    case INT_8_T_ID:
+    case INT_16_T_ID:
+    case INT_32_T_ID:
       // This is the smallest available protobuf encoding for these types
       APPEND_STR(proto_str, "int32 ");
       break;
 
-    case BYTE_T_IDX:
-    case CHAR_T_IDX:
-    case UINT_8_T_IDX:
-    case UINT_16_T_IDX:
-    case UINT_32_T_IDX:
+    case BYTE_T_ID:
+    case CHAR_T_ID:
+    case UINT_8_T_ID:
+    case UINT_16_T_ID:
+    case UINT_32_T_ID:
       // This is the smallest available protobuf encoding for these types
       APPEND_STR(proto_str, "uint32 ");
       break;
 
-    case INT_64_T_IDX:
+    case INT_64_T_ID:
       APPEND_STR(proto_str, "int64 ");
       break;
 
-    case UINT_64_T_IDX:
+    case UINT_64_T_ID:
       APPEND_STR(proto_str, "uint64 ");
       break;
 
-    case STRING_T_IDX:
-    case WSTRING_T_IDX:
-    case BOUNDED_STRING_T_IDX:
-    case BOUNDED_WSTRING_T_IDX:
+    case STRING_T_ID:
+    case WSTRING_T_ID:
+    case BOUNDED_STRING_T_ID:
+    case BOUNDED_WSTRING_T_ID:
       // bytes, since we can't guarantee that the strings are UTF-8 to use string
       // Also, protobuf has no concept of array bounds
       APPEND_STR(proto_str, "bytes ");
       break;
 
-    case NESTED_T_IDX:
+    case NESTED_T_ID:
       if (field->nested_type_name == NULL) {
         printf("[ERROR] No nested type name found");
         return;

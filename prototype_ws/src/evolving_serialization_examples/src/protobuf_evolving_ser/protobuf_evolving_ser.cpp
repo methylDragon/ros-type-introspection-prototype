@@ -26,8 +26,8 @@
 #include <google/protobuf/compiler/parser.h>
 
 #include <evolving_protobuf_c/protogen.h>
-#include <evolving_serialization_lib/yaml_parser.h>
-#include <evolving_serialization_lib/description.h>
+#include <serialization_support_lib/yaml_parser.h>
+#include <serialization_support_lib/description.h>
 
 // Lol
 #include <google/protobuf/util/json_util.h>

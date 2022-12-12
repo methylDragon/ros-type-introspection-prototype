@@ -17,7 +17,7 @@
 
 /*
  * Look out for this comment style for evolving serialization relevant code blocks!
- * Also, look out for ets_ prefixed functions!
+ * Also, look out for ser_ prefixed functions!
  */
 
 #include "EvolvingSubscription.h"
@@ -32,20 +32,23 @@
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 
-#include "evolving_serialization_lib/yaml_parser.h"
-#include "evolving_serialization_lib/description.h"
-#include "evolving_serialization_lib/tree_traverse.h"
-#include "evolving_serialization_lib/evolving_type_support.h"
-#include "evolving_fastrtps_c/type_support.h"
+#include "serialization_support_lib/yaml_parser.h"
+#include "serialization_support_lib/description.h"
+#include "serialization_support_lib/tree_traverse.h"
+#include "serialization_support_lib/api/serialization_support.h"
+#include "serialization_support_fastrtps_c/serialization_support.h"
 
 using namespace eprosima::fastdds::dds;
+using eprosima::fastrtps::types::DynamicData;
+using eprosima::fastrtps::types::DynamicData_ptr;
+using eprosima::fastrtps::types::DynamicType_ptr;
 using eprosima::fastrtps::types::ReturnCode_t;
 
 
 // This is the redirection struct!
-static EvolvingTypeSupport * ets = ets_init(
-  create_fastrtps_evolving_typesupport_impl(),
-  create_fastrtps_evolving_typesupport_interface());
+static serialization_support_t * ser = ser_support_init(
+  create_fastrtps_ser_impl(),
+  create_fastrtps_ser_interface());
 
 
 EvolvingSubscription::EvolvingSubscription()
@@ -124,17 +127,19 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
   auto dit = subscription_->datas_.find(reader);
 
   if (dit != subscription_->datas_.end()) {
-    // NOTE: The DynamicData_ptr was constructed using the evolving type construction below!
-    eprosima::fastrtps::types::DynamicData_ptr data = dit->second;
+    auto builder = new ser_type_builder_t{subscription_->readers_[reader].get()};
+
+    ser_dynamic_data_t * data = ser_data_init_from_builder(ser, builder);
+    ser_struct_type_builder_fini(ser, builder);
 
     SampleInfo info;
-    if (reader->take_next_sample(data.get(), &info) == ReturnCode_t::RETCODE_OK) {
+    if (reader->take_next_sample(static_cast<DynamicData *>(data->impl), &info) == ReturnCode_t::RETCODE_OK) {
       if (info.instance_state == ALIVE_INSTANCE_STATE) {
         eprosima::fastrtps::types::DynamicType_ptr type = subscription_->readers_[reader];
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
-
-        ets_print_dynamic_data(ets, data.get());
+        ser_print_dynamic_data(ser, data);
+        ser_data_fini(ser, data);
       }
     }
   }
@@ -168,7 +173,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
    *   type_factory->create_string_type(eprosima::fastrtps::types::MAX_STRING_LENGTH));
    *
    * builder->set_name("ExampleMsg");
-   * eprosima::fastrtps::types::DynamicType_ptr evolving_type = builder->build();
+   * eprosima::fastrtps::types::DynamicType_ptr evolving_type_ptr = builder->build();
    *
    */
 
@@ -181,16 +186,15 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   // NOTE(CH3): I hate that I have to do this...
   //            The joys of void pointer casting, and the pain of not being able to move ownership
   //            of shared_ptrs...
-  auto evolving_type = eprosima::fastrtps::types::DynamicType_ptr(
-    std::move(
-      *reinterpret_cast<eprosima::fastrtps::types::DynamicType_ptr *>(
-        ets_construct_type_from_description(ets, full_description_struct)
-      )
-    )
+  ser_dynamic_type_t * evolving_type =
+    ser_construct_type_from_description(ser, full_description_struct);
+
+  auto evolving_type_ptr = DynamicType_ptr(
+    *static_cast<DynamicType_ptr *>(evolving_type->impl)
   );
 
   /* Verify that types are equal! */
-  if (dyn_type->equals(evolving_type.get())) {
+  if (dyn_type->equals(evolving_type_ptr.get())) {
     // NOTE(CH3): Type name doesn't matter for equality...
     //            To be honest, neither does correctly allocating the type struct...
     std::cout << "Dynamic type is equal!" << std::endl;
@@ -201,7 +205,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     dyn_type->get_all_members_by_name(dyn_map);
 
     std::map<std::string, eprosima::fastrtps::types::DynamicTypeMember *> evolving_map;
-    evolving_type->get_all_members_by_name(evolving_map);
+    evolving_type_ptr->get_all_members_by_name(evolving_map);
 
     std::cout << "\nRECEIVED:" << std::endl;
     for (auto const & x : dyn_map) {
@@ -215,10 +219,10 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     std::cout << std::endl;
 
     // dyn_type
-    // std::cout << dyn_type->get_members_count() << " " << evolving_type->get_members_count() << std::endl;
+    // std::cout << dyn_type->get_members_count() << " " << evolving_type_ptr->get_members_count() << std::endl;
   }
 
-  TypeSupport m_type(new eprosima::fastrtps::types::DynamicPubSubType(evolving_type));
+  TypeSupport m_type(evolving_type_ptr);
   m_type.register_type(subscription_->mp_participant);
 
   std::cout << "Discovered type: " << m_type->getName() << " from topic " << topic_name <<
@@ -245,9 +249,9 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     topic, subscription_->qos_, &subscription_->m_listener, sub_mask);
 
   subscription_->topics_[reader] = topic;
-  subscription_->readers_[reader] = evolving_type;  /* Evolving type, dynamically created! */
+  subscription_->readers_[reader] = evolving_type_ptr;  /* Evolving type, dynamically created! */
   eprosima::fastrtps::types::DynamicData_ptr data(
-    eprosima::fastrtps::types::DynamicDataFactory::get_instance()->create_data(evolving_type));
+    eprosima::fastrtps::types::DynamicDataFactory::get_instance()->create_data(evolving_type_ptr));
   subscription_->datas_[reader] = data;
 }
 
@@ -269,6 +273,6 @@ int main(int argc, char * argv[])
     sub.run();
   }
 
-  ets_fini(ets);
+  ser_support_fini(ser);
   return 0;
 }

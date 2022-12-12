@@ -30,17 +30,21 @@
 
 #include <thread>
 
-#include "evolving_serialization_lib/yaml_parser.h"
-#include "evolving_serialization_lib/description.h"
-#include "evolving_serialization_lib/tree_traverse.h"
-#include "evolving_serialization_lib/evolving_type_support.h"
-#include "evolving_fastrtps_c/type_support.h"
+#include "serialization_support_lib/yaml_parser.h"
+#include "serialization_support_lib/description.h"
+#include "serialization_support_lib/tree_traverse.h"
+#include "serialization_support_lib/api/serialization_support.h"
+#include "serialization_support_fastrtps_c/serialization_support.h"
 
 using namespace eprosima::fastdds::dds;
+using eprosima::fastrtps::types::DynamicData;
+// using eprosima::fastrtps::types::DynamicType;  // Conflicts
+using eprosima::fastrtps::types::DynamicType_ptr;
+using eprosima::fastrtps::types::DynamicTypeMember;
 
-static EvolvingTypeSupport * ets = ets_init(
-  create_fastrtps_evolving_typesupport_impl(),
-  create_fastrtps_evolving_typesupport_interface());
+static serialization_support_t * ser = ser_support_init(
+  create_fastrtps_ser_impl(),
+  create_fastrtps_ser_interface());
 
 EvolvingPublisher::EvolvingPublisher()
 : mp_participant(nullptr), mp_publisher(nullptr)
@@ -56,36 +60,41 @@ bool EvolvingPublisher::init()
     g_strjoin("/", g_path_get_dirname(__FILE__), "..", "..", "msg", "example_pub_msg.yaml", NULL);
   type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
 
-  auto example_msg_type = eprosima::fastrtps::types::DynamicType_ptr(
-    std::move(
-      *reinterpret_cast<eprosima::fastrtps::types::DynamicType_ptr *>(
-        ets_construct_type_from_description(ets, full_description_struct)
-      )
-    )
-  );
+  ser_dynamic_type_t * example_msg_type =
+    ser_construct_type_from_description(ser, full_description_struct);
 
   // Create and Populate Data
-  this->msg_data_ = DynamicDataFactory::get_instance()->create_data(example_msg_type);
+  ser_dynamic_data_t * example_msg_data = ser_data_init_from_type(ser, example_msg_type);
 
-  this->msg_data_->set_string_value("A message!", 0);
-  auto bool_array = this->msg_data_->loan_value(1);
+  ser_set_string_value(ser, example_msg_data, "A message!", 0);
+
+  ser_dynamic_data_t * bool_array = ser_loan_value(ser, example_msg_data, 1);
   for (uint32_t i = 0; i < 5; ++i) {
-    bool_array->set_bool_value(false, bool_array->get_array_index({i}));
+    MemberId id = ser_get_array_index(ser, bool_array, i);
+    ser_set_bool_value(ser, bool_array, i % 2 == 0, id);
   }
-  this->msg_data_->return_loaned_value(bool_array);
+  ser_return_loaned_value(ser, example_msg_data, bool_array);
 
-  std::map<std::string, eprosima::fastrtps::types::DynamicTypeMember *> evolving_map;
-  example_msg_type->get_all_members_by_name(evolving_map);
+  this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl);
+
+  // Show
+  std::map<std::string, DynamicTypeMember *> evolving_map;
+
+  // NOTE(methylDragon): This is INCREDIBLY IMPORTANT to preserve lifetime!!!
+  msg_type_ = DynamicType_ptr(
+    *static_cast<DynamicType_ptr *>(example_msg_type->impl)
+  );
+  msg_type_->get_all_members_by_name(evolving_map);
 
   for (auto const & x : evolving_map) {
     std::cout << x.first << ':' << x.second << std::endl;
   }
 
   std::cout << "\n* * * = INITIAL MESSAGE CONSTRUCTED = * * *\n" << std::endl;
-  DynamicDataHelper::print(this->msg_data_);
+  ser_print_dynamic_data(ser, example_msg_data);
   std::cout << "\n* * * * * * * * * * * * * * * * * * * * * *\n" << std::endl;
 
-  TypeSupport example_msg_ts(new eprosima::fastrtps::types::DynamicPubSubType(example_msg_type));
+  TypeSupport example_msg_ts(msg_type_);
 
   // Setup pub
   DomainParticipantQos pqos;
@@ -232,6 +241,6 @@ int main(int argc, char * argv[])
     pub.run(1000);
   }
 
-  ets_fini(ets);
+  ser_support_fini(ser);
   return 0;
 }

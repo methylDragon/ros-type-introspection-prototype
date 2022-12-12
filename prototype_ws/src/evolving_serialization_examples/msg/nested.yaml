@@ -3,14 +3,16 @@ type_description:
   fields:
     -
       field_name: nested_field
-      field_type: 1
-      field_array_size: ~
+      field_type_id: 1
+      field_length: ~
+      field_string_length: ~
       nested_type_name: inner
 
     -
       field_name: non_nested_byte_field
-      field_type: 3
-      field_array_size: ~
+      field_type_id: 3
+      field_length: ~
+      field_string_length: ~
       nested_type_name: ~
 
 referenced_type_descriptions:
@@ -19,44 +21,51 @@ referenced_type_descriptions:
     fields:
       -
         field_name: nested_char_field
-        field_type: 4
-        field_array_size: ~
+        field_type_id: 4
+        field_length: ~
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: nested_bool_field
-        field_type: 2
-        field_array_size: ~
+        field_type_id: 2
+        field_length: ~
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: nested_bool_static_array_field
-        field_type: 34
-        field_array_size: 5
+        field_type_id: 34
+        field_length: 5
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: nested_str_bounded_seq_field
-        field_type: 111  # 15 + 96
-        field_array_size: 10
+        field_type_id: 111  # 15 + 96
+        field_length: 10
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: nested_float32_unbounded_seq_field
-        field_type: 69  # 5 + 64
-        field_array_size: ~
+        field_type_id: 69  # 5 + 64
+        field_length: ~
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: double_nested_field
-        field_type: 1
-        field_array_size: ~
+        field_type_id: 1
+        field_length: ~
+        field_string_length: ~
         nested_type_name: inner_inner
 
       -
         field_name: double_nested_static_array_field
-        field_type: 33  # 1 + 32
-        field_array_size: 3
+        field_type_id: 33  # 1 + 32
+        field_length: 3
+        field_string_length: ~
         nested_type_name: inner_inner
 
   -
@@ -64,13 +73,15 @@ referenced_type_descriptions:
     fields:
       -
         field_name: double_nested_char_field
-        field_type: 4
-        field_array_size: ~
+        field_type_id: 4
+        field_length: ~
+        field_string_length: ~
         nested_type_name: ~
       -
         field_name: triple_nested_field
-        field_type: 1
-        field_array_size: ~
+        field_type_id: 1
+        field_length: ~
+        field_string_length: ~
         nested_type_name: inner_inner_inner
 
   -
@@ -78,12 +89,14 @@ referenced_type_descriptions:
     fields:
       -
         field_name: triple_nested_char_field
-        field_type: 4
-        field_array_size: ~
+        field_type_id: 4
+        field_length: ~
+        field_string_length: ~
         nested_type_name: ~
 
       -
         field_name: triple_nested_bool_static_array_field
-        field_type: 34
-        field_array_size: 5
+        field_type_id: 34
+        field_length: 5
+        field_string_length: ~
         nested_type_name: ~
