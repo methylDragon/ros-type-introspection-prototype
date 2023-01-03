@@ -32,6 +32,7 @@ find_package(fastrtps "2.8.0" REQUIRED)
 add_library(${PROJECT_NAME}
   "src/dynamic_data.cpp"
   "src/dynamic_type.cpp"
+  "src/identifier.cpp"
 
   "src/serialization_support.cpp"
   "src/serialization_impl.cpp"

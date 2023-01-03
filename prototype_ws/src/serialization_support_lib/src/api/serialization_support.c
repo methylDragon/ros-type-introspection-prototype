@@ -19,6 +19,13 @@
 
 
 // CORE ============================================================================================
+const char *
+ser_get_library_identifier(serialization_support_t * ser)
+{
+  return ser->interface->library_identifier;
+}
+
+
 serialization_support_t *
 ser_support_init(void * impl, void * interface)
 {
@@ -36,7 +43,7 @@ ser_support_init(void * impl, void * interface)
 void
 ser_support_fini(serialization_support_t * ser)
 {
-  (ser->interface->ser_support_impl_fini)(ser->impl);
+  (ser->interface->ser_impl_fini)(ser->impl);
   free(ser->impl);
   free(ser);
 }

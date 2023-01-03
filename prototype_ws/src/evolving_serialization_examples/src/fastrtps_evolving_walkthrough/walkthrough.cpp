@@ -19,6 +19,7 @@
 #include "serialization_support_lib/description.h"
 #include "serialization_support_lib/tree_traverse.h"
 #include "serialization_support_lib/api/serialization_support.h"
+#include "serialization_support_fastrtps_c/identifier.h"
 #include "serialization_support_fastrtps_c/serialization_support.h"
 
 using namespace eprosima::fastrtps::types;
@@ -32,6 +33,8 @@ int main(int argc, char * argv[])
 {
   (void)argc;
   (void)argv;
+
+  assert(ser_get_library_identifier(ser) == fastrtps_serialization_support_library_identifier);
 
   // NOTE(methylDragon): The use of `auto` was deliberately avoided for explanatory purposes
 
