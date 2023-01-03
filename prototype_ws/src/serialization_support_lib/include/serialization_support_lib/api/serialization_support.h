@@ -31,6 +31,9 @@ extern "C" {
 
 
 // CORE ============================================================================================
+const char *
+ser_get_library_identifier(serialization_support_t * ser);
+
 serialization_support_t *
 ser_support_init(void * impl, void * interface);
 

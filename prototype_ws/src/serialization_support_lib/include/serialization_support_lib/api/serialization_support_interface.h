@@ -97,7 +97,8 @@ typedef struct serialization_support_interface_s
    */
 
   // CORE
-  void (* ser_support_impl_fini)(ser_impl_t * impl);
+  const char * library_identifier;
+  void (* ser_impl_fini)(ser_impl_t * impl);
 
 
   // ===============================================================================================

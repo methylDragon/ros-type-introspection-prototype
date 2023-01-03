@@ -15,16 +15,38 @@
 #include "rcl/rcl_typesupport_runtime_type_introspection_c/message_introspection.h"
 #include "rclcpp/rclcpp.hpp"
 
-int main()
+
+void msg_callback(serialization_support_t * ser, ser_dynamic_data_t * data) {
+  ser_print_dynamic_data(ser, data);
+}
+
+
+int main(int argc, char ** argv)
 {
+  // LOAD DESCRIPTION ==============================================================================
   char * msg_path =
     g_strjoin("/", g_path_get_dirname(__FILE__), "..", "msg", "example_pub_msg.yaml", NULL);
 
-    std::cout << msg_path << std::endl;
   type_description_t * desc = create_type_description_from_yaml_file(msg_path);
   print_type_description(desc);
 
-  rosidl_message_type_support_t * ts = rcl_get_runtime_type_message_typesupport_handle(desc);
+  // Has middleware specific behavior
+  rosidl_message_type_support_t * ts =
+    rcl_get_runtime_type_message_typesupport_handle_with_desc(desc);
+
+
+  // ROS ===========================================================================================
+  rclcpp::init(argc, argv);
+  auto node = rclcpp::Node::make_shared("runtime_type_sub_node");
+
+  auto sub = rclcpp::RuntimeTypeSubscription::SharedPtr(
+    node->get_node_base_interface(),
+    "runtime_type_test_topic", "RuntimeType", 10,
+    &msg_callback,
+    rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void>>()
+  )
+
+  rclcpp::spin(node);
 
   // The user has ownership of ts and must finalize!!
   rcl_runtime_type_message_typesupport_handle_fini(ts);
