@@ -22,3 +22,8 @@
      path = prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
      url = https://github.com/ros2/rmw_fastrtps.git
      branch = runtime_interface_reflection
+     
+ [submodule "rmw_implementation"]
+     path = prototype_ws/src/ros2_repos/ros2/rmw_implementation
+     url = https://github.com/ros2/rmw_implementation.git
+     branch = runtime_interface_reflection
