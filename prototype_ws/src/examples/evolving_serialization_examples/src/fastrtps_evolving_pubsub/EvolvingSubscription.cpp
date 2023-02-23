@@ -102,8 +102,8 @@ EvolvingSubscription::~EvolvingSubscription()
 
   DomainParticipantFactory::get_instance()->delete_participant(mp_participant);
   topics_.clear();
-  readers_.clear();
-  datas_.clear();
+  dyn_types_.clear();
+  dyn_datas_.clear();
 }
 
 
@@ -124,18 +124,20 @@ void EvolvingSubscription::SubListener::on_subscription_matched(
 
 void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
 {
-  auto dit = subscription_->datas_.find(reader);
+  auto dit = subscription_->dyn_datas_.find(reader);  // Not used in this impl
 
-  if (dit != subscription_->datas_.end()) {
-    auto builder = new ser_type_builder_t{subscription_->readers_[reader].get()};
+  if (dit != subscription_->dyn_datas_.end()) {  // Same.. Since we construct our own Data below
+    auto builder = new ser_type_builder_t{subscription_->dyn_types_[reader].get()};
 
     ser_dynamic_data_t * data = ser_data_init_from_builder(ser, builder);
     ser_struct_type_builder_fini(ser, builder);
 
     SampleInfo info;
-    if (reader->take_next_sample(static_cast<DynamicData *>(data->impl), &info) == ReturnCode_t::RETCODE_OK) {
+    if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
+    // Actually a cast isn't necessary...
+    // if (reader->take_next_sample(static_cast<DynamicData *>(data->impl), &info) == ReturnCode_t::RETCODE_OK) {
       if (info.instance_state == ALIVE_INSTANCE_STATE) {
-        eprosima::fastrtps::types::DynamicType_ptr type = subscription_->readers_[reader];
+        eprosima::fastrtps::types::DynamicType_ptr type = subscription_->dyn_types_[reader];
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
         ser_print_dynamic_data(ser, data);
@@ -249,10 +251,10 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     topic, subscription_->qos_, &subscription_->m_listener, sub_mask);
 
   subscription_->topics_[reader] = topic;
-  subscription_->readers_[reader] = evolving_type_ptr;  /* Evolving type, dynamically created! */
+  subscription_->dyn_types_[reader] = evolving_type_ptr;  /* Evolving type, dynamically created! */
   eprosima::fastrtps::types::DynamicData_ptr data(
     eprosima::fastrtps::types::DynamicDataFactory::get_instance()->create_data(evolving_type_ptr));
-  subscription_->datas_[reader] = data;
+  subscription_->dyn_datas_[reader] = data;
 }
 
 

@@ -1,0 +1,3 @@
+string string_field
+bool[5] bool_static_array_field
+runtime_type_support_examples_msgs/ExampleMsgInner nested_field

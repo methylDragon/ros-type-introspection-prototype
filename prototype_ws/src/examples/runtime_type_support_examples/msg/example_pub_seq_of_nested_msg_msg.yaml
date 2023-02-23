@@ -1,7 +1,6 @@
 # A message with a sequence of nested messages
-
 type_description:
-  type_name: ExampleMsg
+  type_name: runtime_type_support_examples_msgs::msg::ExampleMsg
   fields:
     -
       field_name: string_field
@@ -22,21 +21,21 @@ type_description:
       field_type_id: 1
       field_length: ~
       field_string_length: ~
-      nested_type_name: inner
+      nested_type_name: runtime_type_support_examples_msgs::msg::ExampleMsgInner
 
 referenced_type_descriptions:
   -
-    type_name: inner
+    type_name: runtime_type_support_examples_msgs::msg::ExampleMsgInner
     fields:
       -
         field_name: doubly_nested_seq_of_msg_field
         field_type_id: 33  # 1 + 32 (static array offset)
         field_length: ~
         field_string_length: ~
-        nested_type_name: inner_inner
+        nested_type_name: runtime_type_support_examples_msgs::msg::ExampleMsgInnerInner
 
   -
-    type_name: inner_inner
+    type_name: runtime_type_support_examples_msgs::msg::ExampleMsgInnerInner
     fields:
       -
         field_name: doubly_nested_float32_field
