@@ -71,7 +71,7 @@ ser_data_init_from_builder(serialization_support_t * ser, ser_type_builder_t * b
 ser_dynamic_data_t *
 ser_data_init_from_type(serialization_support_t * ser, ser_dynamic_type_t * type);
 
-void
+ser_dynamic_data_t *
 ser_data_clone(serialization_support_t * ser, const ser_dynamic_data_t * data);
 
 void

@@ -106,16 +106,18 @@ ser_data_init_from_builder(serialization_support_t * ser, ser_type_builder_t * b
   return (ser->interface->data_init_from_builder)(ser->impl, builder);
 }
 
+
 ser_dynamic_data_t *
 ser_data_init_from_type(serialization_support_t * ser, ser_dynamic_type_t * type)
 {
   return (ser->interface->data_init_from_type)(ser->impl, type);
 }
 
-void
+
+ser_dynamic_data_t *
 ser_data_clone(serialization_support_t * ser, const ser_dynamic_data_t * data)
 {
-  (ser->interface->data_clone)(ser->impl, data);
+  return (ser->interface->data_clone)(ser->impl, data);
 }
 
 

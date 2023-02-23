@@ -17,6 +17,7 @@
 
 #include <serialization_support_fastrtps_c/dynamic_data.h>
 #include <serialization_support_fastrtps_c/dynamic_type.h>
+#include <serialization_support_fastrtps_c/identifier.h>
 #include <serialization_support_fastrtps_c/serialization_impl.h>
 
 
@@ -32,7 +33,7 @@ serialization_support_interface_t *
 create_fastrtps_ser_interface();
 
 void
-fastrtps__ser_fini(ser_impl_t * ser_impl);
+fastrtps__ser_impl_fini(ser_impl_t * ser_impl);
 
 
 #ifdef __cplusplus

@@ -17,6 +17,7 @@
 
 #include <serialization_support_fastrtps_c/dynamic_data.h>
 #include <serialization_support_fastrtps_c/dynamic_type.h>
+#include <serialization_support_fastrtps_c/identifier.h>
 #include <serialization_support_fastrtps_c/serialization_support.h>
 #include <serialization_support_fastrtps_c/serialization_impl.h>
 
@@ -30,9 +31,11 @@ create_fastrtps_ser_interface()
 
 
   // CORE ==========================================================================================
-  fastrtps_ser_interface->ser_support_impl_fini =
+  fastrtps_ser_interface->library_identifier = fastrtps_serialization_support_library_identifier;
+
+  fastrtps_ser_interface->ser_impl_fini =
     (void (*)(ser_impl_t *))
-    fastrtps__ser_fini;
+    fastrtps__ser_impl_fini;
 
 
   // ===============================================================================================
@@ -653,7 +656,7 @@ create_fastrtps_ser_interface()
 
 
 void
-fastrtps__ser_fini(ser_impl_t * ser_impl)
+fastrtps__ser_impl_fini(ser_impl_t * ser_impl)
 {
   auto fastrtps_ser_impl = static_cast<fastrtps_ser_impl_t *>(ser_impl->impl);
   fastrtps_ser_impl->type_factory_->delete_instance();
