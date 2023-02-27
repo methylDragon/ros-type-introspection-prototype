@@ -28,9 +28,9 @@
 
 #include <glib.h>
 
-#include <serialization_support_lib/yaml_parser.h>
-#include <serialization_support_lib/tree_traverse.h>
-#include <serialization_support_lib/description.h>
+#include <rosidl_dynamic_typesupport/yaml_parser.h>
+#include <rosidl_dynamic_typesupport/tree_traverse.h>
+#include <rosidl_dynamic_typesupport/description.h>
 
 char * DESCRIPTION_FILE = "nested.yaml";
 

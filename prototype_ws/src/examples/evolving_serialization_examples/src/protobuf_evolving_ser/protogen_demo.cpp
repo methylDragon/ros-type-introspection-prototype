@@ -17,8 +17,8 @@
 #include <iostream>
 
 #include <evolving_protobuf_c/protogen.h>
-#include <serialization_support_lib/yaml_parser.h>
-#include <serialization_support_lib/description.h>
+#include <rosidl_dynamic_typesupport/yaml_parser.h>
+#include <rosidl_dynamic_typesupport/description.h>
 
 int main()
 {

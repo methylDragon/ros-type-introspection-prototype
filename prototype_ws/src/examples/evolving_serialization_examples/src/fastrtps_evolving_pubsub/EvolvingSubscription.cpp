@@ -17,7 +17,7 @@
 
 /*
  * Look out for this comment style for evolving serialization relevant code blocks!
- * Also, look out for ser_ prefixed functions!
+ * Also, look out for rosidl_dynamic_typesupport_ prefixed functions!
  */
 
 #include "EvolvingSubscription.h"
@@ -32,11 +32,11 @@
 #include <fastrtps/types/DynamicTypeBuilderFactory.h>
 #include <fastrtps/types/DynamicTypeBuilderPtr.h>
 
-#include "serialization_support_lib/yaml_parser.h"
-#include "serialization_support_lib/description.h"
-#include "serialization_support_lib/tree_traverse.h"
-#include "serialization_support_lib/api/serialization_support.h"
-#include "serialization_support_fastrtps_c/serialization_support.h"
+#include "rosidl_dynamic_typesupport/yaml_parser.h"
+#include "rosidl_dynamic_typesupport/description.h"
+#include "rosidl_dynamic_typesupport/tree_traverse.h"
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport_fastrtps/serialization_support.h"
 
 using namespace eprosima::fastdds::dds;
 using eprosima::fastrtps::types::DynamicData;
@@ -46,9 +46,9 @@ using eprosima::fastrtps::types::ReturnCode_t;
 
 
 // This is the redirection struct!
-static serialization_support_t * ser = ser_support_init(
-  create_fastrtps_ser_impl(),
-  create_fastrtps_ser_interface());
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
+  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
 
 
 EvolvingSubscription::EvolvingSubscription()
@@ -127,10 +127,10 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
   auto dit = subscription_->dyn_datas_.find(reader);  // Not used in this impl
 
   if (dit != subscription_->dyn_datas_.end()) {  // Same.. Since we construct our own Data below
-    auto builder = new ser_type_builder_t{subscription_->dyn_types_[reader].get()};
+    auto type_builder = new rosidl_dynamic_typesupport_dynamic_type_builder_t{subscription_->dyn_types_[reader].get()};
 
-    ser_dynamic_data_t * data = ser_data_init_from_builder(ser, builder);
-    ser_struct_type_builder_fini(ser, builder);
+    rosidl_dynamic_typesupport_dynamic_data_t * data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(serialization_support, type_builder);
+    rosidl_dynamic_typesupport_dynamic_type_struct_type_builder_fini(serialization_support, type_builder);
 
     SampleInfo info;
     if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
@@ -140,8 +140,8 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
         eprosima::fastrtps::types::DynamicType_ptr type = subscription_->dyn_types_[reader];
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
-        ser_print_dynamic_data(ser, data);
-        ser_data_fini(ser, data);
+        rosidl_dynamic_typesupport_dynamic_data_print(serialization_support, data);
+        rosidl_dynamic_typesupport_dynamic_data_fini(serialization_support, data);
       }
     }
   }
@@ -165,17 +165,17 @@ void EvolvingSubscription::SubListener::on_type_discovery(
    * Equivalent base FastDDS DynamicType code (without dynamically traversing the type):
    *
    * auto type_factory = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
-   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr builder = type_factory->struct_type_builder_init();
+   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr type_builder = type_factory->struct_type_builder_init();
    *
-   * builder->add_member(0, "bool_field", type_factory->create_bool_type());
-   * builder->add_member(1, "byte_field", type_factory->create_byte_type());
-   * builder->add_member(2, "int32_field", type_factory->create_int32_type());
-   * builder->add_member(
+   * type_builder->add_member(0, "bool_field", type_factory->create_bool_type());
+   * type_builder->add_member(1, "byte_field", type_factory->create_byte_type());
+   * type_builder->add_member(2, "int32_field", type_factory->create_int32_type());
+   * type_builder->add_member(
    *   3, "string_field",
    *   type_factory->create_string_type(eprosima::fastrtps::types::MAX_STRING_LENGTH));
    *
-   * builder->set_name("ExampleMsg");
-   * eprosima::fastrtps::types::DynamicType_ptr evolving_type_ptr = builder->build();
+   * type_builder->set_name("ExampleMsg");
+   * eprosima::fastrtps::types::DynamicType_ptr evolving_type_ptr = type_builder->build();
    *
    */
 
@@ -188,8 +188,8 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   // NOTE(CH3): I hate that I have to do this...
   //            The joys of void pointer casting, and the pain of not being able to move ownership
   //            of shared_ptrs...
-  ser_dynamic_type_t * evolving_type =
-    ser_construct_type_from_description(ser, full_description_struct);
+  rosidl_dynamic_typesupport_dynamic_type_t * evolving_type =
+    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   auto evolving_type_ptr = DynamicType_ptr(
     *static_cast<DynamicType_ptr *>(evolving_type->impl)
@@ -275,6 +275,6 @@ int main(int argc, char * argv[])
     sub.run();
   }
 
-  ser_support_fini(ser);
+  rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
   return 0;
 }

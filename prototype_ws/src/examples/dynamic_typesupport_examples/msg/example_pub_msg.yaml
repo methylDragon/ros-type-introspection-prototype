@@ -1,0 +1,46 @@
+# A message with a doubly nested message field
+# Type IDs should match the values in rosidl_dynamic_typesupport/types.h
+type_description:
+  type_name: dynamic_typesupport_examples_msgs::msg::ExampleMsg
+  fields:
+    -
+      field_name: string_field
+      field_type_id: 17
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+    -
+      field_name: bool_static_array_field
+      field_type_id: 63  # 15 + 48 (static array offset)
+      field_length: 5
+      field_string_length: ~
+      nested_type_name: ~
+
+    -
+      field_name: nested_field  # sequences of nested objects don't work in FastDDS yet
+      field_type_id: 1
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: dynamic_typesupport_examples_msgs::msg::ExampleMsgInner
+
+referenced_type_descriptions:
+  -
+    type_name: dynamic_typesupport_examples_msgs::msg::ExampleMsgInner
+    fields:
+      -
+        field_name: doubly_nested_field
+        field_type_id: 1
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: dynamic_typesupport_examples_msgs::msg::ExampleMsgInnerInner
+
+  -
+    type_name: dynamic_typesupport_examples_msgs::msg::ExampleMsgInnerInner
+    fields:
+      -
+        field_name: doubly_nested_float32_field
+        field_type_id: 10
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~

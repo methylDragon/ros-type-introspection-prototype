@@ -23,7 +23,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # DEPS =============================================================================================
 find_package(ament_cmake_ros REQUIRED)
-find_package(serialization_support_lib REQUIRED)
+find_package(rosidl_dynamic_typesupport REQUIRED)
 
 
 # TARGETS ==========================================================================================

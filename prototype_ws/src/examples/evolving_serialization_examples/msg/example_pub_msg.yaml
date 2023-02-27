@@ -1,16 +1,17 @@
+# Type IDs should match the values in rosidl_dynamic_typesupport/types.h
 type_description:
   type_name: ExampleMsg
   fields:
     -
       field_name: string_field
-      field_type_id: 15
+      field_type_id: 17
       field_length: ~
       field_string_length: ~
       nested_type_name: ~
 
     -
       field_name: bool_static_array_field
-      field_type_id: 34  # 2 + 32 (static array offset)
+      field_type_id: 63  # 15 + 48 (static array offset)
       field_length: 5
       field_string_length: ~
       nested_type_name: ~
@@ -38,7 +39,7 @@ referenced_type_descriptions:
     fields:
       -
         field_name: doubly_nested_float32_field
-        field_type_id: 5
+        field_type_id: 10
         field_length: ~
         field_string_length: ~
         nested_type_name: ~

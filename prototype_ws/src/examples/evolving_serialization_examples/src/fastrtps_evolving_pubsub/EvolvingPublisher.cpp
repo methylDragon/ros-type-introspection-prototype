@@ -30,11 +30,11 @@
 
 #include <thread>
 
-#include "serialization_support_lib/yaml_parser.h"
-#include "serialization_support_lib/description.h"
-#include "serialization_support_lib/tree_traverse.h"
-#include "serialization_support_lib/api/serialization_support.h"
-#include "serialization_support_fastrtps_c/serialization_support.h"
+#include "rosidl_dynamic_typesupport/yaml_parser.h"
+#include "rosidl_dynamic_typesupport/description.h"
+#include "rosidl_dynamic_typesupport/tree_traverse.h"
+#include "rosidl_dynamic_typesupport/api/serialization_support.h"
+#include "rosidl_dynamic_typesupport_fastrtps/serialization_support.h"
 
 using namespace eprosima::fastdds::dds;
 using eprosima::fastrtps::types::DynamicData;
@@ -42,9 +42,9 @@ using eprosima::fastrtps::types::DynamicData;
 using eprosima::fastrtps::types::DynamicType_ptr;
 using eprosima::fastrtps::types::DynamicTypeMember;
 
-static serialization_support_t * ser = ser_support_init(
-  create_fastrtps_ser_impl(),
-  create_fastrtps_ser_interface());
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
+  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
 
 EvolvingPublisher::EvolvingPublisher()
 : mp_participant(nullptr), mp_publisher(nullptr)
@@ -60,20 +60,20 @@ bool EvolvingPublisher::init()
     g_strjoin("/", g_path_get_dirname(__FILE__), "..", "..", "msg", "example_pub_msg.yaml", NULL);
   type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
 
-  ser_dynamic_type_t * example_msg_type =
-    ser_construct_type_from_description(ser, full_description_struct);
+  rosidl_dynamic_typesupport_dynamic_type_t * example_msg_type =
+    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   // Create and Populate Data
-  ser_dynamic_data_t * example_msg_data = ser_data_init_from_type(ser, example_msg_type);
+  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(serialization_support, example_msg_type);
 
-  ser_set_string_value(ser, example_msg_data, "A message!", 0);
+  rosidl_dynamic_typesupport_dynamic_data_set_string_value(serialization_support, example_msg_data, "A message!", 0);
 
-  ser_dynamic_data_t * bool_array = ser_loan_value(ser, example_msg_data, 1);
+  rosidl_dynamic_typesupport_dynamic_data_t * bool_array = rosidl_dynamic_typesupport_dynamic_data_loan_value(serialization_support, example_msg_data, 1);
   for (uint32_t i = 0; i < 5; ++i) {
-    MemberId id = ser_get_array_index(ser, bool_array, i);
-    ser_set_bool_value(ser, bool_array, i % 2 == 0, id);
+    rosidl_dynamic_typesupport_member_id_t id = rosidl_dynamic_typesupport_dynamic_data_get_array_index(serialization_support, bool_array, i);
+    rosidl_dynamic_typesupport_dynamic_data_set_bool_value(serialization_support, bool_array, i % 2 == 0, id);
   }
-  ser_return_loaned_value(ser, example_msg_data, bool_array);
+  rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(serialization_support, example_msg_data, bool_array);
 
   this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl);
 
@@ -91,7 +91,7 @@ bool EvolvingPublisher::init()
   }
 
   std::cout << "\n* * * = INITIAL MESSAGE CONSTRUCTED = * * *\n" << std::endl;
-  ser_print_dynamic_data(ser, example_msg_data);
+  rosidl_dynamic_typesupport_dynamic_data_print(serialization_support, example_msg_data);
   std::cout << "\n* * * * * * * * * * * * * * * * * * * * * *\n" << std::endl;
 
   TypeSupport example_msg_ts(msg_type_);
@@ -241,6 +241,6 @@ int main(int argc, char * argv[])
     pub.run(1000);
   }
 
-  ser_support_fini(ser);
+  rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
   return 0;
 }
