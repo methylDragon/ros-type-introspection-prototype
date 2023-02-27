@@ -12,3 +12,5 @@ prototype_ws/src/ros2_repos/ros2/*
 !prototype_ws/src/ros2_repos/ros2/rclpy
 !prototype_ws/src/ros2_repos/ros2/rmw
 !prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
+!prototype_ws/src/ros2_repos/ros2/rmw_implementation
+
