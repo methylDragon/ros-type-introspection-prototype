@@ -64,16 +64,16 @@ bool EvolvingPublisher::init()
     rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   // Create and Populate Data
-  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(serialization_support, example_msg_type);
+  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(example_msg_type);
 
-  rosidl_dynamic_typesupport_dynamic_data_set_string_value(serialization_support, example_msg_data, "A message!", 0);
+  rosidl_dynamic_typesupport_dynamic_data_set_string_value(example_msg_data, "A message!", 0);
 
-  rosidl_dynamic_typesupport_dynamic_data_t * bool_array = rosidl_dynamic_typesupport_dynamic_data_loan_value(serialization_support, example_msg_data, 1);
+  rosidl_dynamic_typesupport_dynamic_data_t * bool_array = rosidl_dynamic_typesupport_dynamic_data_loan_value(example_msg_data, 1);
   for (uint32_t i = 0; i < 5; ++i) {
-    rosidl_dynamic_typesupport_member_id_t id = rosidl_dynamic_typesupport_dynamic_data_get_array_index(serialization_support, bool_array, i);
-    rosidl_dynamic_typesupport_dynamic_data_set_bool_value(serialization_support, bool_array, i % 2 == 0, id);
+    rosidl_dynamic_typesupport_member_id_t id = rosidl_dynamic_typesupport_dynamic_data_get_array_index(bool_array, i);
+    rosidl_dynamic_typesupport_dynamic_data_set_bool_value(bool_array, i % 2 == 0, id);
   }
-  rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(serialization_support, example_msg_data, bool_array);
+  rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(example_msg_data, bool_array);
 
   this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl);
 
@@ -91,7 +91,7 @@ bool EvolvingPublisher::init()
   }
 
   std::cout << "\n* * * = INITIAL MESSAGE CONSTRUCTED = * * *\n" << std::endl;
-  rosidl_dynamic_typesupport_dynamic_data_print(serialization_support, example_msg_data);
+  rosidl_dynamic_typesupport_dynamic_data_print(example_msg_data);
   std::cout << "\n* * * * * * * * * * * * * * * * * * * * * *\n" << std::endl;
 
   TypeSupport example_msg_ts(msg_type_);

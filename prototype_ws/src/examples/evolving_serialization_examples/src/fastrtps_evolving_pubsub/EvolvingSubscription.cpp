@@ -46,9 +46,11 @@ using eprosima::fastrtps::types::ReturnCode_t;
 
 
 // This is the redirection struct!
-static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
+  rosidl_dynamic_typesupport_serialization_support_init(
+    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
+    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface()
+);
 
 
 EvolvingSubscription::EvolvingSubscription()
@@ -129,8 +131,10 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
   if (dit != subscription_->dyn_datas_.end()) {  // Same.. Since we construct our own Data below
     auto type_builder = new rosidl_dynamic_typesupport_dynamic_type_builder_t{subscription_->dyn_types_[reader].get()};
 
-    rosidl_dynamic_typesupport_dynamic_data_t * data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(serialization_support, type_builder);
-    rosidl_dynamic_typesupport_dynamic_type_struct_type_builder_fini(serialization_support, type_builder);
+    rosidl_dynamic_typesupport_dynamic_data_t * data =
+      rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
+        serialization_support, type_builder);
+    rosidl_dynamic_typesupport_dynamic_type_struct_type_builder_fini(type_builder);
 
     SampleInfo info;
     if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
@@ -140,8 +144,8 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
         eprosima::fastrtps::types::DynamicType_ptr type = subscription_->dyn_types_[reader];
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
-        rosidl_dynamic_typesupport_dynamic_data_print(serialization_support, data);
-        rosidl_dynamic_typesupport_dynamic_data_fini(serialization_support, data);
+        rosidl_dynamic_typesupport_dynamic_data_print(data);
+        rosidl_dynamic_typesupport_dynamic_data_fini(data);
       }
     }
   }

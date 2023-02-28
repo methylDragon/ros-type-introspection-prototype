@@ -16,11 +16,10 @@
 #include "rclcpp/rclcpp.hpp"
 
 
-void msg_callback(
-  std::shared_ptr<rosidl_dynamic_typesupport_serialization_support_t> serialization_support, std::shared_ptr<rosidl_dynamic_typesupport_dynamic_data_t> data)
+void msg_callback(std::shared_ptr<rosidl_dynamic_typesupport_dynamic_data_t> data)
 {
   std::cout << "\n[MESSAGE RECEIVED]" << std::endl;
-  rosidl_dynamic_typesupport_dynamic_data_print(serialization_support.get(), data.get());
+  rosidl_dynamic_typesupport_dynamic_data_print(data.get());
 }
 
 
