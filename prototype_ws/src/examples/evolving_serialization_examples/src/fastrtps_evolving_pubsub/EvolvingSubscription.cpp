@@ -129,13 +129,13 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
   auto dit = subscription_->dyn_datas_.find(reader);  // Not used in this impl
 
   if (dit != subscription_->dyn_datas_.end()) {  // Same.. Since we construct our own Data below
-    auto type_builder = new rosidl_dynamic_typesupport_dynamic_type_builder_t{subscription_->dyn_types_[reader].get()};
+    auto type_builder = std::make_shared<rosidl_dynamic_typesupport_dynamic_type_builder_t>();
+    type_builder->impl = new rosidl_dynamic_typesupport_dynamic_type_builder_impl_t{subscription_->dyn_types_[reader].get()};
 
     rosidl_dynamic_typesupport_dynamic_data_t * data =
-      rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(
-        serialization_support, type_builder);
-    rosidl_dynamic_typesupport_dynamic_type_struct_type_builder_fini(type_builder);
-
+      rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(type_builder.get());
+    rosidl_dynamic_typesupport_dynamic_type_builder_fini(type_builder.get());
+    free(type_builder->impl);
     SampleInfo info;
     if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
     // Actually a cast isn't necessary...
@@ -169,7 +169,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
    * Equivalent base FastDDS DynamicType code (without dynamically traversing the type):
    *
    * auto type_factory = eprosima::fastrtps::types::DynamicTypeBuilderFactory::get_instance();
-   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr type_builder = type_factory->struct_type_builder_init();
+   * eprosima::fastrtps::types::DynamicTypeBuilder_ptr type_builder = type_factory->create_struct_type();
    *
    * type_builder->add_member(0, "bool_field", type_factory->create_bool_type());
    * type_builder->add_member(1, "byte_field", type_factory->create_byte_type());
@@ -196,8 +196,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
     rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   auto evolving_type_ptr = DynamicType_ptr(
-    *static_cast<DynamicType_ptr *>(evolving_type->impl)
-  );
+    *static_cast<DynamicType_ptr *>(evolving_type->impl->handle));
 
   /* Verify that types are equal! */
   if (dyn_type->equals(evolving_type_ptr.get())) {

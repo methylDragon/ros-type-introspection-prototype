@@ -46,7 +46,7 @@ uint32_t
 rosidl_dynamic_typesupport_dynamic_data_get_item_count(const rosidl_dynamic_typesupport_dynamic_data_t * data);
 
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * data, const char * name);
+rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * data, const char * name);
 
 rosidl_dynamic_typesupport_member_id_t
 rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(const rosidl_dynamic_typesupport_dynamic_data_t * data, uint32_t index);

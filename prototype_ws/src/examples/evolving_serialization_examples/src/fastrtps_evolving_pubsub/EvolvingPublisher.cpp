@@ -75,15 +75,13 @@ bool EvolvingPublisher::init()
   }
   rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(example_msg_data, bool_array);
 
-  this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl);
+  this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl->handle);
 
   // Show
   std::map<std::string, DynamicTypeMember *> evolving_map;
 
   // NOTE(methylDragon): This is INCREDIBLY IMPORTANT to preserve lifetime!!!
-  msg_type_ = DynamicType_ptr(
-    *static_cast<DynamicType_ptr *>(example_msg_type->impl)
-  );
+  msg_type_ = DynamicType_ptr(*static_cast<DynamicType_ptr *>(example_msg_type->impl->handle));
   msg_type_->get_all_members_by_name(evolving_map);
 
   for (auto const & x : evolving_map) {
