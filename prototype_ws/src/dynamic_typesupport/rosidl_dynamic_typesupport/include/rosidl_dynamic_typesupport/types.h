@@ -103,6 +103,8 @@ struct rosidl_dynamic_typesupport_dynamic_type_builder_s
   rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * impl;
   // !!! Lifetime is NOT managed by this struct
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+
+  // TODO(methylDragon): Also store an additional type description struct pointer
 };
 
 inline
@@ -119,6 +121,9 @@ struct rosidl_dynamic_typesupport_dynamic_type_s
   rosidl_dynamic_typesupport_dynamic_type_impl_t * impl;
   // !!! Lifetime is NOT managed by this struct
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
+
+  // TODO(methylDragon): Also store an additional type description struct pointer
+  //                     Except this time it can be const??
 };
 
 inline

@@ -42,6 +42,9 @@ rosidl_dynamic_typesupport_dynamic_type_get_member_count(const rosidl_dynamic_ty
 rosidl_dynamic_typesupport_dynamic_type_builder_t *
 rosidl_dynamic_typesupport_dynamic_type_builder_init(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, const char * name);
 
+rosidl_dynamic_typesupport_dynamic_type_builder_t *
+rosidl_dynamic_typesupport_dynamic_type_builder_clone(const rosidl_dynamic_typesupport_dynamic_type_builder_t * other);
+
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_fini(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
 
@@ -51,9 +54,20 @@ rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(rosidl_dy
 rosidl_dynamic_typesupport_dynamic_type_t *
 rosidl_dynamic_typesupport_dynamic_type_init_from_description(rosidl_dynamic_typesupport_serialization_support_t * serialization_support, type_description_t * description);
 
+rosidl_dynamic_typesupport_dynamic_type_t *
+rosidl_dynamic_typesupport_dynamic_type_clone(const rosidl_dynamic_typesupport_dynamic_type_t * other);
+
 void
 rosidl_dynamic_typesupport_dynamic_type_fini(rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type);
 
+void
+rosidl_dynamic_typesupport_dynamic_type_set_name(rosidl_dynamic_typesupport_dynamic_type_t * dynamic_type, const char * name);
+
+char *
+rosidl_dynamic_typesupport_dynamic_type_builder_get_name(const rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_set_name(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, const char * name);
 
 // DYNAMIC TYPE PRIMITIVE MEMBERS ==================================================================
 void
@@ -66,10 +80,16 @@ void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_char_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
+
+void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_int8_member(rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
@@ -124,11 +144,19 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_char_array_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_array_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
+
+void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_array_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_array_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_array_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void
@@ -196,11 +224,19 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_char_unbounded_sequence_memb
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_unbounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
+
+void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_unbounded_sequence_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_unbounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_unbounded_sequence_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name);
 
 void
@@ -266,11 +302,19 @@ rosidl_dynamic_typesupport_dynamic_type_builder_add_char_bounded_sequence_member
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_wchar_bounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
+
+void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float32_bounded_sequence_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void
 rosidl_dynamic_typesupport_dynamic_type_builder_add_float64_bounded_sequence_member(
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
+
+void
+rosidl_dynamic_typesupport_dynamic_type_builder_add_float128_bounded_sequence_member(
   rosidl_dynamic_typesupport_dynamic_type_builder_t * dynamic_type_builder, rosidl_dynamic_typesupport_member_id_t id, const char * name, uint32_t bound);
 
 void

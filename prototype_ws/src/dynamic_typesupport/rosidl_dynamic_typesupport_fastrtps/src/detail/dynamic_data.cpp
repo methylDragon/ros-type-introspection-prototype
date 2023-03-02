@@ -202,6 +202,15 @@ fastrtps__dynamic_data_get_char_value(
 
 
 void
+fastrtps__dynamic_data_get_wchar_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, wchar_t * value, rosidl_dynamic_typesupport_member_id_t id)
+{
+  (void) serialization_support_impl;
+  static_cast<const DynamicData *>(data_impl->handle)->get_char16_value(*value, id);
+}
+
+
+void
 fastrtps__dynamic_data_get_float32_value(
   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, float * value, rosidl_dynamic_typesupport_member_id_t id)
 {
@@ -218,6 +227,14 @@ fastrtps__dynamic_data_get_float64_value(
   static_cast<const DynamicData *>(data_impl->handle)->get_float64_value(*value, id);
 }
 
+
+void
+fastrtps__dynamic_data_get_float128_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, long double * value, rosidl_dynamic_typesupport_member_id_t id)
+{
+  (void) serialization_support_impl;
+  static_cast<const DynamicData *>(data_impl->handle)->get_float128_value(*value, id);
+}
 
 void
 fastrtps__dynamic_data_get_int8_value(
@@ -298,7 +315,9 @@ fastrtps__dynamic_data_get_string_value(
   (void) serialization_support_impl;
   std::string tmp;
   static_cast<const DynamicData *>(data_impl->handle)->get_string_value(tmp, id);  // Lifetime is in the data_impl obj
-  *value = tmp.c_str();
+  char * out = new char[tmp.size() + 1];  // NOTE(methylDragon): Can I assume the str is always null terminated?
+  strcpy(out, tmp.c_str());
+  *value = out;
 }
 
 
@@ -310,6 +329,9 @@ fastrtps__dynamic_data_get_wstring_value(
   (void) serialization_support_impl;
   std::wstring tmp;
   static_cast<const DynamicData *>(data_impl->handle)->get_wstring_value(tmp, id);
+  wchar_t * out = new char[tmp.size() + 1];  // NOTE(methylDragon): Can I assume the str is always null terminated?
+  strcpy(out, tmp.c_str());
+  *value = out;
   *value = tmp.c_str();
 }
 
@@ -343,6 +365,15 @@ fastrtps__dynamic_data_set_char_value(
 
 
 void
+fastrtps__dynamic_data_set_wchar_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, wchar_t value, rosidl_dynamic_typesupport_member_id_t id)
+{
+  (void) serialization_support_impl;
+  static_cast<DynamicData *>(data_impl->handle)->set_char16_value(value, id);
+}
+
+
+void
 fastrtps__dynamic_data_set_float32_value(
   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, float value, rosidl_dynamic_typesupport_member_id_t id)
 {
@@ -357,6 +388,15 @@ fastrtps__dynamic_data_set_float64_value(
 {
   (void) serialization_support_impl;
   static_cast<DynamicData *>(data_impl->handle)->set_float64_value(value, id);
+}
+
+
+void
+fastrtps__dynamic_data_set_float128_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, long double value, rosidl_dynamic_typesupport_member_id_t id)
+{
+  (void) serialization_support_impl;
+  static_cast<DynamicData *>(data_impl->handle)->set_float128_value(value, id);
 }
 
 
@@ -510,6 +550,15 @@ fastrtps__dynamic_data_insert_char_value(
 
 
 void
+fastrtps__dynamic_data_insert_wchar_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, wchar_t value, rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (void) serialization_support_impl;
+  static_cast<DynamicData *>(data_impl->handle)->insert_char16_value(value, *out_id);
+}
+
+
+void
 fastrtps__dynamic_data_insert_float32_value(
   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, float value, rosidl_dynamic_typesupport_member_id_t * out_id)
 {
@@ -524,6 +573,35 @@ fastrtps__dynamic_data_insert_float64_value(
 {
   (void) serialization_support_impl;
   static_cast<DynamicData *>(data_impl->handle)->insert_float64_value(value, *out_id);
+}
+
+
+void
+fastrtps__dynamic_data_insert_float128_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, long double value, rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (void) serialization_support_impl;
+  static_cast<DynamicData *>(data_impl->handle)->insert_float128_value(value, *out_id);
+}
+
+
+void
+fastrtps__dynamic_data_insert_int8_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, int8_t value, rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (void) serialization_support_impl;
+  // NOTE(methylDragon): There is no insert_int8_value method
+  static_cast<DynamicData *>(data_impl->handle)->insert_char8_value(value, *out_id);
+}
+
+
+void
+fastrtps__dynamic_data_insert_uint8_value(
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, uint8_t value, rosidl_dynamic_typesupport_member_id_t * out_id)
+{
+  (void) serialization_support_impl;
+  // NOTE(methylDragon): There is no insert_uint8_value method
+  static_cast<DynamicData *>(data_impl->handle)->insert_byte_value(value, *out_id);
 }
 
 
