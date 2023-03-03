@@ -44,20 +44,20 @@ fastrtps__dynamic_data_equals(
   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * other_data_impl);
 
 // Can be used to get sequence/array length, and also number of members for struct
-uint32_t
+size_t
 fastrtps__dynamic_data_get_item_count(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl);
 
 rosidl_dynamic_typesupport_member_id_t
-fastrtps__dynamic_data_get_member_id_by_name(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * name);
+fastrtps__dynamic_data_get_member_id_by_name(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * name, size_t name_length);
 
 rosidl_dynamic_typesupport_member_id_t
-fastrtps__dynamic_data_get_member_id_at_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, uint32_t index);
+fastrtps__dynamic_data_get_member_id_at_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, size_t index);
 
 rosidl_dynamic_typesupport_member_id_t
-fastrtps__dynamic_data_get_member_id_at_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, uint32_t index);
+fastrtps__dynamic_data_get_member_id_at_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, size_t index);
 
 rosidl_dynamic_typesupport_member_id_t
-fastrtps__dynamic_data_get_array_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, uint32_t index);
+fastrtps__dynamic_data_get_array_index(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, size_t index);
 
 rosidl_dynamic_typesupport_dynamic_data_impl_t *
 fastrtps__dynamic_data_loan_value(rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, rosidl_dynamic_typesupport_member_id_t id);
@@ -147,12 +147,12 @@ fastrtps__dynamic_data_get_uint64_value(
 
 void
 fastrtps__dynamic_data_get_string_value(
-  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char ** value, rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char ** value, size_t * value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 void
 fastrtps__dynamic_data_get_wstring_value(
   rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl,
-  const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t ** value, rosidl_dynamic_typesupport_member_id_t id);
+  const rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t ** value, size_t * value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 
 // DYNAMIC DATA PRIMITIVE MEMBERS SETTERS ==========================================================
@@ -218,11 +218,11 @@ fastrtps__dynamic_data_set_uint64_value(
 
 void
 fastrtps__dynamic_data_set_string_value(
-  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * value, rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 void
 fastrtps__dynamic_data_set_wstring_value(
-  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t * value, rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 
 // DYNAMIC DATA SEQUENCES ==========================================================================
@@ -299,12 +299,11 @@ fastrtps__dynamic_data_insert_uint64_value(
 
 void
 fastrtps__dynamic_data_insert_string_value(
-  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * value, rosidl_dynamic_typesupport_member_id_t * out_id);
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const char * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 void
 fastrtps__dynamic_data_insert_wstring_value(
-  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t * value,
-  rosidl_dynamic_typesupport_member_id_t * out_id);
+  rosidl_dynamic_typesupport_serialization_support_impl_t * serialization_support_impl, rosidl_dynamic_typesupport_dynamic_data_impl_t * data_impl, const wchar_t * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 
 // DYNAMIC DATA NESTED MEMBERS =====================================================================

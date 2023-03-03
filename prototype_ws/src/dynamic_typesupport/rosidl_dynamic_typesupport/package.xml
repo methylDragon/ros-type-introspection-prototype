@@ -13,6 +13,7 @@
 
   <build_depend>pkg-config</build_depend>
   <build_depend>libyaml_vendor</build_depend>
+  <!-- <build_depend>type_description_interfaces</build_depend> -->  <!-- UNCOMMENT WHEN RCL NO LONGER DEPENDS ON ROSIDL_DYNAMIC_TYPESUPPORT -->
 
   <!-- <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>

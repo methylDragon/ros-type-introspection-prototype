@@ -43,18 +43,18 @@ rosidl_dynamic_typesupport_dynamic_data_clear_value(rosidl_dynamic_typesupport_d
 bool
 rosidl_dynamic_typesupport_dynamic_data_equals(const rosidl_dynamic_typesupport_dynamic_data_t * data, const rosidl_dynamic_typesupport_dynamic_data_t * other);
 
-uint32_t
+size_t
 rosidl_dynamic_typesupport_dynamic_data_get_item_count(const rosidl_dynamic_typesupport_dynamic_data_t * data);
 
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * data, const char * name);
+rosidl_dynamic_typesupport_dynamic_data_get_member_id_by_name_by_name(const rosidl_dynamic_typesupport_dynamic_data_t * data, const char * name, size_t name_length);
 
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(const rosidl_dynamic_typesupport_dynamic_data_t * data, uint32_t index);
+rosidl_dynamic_typesupport_dynamic_data_get_member_id_at_index(const rosidl_dynamic_typesupport_dynamic_data_t * data, size_t index);
 
 // You must use this for arrays
 rosidl_dynamic_typesupport_member_id_t
-rosidl_dynamic_typesupport_dynamic_data_get_array_index(rosidl_dynamic_typesupport_dynamic_data_t * data, uint32_t index);
+rosidl_dynamic_typesupport_dynamic_data_get_array_index(rosidl_dynamic_typesupport_dynamic_data_t * data, size_t index);
 
 rosidl_dynamic_typesupport_dynamic_data_t *
 rosidl_dynamic_typesupport_dynamic_data_loan_value(rosidl_dynamic_typesupport_dynamic_data_t * data, rosidl_dynamic_typesupport_member_id_t id);
@@ -126,11 +126,11 @@ rosidl_dynamic_typesupport_dynamic_data_get_uint64_value(const rosidl_dynamic_ty
 
 void
 rosidl_dynamic_typesupport_dynamic_data_get_string_value(
-  const rosidl_dynamic_typesupport_dynamic_data_t * data, const char ** value, rosidl_dynamic_typesupport_member_id_t id);
+  const rosidl_dynamic_typesupport_dynamic_data_t * data, const char ** value, size_t * value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_get_wstring_value(
-  const rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t ** value, rosidl_dynamic_typesupport_member_id_t id);
+  const rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t ** value, size_t * value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 // DYNAMIC DATA PRIMITIVE MEMBER SETTERS ===========================================================
 void
@@ -180,11 +180,11 @@ rosidl_dynamic_typesupport_dynamic_data_set_uint64_value(rosidl_dynamic_typesupp
 
 void
 rosidl_dynamic_typesupport_dynamic_data_set_string_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * data, const char * value, rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_dynamic_data_t * data, const char * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_set_wstring_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t * value, rosidl_dynamic_typesupport_member_id_t id);
+  rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t id);
 
 // DYNAMIC DATA SEQUENCES ==========================================================================
 void
@@ -242,11 +242,11 @@ void
 rosidl_dynamic_typesupport_dynamic_data_insert_uint64_value(rosidl_dynamic_typesupport_dynamic_data_t * data, uint64_t value, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 void
-rosidl_dynamic_typesupport_dynamic_data_insert_string_value(rosidl_dynamic_typesupport_dynamic_data_t * data, const char * value, rosidl_dynamic_typesupport_member_id_t * out_id);
+rosidl_dynamic_typesupport_dynamic_data_insert_string_value(rosidl_dynamic_typesupport_dynamic_data_t * data, const char * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 void
 rosidl_dynamic_typesupport_dynamic_data_insert_wstring_value(
-  rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t * value, rosidl_dynamic_typesupport_member_id_t * out_id);
+  rosidl_dynamic_typesupport_dynamic_data_t * data, const wchar_t * value, size_t value_length, rosidl_dynamic_typesupport_member_id_t * out_id);
 
 // DYNAMIC DATA NESTED =============================================================================
 // The user is expected to allocate the '** value' outparam outside

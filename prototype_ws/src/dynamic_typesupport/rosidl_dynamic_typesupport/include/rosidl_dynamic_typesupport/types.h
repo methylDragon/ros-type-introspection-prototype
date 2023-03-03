@@ -16,6 +16,7 @@
 #define ROSIDL_DYNAMIC_TYPESUPPORT__TYPES_H_
 
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 
@@ -40,7 +41,7 @@ typedef struct type_description_s type_description_t;
 // =================================================================================================
 
 // ID for accessing specific members of dynamic type or dynamic data
-typedef uint32_t rosidl_dynamic_typesupport_member_id_t;
+typedef size_t rosidl_dynamic_typesupport_member_id_t;
 
 // Forward Declarations ============================================================================
 typedef struct \
@@ -103,8 +104,6 @@ struct rosidl_dynamic_typesupport_dynamic_type_builder_s
   rosidl_dynamic_typesupport_dynamic_type_builder_impl_t * impl;
   // !!! Lifetime is NOT managed by this struct
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
-
-  // TODO(methylDragon): Also store an additional type description struct pointer
 };
 
 inline
@@ -121,9 +120,6 @@ struct rosidl_dynamic_typesupport_dynamic_type_s
   rosidl_dynamic_typesupport_dynamic_type_impl_t * impl;
   // !!! Lifetime is NOT managed by this struct
   rosidl_dynamic_typesupport_serialization_support_t * serialization_support;
-
-  // TODO(methylDragon): Also store an additional type description struct pointer
-  //                     Except this time it can be const??
 };
 
 inline
