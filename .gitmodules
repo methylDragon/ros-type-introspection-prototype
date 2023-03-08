@@ -1,34 +1,39 @@
 [submodule "prototype_ws/src/ros2_repos/ros2/rcl"]
-     path = prototype_ws/src/ros2_repos/ros2/rcl
-     url = https://github.com/ros2/rcl.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rcl
+    url = https://github.com/ros2/rcl.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/ros2_repos/ros2/rclcpp"]
-     path = prototype_ws/src/ros2_repos/ros2/rclcpp
-     url = https://github.com/ros2/rclcpp.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rclcpp
+    url = https://github.com/ros2/rclcpp.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/ros2_repos/ros2/rclpy"]
-     path = prototype_ws/src/ros2_repos/ros2/rclpy
-     url = https://github.com/ros2/rclpy.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rclpy
+    url = https://github.com/ros2/rclpy.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/ros2_repos/ros2/rmw"]
-     path = prototype_ws/src/ros2_repos/ros2/rmw
-     url = https://github.com/ros2/rmw.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rmw
+    url = https://github.com/ros2/rmw.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/ros2_repos/ros2/rmw_fastrtps"]
-     path = prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
-     url = https://github.com/ros2/rmw_fastrtps.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
+    url = https://github.com/ros2/rmw_fastrtps.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/ros2_repos/ros2/rmw_implementation"]
-     path = prototype_ws/src/ros2_repos/ros2/rmw_implementation
-     url = https://github.com/ros2/rmw_implementation.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/ros2_repos/ros2/rmw_implementation
+    url = https://github.com/ros2/rmw_implementation.git
+    branch = runtime_interface_reflection
 
 [submodule "prototype_ws/src/dynamic_typesupport/rosidl_dynamic_typesupport_fastrtps"]
-     path = prototype_ws/src/dynamic_typesupport/rosidl_dynamic_typesupport_fastrtps
-     url = https://github.com/ros2/rosidl_dynamic_typesupport_fastrtps.git
-     branch = runtime_interface_reflection
+    path = prototype_ws/src/dynamic_typesupport/rosidl_dynamic_typesupport_fastrtps
+    url = https://github.com/ros2/rosidl_dynamic_typesupport_fastrtps.git
+    branch = runtime_interface_reflection
+
+[submodule "prototype_ws/src/dynamic_typesupport/rosidl_dynamic_typesupport"]
+    path = prototype_ws/src/dynamic_typesupport/rosidl_dynamic_typesupport
+    url = https://github.com/ros2/rosidl_dynamic_typesupport.git
+    branch = runtime_interface_reflection
