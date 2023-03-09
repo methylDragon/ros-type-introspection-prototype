@@ -3,6 +3,11 @@
     url = https://github.com/ros2/rcl.git
     branch = runtime_interface_reflection
 
+[submodule "prototype_ws/src/ros2_repos/ros2/rcl_interfaces"]
+    path = prototype_ws/src/ros2_repos/ros2/rcl_interfaces
+    url = https://github.com/ros2/rcl_interfaces.git
+    branch = runtime_interface_reflection
+
 [submodule "prototype_ws/src/ros2_repos/ros2/rclcpp"]
     path = prototype_ws/src/ros2_repos/ros2/rclcpp
     url = https://github.com/ros2/rclcpp.git
