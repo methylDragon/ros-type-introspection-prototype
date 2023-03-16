@@ -14,6 +14,6 @@ prototype_ws/src/ros2_repos/ros2/*
 !prototype_ws/src/ros2_repos/ros2/rmw
 !prototype_ws/src/ros2_repos/ros2/rmw_fastrtps
 !prototype_ws/src/ros2_repos/ros2/rmw_implementation
+!prototype_ws/src/ros2_repos/ros2/rosidl
 !prototype_ws/src/ros2_repos/ros2/rosidl_dynamic_typesupport
 !prototype_ws/src/ros2_repos/ros2/rosidl_dynamic_typesupport_fastrtps
-

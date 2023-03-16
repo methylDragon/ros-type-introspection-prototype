@@ -33,8 +33,8 @@
     url = https://github.com/ros2/rmw_implementation.git
     branch = runtime_interface_reflection
 
-[submodule "prototype_ws/src/dynamic_typesupport/rosidl"]
-    path = prototype_ws/src/dynamic_typesupport/rosidl
+[submodule "prototype_ws/src/ros2_repos/ros2/rosidl"]
+    path = prototype_ws/src/ros2_repos/ros2/rosidl
     url = https://github.com/ros2/rosidl.git
     branch = runtime_interface_reflection
 
