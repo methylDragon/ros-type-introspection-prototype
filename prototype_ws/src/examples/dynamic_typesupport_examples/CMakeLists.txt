@@ -30,14 +30,20 @@ find_package(dynamic_typesupport_examples_msgs REQUIRED)
 
 
 # TARGETS ==========================================================================================
-add_executable(dynamic_sub_serialized "src/dynamic_sub_serialized.cpp")
+include_directories(src)
+
+add_executable(dynamic_sub_serialized
+  "src/dynamic_sub_serialized.cpp"
+  "src/detail/create_description.cpp")
 target_link_libraries(dynamic_sub_serialized
   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
   rcl::rcl
   rclcpp::rclcpp
 )
 
-# add_executable(dynamic_sub_direct "src/dynamic_sub_direct.cpp")
+# add_executable(dynamic_sub_direct
+#   "src/dynamic_sub_direct.cpp"
+#   "src/detail/create_description.cpp")
 # target_link_libraries(dynamic_sub_direct
 #   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
 #   rcl::rcl
