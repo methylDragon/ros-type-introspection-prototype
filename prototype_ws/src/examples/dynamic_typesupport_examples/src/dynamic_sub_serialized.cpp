@@ -90,7 +90,8 @@ int main(int argc, char ** argv)
 
   auto sub = std::make_shared<rclcpp::DynamicSubscription>(
     node->get_node_base_interface().get(), ts, "dynamic_message_test_topic", 10, &msg_callback,
-    rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void>>()
+    rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void>>(),
+    false  // use_take_dynamic_message
   );
 
   node->get_node_topics_interface()->add_subscription(sub, nullptr);

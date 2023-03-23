@@ -41,14 +41,14 @@ target_link_libraries(dynamic_sub_serialized
   rclcpp::rclcpp
 )
 
-# add_executable(dynamic_sub_direct
-#   "src/dynamic_sub_direct.cpp"
-#   "src/detail/create_description.cpp")
-# target_link_libraries(dynamic_sub_direct
-#   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
-#   rcl::rcl
-#   rclcpp::rclcpp
-# )
+add_executable(dynamic_sub_direct
+  "src/dynamic_sub_direct.cpp"
+  "src/detail/create_description.cpp")
+target_link_libraries(dynamic_sub_direct
+  rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
+  rcl::rcl
+  rclcpp::rclcpp
+)
 
 add_executable(static_sub "src/static_sub.cpp")
 target_link_libraries(static_sub
@@ -65,7 +65,7 @@ target_link_libraries(static_pub
 
 # INSTALL ==========================================================================================
 install(TARGETS dynamic_sub_serialized RUNTIME DESTINATION lib/${PROJECT_NAME})
-# install(TARGETS dynamic_sub_direct RUNTIME DESTINATION lib/${PROJECT_NAME})
+install(TARGETS dynamic_sub_direct RUNTIME DESTINATION lib/${PROJECT_NAME})
 install(TARGETS static_sub RUNTIME DESTINATION lib/${PROJECT_NAME})
 install(TARGETS static_pub RUNTIME DESTINATION lib/${PROJECT_NAME})
 
