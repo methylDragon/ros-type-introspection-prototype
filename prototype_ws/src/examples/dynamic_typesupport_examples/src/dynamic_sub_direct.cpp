@@ -41,19 +41,22 @@ int g_counter = 0;
  *       It can fail silently otherwise (FastRTPS fails silently), and there isn't a nice way to
  *       check...
  */
-void msg_callback(DynamicMessage::SharedPtr data)
+void msg_callback(
+  DynamicMessage::SharedPtr data,
+  std::shared_ptr<const rosidl_runtime_c__type_description__TypeDescription> description)
 {
+  (void) description;
+
   std::cout << "\n[MESSAGE RECEIVED]" << std::endl;
   data->print();
 
   std::cout << "\n[TEST ACCESS] (" << data->get_item_count() << " TOP LEVEL MEMBERS)" << std::endl;
 
-  // Set works by ID or name
   data->set_value<std::string>("string_field", "LOOK MA I'M BEING SET!");
   {
     DynamicMessage::SharedPtr array_data = data->loan_value(1);
     array_data->set_value<bool>(
-      g_counter++ % array_data->get_item_count(),  // Just being cheeky
+      g_counter++ % array_data->get_item_count(),
       !array_data->get_value<bool>(0));
   }  // array_data.reset();  (Loan must be returned before print or other access is allowed)
 
@@ -61,10 +64,10 @@ void msg_callback(DynamicMessage::SharedPtr data)
     DynamicMessage::SharedPtr nested_data = data->loan_value("nested_field");
     DynamicMessage::SharedPtr doubly_nested_data = nested_data->loan_value("doubly_nested_field");
     doubly_nested_data->set_value<float>(0, 999);
-  }  // shared_ptr reset order doesn't matter (as loaned values store a shared_ptr to their parent!)
+  }
 
   data->print();
-  data->clone();  // You may clone data (and loaned datas, as appropriate!)
+  // data->clone();  // You may clone data (and loaned datas, as appropriate!)
   std::cout << "\n\n--END--\n" << std::endl;
 }
 
@@ -73,10 +76,7 @@ int main(int argc, char ** argv)
 {
   rosidl_runtime_c__type_description__TypeDescription * example_msg_desc =
     dynamic_typesupport_examples_create_description();
-  // We print this via the DynamicMessageTypeSupport later on
-  // rosidl_runtime_c_type_description_utils_print_type_description(example_msg_desc);
 
-  // ROS ===========================================================================================
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("dynamic_sub_node");
 
@@ -84,8 +84,9 @@ int main(int argc, char ** argv)
   //   - Has middleware specific behavior
   //   - Assumes ownership of passed in descriptions (will manage lifetime)!
 
-  // Takes ownership of description
-  auto ts = DynamicMessageTypeSupport::make_shared(example_msg_desc);
+  // Does not take ownership of description (copies)
+  auto ts = DynamicMessageTypeSupport::make_shared(*example_msg_desc);
+  rosidl_runtime_c__type_description__TypeDescription__destroy(example_msg_desc);
   ts->print_description();
 
   auto sub = std::make_shared<rclcpp::DynamicSubscription>(
