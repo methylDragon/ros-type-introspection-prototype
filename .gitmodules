@@ -28,6 +28,16 @@
     url = https://github.com/ros2/rmw_fastrtps.git
     branch = runtime_interface_reflection
 
+[submodule "prototype_ws/src/ros2_repos/ros2/rmw_connextdds"]
+    path = prototype_ws/src/ros2_repos/ros2/rmw_connextdds
+    url = https://github.com/ros2/rmw_connextdds.git
+    branch = runtime_interface_reflection
+
+[submodule "prototype_ws/src/ros2_repos/ros2/rmw_cyclonedds"]
+    path = prototype_ws/src/ros2_repos/ros2/rmw_cyclonedds
+    url = https://github.com/ros2/rmw_cyclonedds.git
+    branch = runtime_interface_reflection
+
 [submodule "prototype_ws/src/ros2_repos/ros2/rmw_implementation"]
     path = prototype_ws/src/ros2_repos/ros2/rmw_implementation
     url = https://github.com/ros2/rmw_implementation.git
