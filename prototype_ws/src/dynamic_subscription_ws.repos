@@ -370,11 +370,11 @@ repositories:
   ros2/rosidl_typesupport:
     type: git
     url: https://github.com/emersonknapp/rosidl_typesupport.git
-    version: emersonknapp/type-description-support
+    version: emersonknapp/type-description-nested-support
   ros2/rosidl_typesupport_fastrtps:
     type: git
     url: https://github.com/emersonknapp/rosidl_typesupport_fastrtps.git
-    version: emersonknapp/type-description-support
+    version: emersonknapp/type-description-nested-support
   ros2/rpyutils:
     type: git
     url: https://github.com/ros2/rpyutils.git
