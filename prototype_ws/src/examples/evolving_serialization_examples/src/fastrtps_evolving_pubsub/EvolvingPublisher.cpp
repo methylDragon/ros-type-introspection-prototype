@@ -239,6 +239,6 @@ int main(int argc, char * argv[])
     pub.run(1000);
   }
 
-  rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
+  rosidl_dynamic_typesupport_serialization_support_destroy(serialization_support);
   return 0;
 }

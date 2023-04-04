@@ -134,7 +134,7 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
 
     rosidl_dynamic_typesupport_dynamic_data_t * data =
       rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(type_builder.get());
-    rosidl_dynamic_typesupport_dynamic_type_builder_fini(type_builder.get());
+    rosidl_dynamic_typesupport_dynamic_type_builder_destroy(type_builder.get());
     free(type_builder->impl);
     SampleInfo info;
     if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
@@ -145,7 +145,7 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
         rosidl_dynamic_typesupport_dynamic_data_print(data);
-        rosidl_dynamic_typesupport_dynamic_data_fini(data);
+        rosidl_dynamic_typesupport_dynamic_data_destroy(data);
       }
     }
   }
@@ -278,6 +278,6 @@ int main(int argc, char * argv[])
     sub.run();
   }
 
-  rosidl_dynamic_typesupport_serialization_support_fini(serialization_support);
+  rosidl_dynamic_typesupport_serialization_support_destroy(serialization_support);
   return 0;
 }

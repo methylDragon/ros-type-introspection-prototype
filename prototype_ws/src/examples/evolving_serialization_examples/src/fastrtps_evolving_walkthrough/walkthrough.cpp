@@ -45,11 +45,11 @@ int main(int argc, char * argv[])
   rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 2, "string_field");
 
   rosidl_dynamic_typesupport_dynamic_data_t * flat_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(flat_builder);
-  rosidl_dynamic_typesupport_dynamic_type_builder_fini(flat_builder);
+  rosidl_dynamic_typesupport_dynamic_type_builder_destroy(flat_builder);
 
   printf("\n== FLAT DATA EXAMPLE ==\n");
   rosidl_dynamic_typesupport_dynamic_data_print(flat_data);
-  rosidl_dynamic_typesupport_dynamic_data_fini(flat_data);
+  rosidl_dynamic_typesupport_dynamic_data_destroy(flat_data);
 
 
   // SEQUENCE/ARRAY EXAMPLE
@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
   rosidl_dynamic_typesupport_dynamic_type_builder_add_string_array_member(seq_builder, 4, "string_array_field", bound);
 
   rosidl_dynamic_typesupport_dynamic_data_t * seq_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(seq_builder);
-  rosidl_dynamic_typesupport_dynamic_type_builder_fini(seq_builder);
+  rosidl_dynamic_typesupport_dynamic_type_builder_destroy(seq_builder);
 
   printf("\n== SEQ DATA EXAMPLE ==\n");
   rosidl_dynamic_typesupport_dynamic_data_t * int16_seq = rosidl_dynamic_typesupport_dynamic_data_loan_value(seq_data, 1);
@@ -90,7 +90,7 @@ int main(int argc, char * argv[])
   rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(seq_data, int32_seq);
 
   rosidl_dynamic_typesupport_dynamic_data_print(seq_data);
-  rosidl_dynamic_typesupport_dynamic_data_fini(seq_data);
+  rosidl_dynamic_typesupport_dynamic_data_destroy(seq_data);
 
 
   // NESTED EXAMPLE
@@ -103,13 +103,13 @@ int main(int argc, char * argv[])
   rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member(outer_builder, 1, "outer_nested_field", inner_type);
 
   rosidl_dynamic_typesupport_dynamic_data_t * nested_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(outer_builder);
-  rosidl_dynamic_typesupport_dynamic_type_builder_fini(inner_builder);
-  rosidl_dynamic_typesupport_dynamic_type_builder_fini(outer_builder);
-  rosidl_dynamic_typesupport_dynamic_type_fini(inner_type);
+  rosidl_dynamic_typesupport_dynamic_type_builder_destroy(inner_builder);
+  rosidl_dynamic_typesupport_dynamic_type_builder_destroy(outer_builder);
+  rosidl_dynamic_typesupport_dynamic_type_destroy(inner_type);
 
   printf("\n== NESTED DATA EXAMPLE ==\n");
   rosidl_dynamic_typesupport_dynamic_data_print(nested_data);
-  rosidl_dynamic_typesupport_dynamic_data_fini(nested_data);
+  rosidl_dynamic_typesupport_dynamic_data_destroy(nested_data);
 
 
   // FROM YAML
@@ -126,8 +126,8 @@ int main(int argc, char * argv[])
 
   printf("\n== NESTED DATA FROM YAML EXAMPLE ==\n");
   rosidl_dynamic_typesupport_dynamic_data_print(yaml_data);
-  rosidl_dynamic_typesupport_dynamic_data_fini(yaml_data);
-  rosidl_dynamic_typesupport_dynamic_type_fini(yaml_type);
+  rosidl_dynamic_typesupport_dynamic_data_destroy(yaml_data);
+  rosidl_dynamic_typesupport_dynamic_type_destroy(yaml_type);
 
 
   return 0;
