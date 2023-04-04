@@ -16,7 +16,7 @@
 
 #include "rosidl_runtime_c/type_description_utils.h"
 
-#include "rcl/rcl_dynamic_typesupport_c/message_introspection.h"
+#include "rcl/dynamic_message_type_support.h"
 #include "rclcpp/rclcpp.hpp"
 
 using rclcpp::dynamic_typesupport::DynamicMessage;
