@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <fastrtps/types/DynamicDataHelper.hpp>
+#include <fastrtps/types/DynamicData.h>
+
 #include "detail/create_description.hpp"
 
 #include "rosidl_runtime_c/type_description_utils.h"
@@ -19,14 +22,17 @@
 #include "rcl/dynamic_message_type_support.h"
 #include "rclcpp/rclcpp.hpp"
 
+
 using rclcpp::dynamic_typesupport::DynamicMessage;
 using rclcpp::dynamic_typesupport::DynamicMessageTypeSupport;
+
+using eprosima::fastrtps::types::DynamicDataHelper;
+using eprosima::fastrtps::types::DynamicData;
 
 int g_counter = 0;
 
 /**
  * This example demonstrates that the DynamicMessage can...
- * - Be printed
  * - Report member count (helpful for iteration)
  * - Resolve member IDs
  * - Have its members set
@@ -48,7 +54,11 @@ void msg_callback(
   (void) description;
 
   std::cout << "\n[MESSAGE RECEIVED]" << std::endl;
-  data->print();
+
+  // TODO(methylDragon): I'm using the FastRTPS print function here for convenience, but ideally
+  //   the user would write their own print function
+  DynamicDataHelper::print(
+    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data()->impl->handle));
 
   std::cout << "\n[TEST ACCESS] (" << data->get_item_count() << " TOP LEVEL MEMBERS)" << std::endl;
 
@@ -66,7 +76,10 @@ void msg_callback(
     doubly_nested_data->set_value<float>(0, 999);
   }
 
-  data->print();
+  // TODO(methylDragon): As above, so below
+  DynamicDataHelper::print(
+    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data()->impl->handle));
+
   // data->clone();  // You may clone data (and loaned datas, as appropriate!)
   std::cout << "\n\n--END--\n" << std::endl;
 }
@@ -87,7 +100,7 @@ int main(int argc, char ** argv)
   // Does not take ownership of description (copies)
   auto ts = DynamicMessageTypeSupport::make_shared(*example_msg_desc);
   rosidl_runtime_c__type_description__TypeDescription__destroy(example_msg_desc);
-  ts->print_description();
+  // ts->print_description();  // Remove, the user can write their own, or use to_yaml
 
   auto sub = std::make_shared<rclcpp::DynamicSubscription>(
     node->get_node_base_interface().get(), ts, "dynamic_message_test_topic", 10, &msg_callback,

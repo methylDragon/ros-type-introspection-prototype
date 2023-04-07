@@ -28,6 +28,10 @@ find_package(rcl REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(dynamic_typesupport_examples_msgs REQUIRED)
 
+find_package(fastrtps_cmake_module REQUIRED)
+find_package(fastcdr REQUIRED CONFIG)
+find_package(fastrtps 2.3 REQUIRED CONFIG)
+find_package(FastRTPS 2.3 REQUIRED MODULE)
 
 # TARGETS ==========================================================================================
 include_directories(src)
@@ -39,6 +43,8 @@ target_link_libraries(dynamic_sub_serialized
   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
   rcl::rcl
   rclcpp::rclcpp
+  fastcdr
+  fastrtps
 )
 
 add_executable(dynamic_sub_direct
@@ -48,6 +54,8 @@ target_link_libraries(dynamic_sub_direct
   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
   rcl::rcl
   rclcpp::rclcpp
+  fastcdr
+  fastrtps
 )
 
 add_executable(static_sub "src/static_sub.cpp")
