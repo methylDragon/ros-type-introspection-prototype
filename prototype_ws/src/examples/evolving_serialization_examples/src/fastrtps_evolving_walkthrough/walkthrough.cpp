@@ -24,7 +24,7 @@
 
 using namespace eprosima::fastrtps::types;
 
-static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_create(
   rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
   rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
 
@@ -39,12 +39,12 @@ int main(int argc, char * argv[])
   // NOTE(methylDragon): The use of `auto` was deliberately avoided for explanatory purposes
 
   // FLAT EXAMPLE
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * flat_builder = rosidl_dynamic_typesupport_dynamic_type_builder_init(serialization_support, "flat");
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * flat_builder = rosidl_dynamic_typesupport_dynamic_type_builder_create(serialization_support, "flat");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(flat_builder, 0, "bool_field");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_int32_member(flat_builder, 1, "int32_field");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(flat_builder, 2, "string_field");
 
-  rosidl_dynamic_typesupport_dynamic_data_t * flat_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(flat_builder);
+  rosidl_dynamic_typesupport_dynamic_data_t * flat_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(flat_builder);
   rosidl_dynamic_typesupport_dynamic_type_builder_destroy(flat_builder);
 
   printf("\n== FLAT DATA EXAMPLE ==\n");
@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
 
   // SEQUENCE/ARRAY EXAMPLE
   int bound = 5;
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * seq_builder = rosidl_dynamic_typesupport_dynamic_type_builder_init(serialization_support, "seq");
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * seq_builder = rosidl_dynamic_typesupport_dynamic_type_builder_create(serialization_support, "seq");
 
   rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_array_member(seq_builder, 0, "bool_array_field", bound);
   rosidl_dynamic_typesupport_dynamic_type_builder_add_int16_unbounded_sequence_member(seq_builder, 1, "int16_array_field");
@@ -62,7 +62,7 @@ int main(int argc, char * argv[])
   rosidl_dynamic_typesupport_dynamic_type_builder_add_string_member(seq_builder, 3, "string_field");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_string_array_member(seq_builder, 4, "string_array_field", bound);
 
-  rosidl_dynamic_typesupport_dynamic_data_t * seq_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(seq_builder);
+  rosidl_dynamic_typesupport_dynamic_data_t * seq_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(seq_builder);
   rosidl_dynamic_typesupport_dynamic_type_builder_destroy(seq_builder);
 
   printf("\n== SEQ DATA EXAMPLE ==\n");
@@ -94,15 +94,15 @@ int main(int argc, char * argv[])
 
 
   // NESTED EXAMPLE
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * inner_builder = rosidl_dynamic_typesupport_dynamic_type_builder_init(serialization_support, "inner");
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * inner_builder = rosidl_dynamic_typesupport_dynamic_type_builder_create(serialization_support, "inner");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(inner_builder, 0, "inner_bool_field");
-  rosidl_dynamic_typesupport_dynamic_type_t * inner_type = rosidl_dynamic_typesupport_dynamic_type_init_from_dynamic_type_builder(inner_builder);
+  rosidl_dynamic_typesupport_dynamic_type_t * inner_type = rosidl_dynamic_typesupport_dynamic_type_create_from_dynamic_type_builder(inner_builder);
 
-  rosidl_dynamic_typesupport_dynamic_type_builder_t * outer_builder = rosidl_dynamic_typesupport_dynamic_type_builder_init(serialization_support, "outer");
+  rosidl_dynamic_typesupport_dynamic_type_builder_t * outer_builder = rosidl_dynamic_typesupport_dynamic_type_builder_create(serialization_support, "outer");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_bool_member(outer_builder, 0, "outer_bool_field");
   rosidl_dynamic_typesupport_dynamic_type_builder_add_complex_member(outer_builder, 1, "outer_nested_field", inner_type);
 
-  rosidl_dynamic_typesupport_dynamic_data_t * nested_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(outer_builder);
+  rosidl_dynamic_typesupport_dynamic_data_t * nested_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(outer_builder);
   rosidl_dynamic_typesupport_dynamic_type_builder_destroy(inner_builder);
   rosidl_dynamic_typesupport_dynamic_type_builder_destroy(outer_builder);
   rosidl_dynamic_typesupport_dynamic_type_destroy(inner_type);
@@ -121,8 +121,8 @@ int main(int argc, char * argv[])
     create_type_description_from_yaml_file(nested_yaml_path);
   // print_type_description(yaml_description);
 
-  rosidl_dynamic_typesupport_dynamic_type_t * yaml_type = rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, yaml_description);
-  rosidl_dynamic_typesupport_dynamic_data_t * yaml_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(yaml_type);
+  rosidl_dynamic_typesupport_dynamic_type_t * yaml_type = rosidl_dynamic_typesupport_dynamic_type_create_from_description(serialization_support, yaml_description);
+  rosidl_dynamic_typesupport_dynamic_data_t * yaml_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(yaml_type);
 
   printf("\n== NESTED DATA FROM YAML EXAMPLE ==\n");
   rosidl_dynamic_typesupport_dynamic_data_print(yaml_data);

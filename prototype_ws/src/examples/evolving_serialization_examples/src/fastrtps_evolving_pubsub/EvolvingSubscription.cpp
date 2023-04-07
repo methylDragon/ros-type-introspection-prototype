@@ -47,7 +47,7 @@ using eprosima::fastrtps::types::ReturnCode_t;
 
 // This is the redirection struct!
 static rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
-  rosidl_dynamic_typesupport_serialization_support_init(
+  rosidl_dynamic_typesupport_serialization_support_create(
     rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
     rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface()
 );
@@ -133,7 +133,7 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
     type_builder->impl = new rosidl_dynamic_typesupport_dynamic_type_builder_impl_t{subscription_->dyn_types_[reader].get()};
 
     rosidl_dynamic_typesupport_dynamic_data_t * data =
-      rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(type_builder.get());
+      rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(type_builder.get());
     rosidl_dynamic_typesupport_dynamic_type_builder_destroy(type_builder.get());
     free(type_builder->impl);
     SampleInfo info;
@@ -193,7 +193,7 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   //            The joys of void pointer casting, and the pain of not being able to move ownership
   //            of shared_ptrs...
   rosidl_dynamic_typesupport_dynamic_type_t * evolving_type =
-    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
+    rosidl_dynamic_typesupport_dynamic_type_create_from_description(serialization_support, full_description_struct);
 
   auto evolving_type_ptr = DynamicType_ptr(
     *static_cast<DynamicType_ptr *>(evolving_type->impl->handle));

@@ -42,7 +42,7 @@ using eprosima::fastrtps::types::DynamicData;
 using eprosima::fastrtps::types::DynamicType_ptr;
 using eprosima::fastrtps::types::DynamicTypeMember;
 
-static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_create(
   rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
   rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
 
@@ -61,10 +61,10 @@ bool EvolvingPublisher::init()
   type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
 
   rosidl_dynamic_typesupport_dynamic_type_t * example_msg_type =
-    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
+    rosidl_dynamic_typesupport_dynamic_type_create_from_description(serialization_support, full_description_struct);
 
   // Create and Populate Data
-  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(example_msg_type);
+  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(example_msg_type);
 
   rosidl_dynamic_typesupport_dynamic_data_set_string_value(example_msg_data, "A message!", 0);
 
