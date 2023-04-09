@@ -49,7 +49,7 @@ int g_counter = 0;
  */
 void msg_callback(
   DynamicMessage::SharedPtr data,
-  std::shared_ptr<const rosidl_runtime_c__type_description__TypeDescription> description)
+  const rosidl_runtime_c__type_description__TypeDescription & description)
 {
   (void) description;
 
