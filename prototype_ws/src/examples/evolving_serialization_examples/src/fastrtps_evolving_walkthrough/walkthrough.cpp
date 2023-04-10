@@ -24,9 +24,9 @@
 
 using namespace eprosima::fastrtps::types;
 
-static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_create(
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+  rosidl_dynamic_typesupport_fastrtps_init_serialization_support_impl(),
+  rosidl_dynamic_typesupport_fastrtps_init_serialization_support_interface());
 
 
 int main(int argc, char * argv[])

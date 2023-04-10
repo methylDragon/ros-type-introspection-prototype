@@ -47,9 +47,9 @@ using eprosima::fastrtps::types::ReturnCode_t;
 
 // This is the redirection struct!
 static rosidl_dynamic_typesupport_serialization_support_t * serialization_support =
-  rosidl_dynamic_typesupport_serialization_support_create(
-    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
-    rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface()
+  rosidl_dynamic_typesupport_serialization_support_init(
+    rosidl_dynamic_typesupport_fastrtps_init_serialization_support_impl(),
+    rosidl_dynamic_typesupport_fastrtps_init_serialization_support_interface()
 );
 
 

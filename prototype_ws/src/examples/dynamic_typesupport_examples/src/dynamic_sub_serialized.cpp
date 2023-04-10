@@ -107,6 +107,7 @@ int main(int argc, char ** argv)
   );
 
   node->get_node_topics_interface()->add_subscription(sub, nullptr);
+  std::cout << "\n[READY]\n===\n" << std::endl;
   rclcpp::spin(node);
 
   // The DynamicMessageTypeSupport::SharedPtr finalizes whatever needs to be finalized on

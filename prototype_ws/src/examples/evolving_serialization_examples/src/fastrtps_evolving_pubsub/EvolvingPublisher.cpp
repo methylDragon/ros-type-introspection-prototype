@@ -42,9 +42,9 @@ using eprosima::fastrtps::types::DynamicData;
 using eprosima::fastrtps::types::DynamicType_ptr;
 using eprosima::fastrtps::types::DynamicTypeMember;
 
-static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_create(
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_impl(),
-  rosidl_dynamic_typesupport_fastrtps_create_serialization_support_interface());
+static rosidl_dynamic_typesupport_serialization_support_t * serialization_support = rosidl_dynamic_typesupport_serialization_support_init(
+  rosidl_dynamic_typesupport_fastrtps_init_serialization_support_impl(),
+  rosidl_dynamic_typesupport_fastrtps_init_serialization_support_interface());
 
 EvolvingPublisher::EvolvingPublisher()
 : mp_participant(nullptr), mp_publisher(nullptr)
