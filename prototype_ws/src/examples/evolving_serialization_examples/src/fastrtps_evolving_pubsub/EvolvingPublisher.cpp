@@ -61,10 +61,10 @@ bool EvolvingPublisher::init()
   type_description_t * full_description_struct = create_type_description_from_yaml_file(msg_path);
 
   rosidl_dynamic_typesupport_dynamic_type_t * example_msg_type =
-    rosidl_dynamic_typesupport_dynamic_type_create_from_description(serialization_support, full_description_struct);
+    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   // Create and Populate Data
-  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type(example_msg_type);
+  rosidl_dynamic_typesupport_dynamic_data_t * example_msg_data = rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type(example_msg_type);
 
   rosidl_dynamic_typesupport_dynamic_data_set_string_value(example_msg_data, "A message!", 0);
 
@@ -75,13 +75,13 @@ bool EvolvingPublisher::init()
   }
   rosidl_dynamic_typesupport_dynamic_data_return_loaned_value(example_msg_data, bool_array);
 
-  this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl->handle);
+  this->msg_data_ = static_cast<DynamicData *>(example_msg_data->impl.handle);
 
   // Show
   std::map<std::string, DynamicTypeMember *> evolving_map;
 
   // NOTE(methylDragon): This is INCREDIBLY IMPORTANT to preserve lifetime!!!
-  msg_type_ = DynamicType_ptr(*static_cast<DynamicType_ptr *>(example_msg_type->impl->handle));
+  msg_type_ = DynamicType_ptr(*static_cast<DynamicType_ptr *>(example_msg_type->impl.handle));
   msg_type_->get_all_members_by_name(evolving_map);
 
   for (auto const & x : evolving_map) {

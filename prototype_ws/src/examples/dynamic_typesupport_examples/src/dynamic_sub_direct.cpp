@@ -58,7 +58,7 @@ void msg_callback(
   // TODO(methylDragon): I'm using the FastRTPS print function here for convenience, but ideally
   //   the user would write their own print function
   DynamicDataHelper::print(
-    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data()->impl->handle));
+    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data().impl.handle));
 
   std::cout << "\n[TEST ACCESS] (" << data->get_item_count() << " TOP LEVEL MEMBERS)" << std::endl;
 
@@ -78,7 +78,7 @@ void msg_callback(
 
   // TODO(methylDragon): As above, so below
   DynamicDataHelper::print(
-    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data()->impl->handle));
+    static_cast<const DynamicData *>(data->get_rosidl_dynamic_data().impl.handle));
 
   // data->clone();  // You may clone data (and loaned datas, as appropriate!)
   std::cout << "\n\n--END--\n" << std::endl;

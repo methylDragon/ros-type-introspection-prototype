@@ -133,8 +133,8 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
     type_builder->impl = new rosidl_dynamic_typesupport_dynamic_type_builder_impl_t{subscription_->dyn_types_[reader].get()};
 
     rosidl_dynamic_typesupport_dynamic_data_t * data =
-      rosidl_dynamic_typesupport_dynamic_data_create_from_dynamic_type_builder(type_builder.get());
-    rosidl_dynamic_typesupport_dynamic_type_builder_destroy(type_builder.get());
+      rosidl_dynamic_typesupport_dynamic_data_init_from_dynamic_type_builder(type_builder.get());
+    rosidl_dynamic_typesupport_dynamic_type_builder_fini(type_builder.get());
     free(type_builder->impl);
     SampleInfo info;
     if (reader->take_next_sample(data->impl, &info) == ReturnCode_t::RETCODE_OK) {
@@ -145,7 +145,7 @@ void EvolvingSubscription::SubListener::on_data_available(DataReader * reader)
         this->n_samples++;
         std::cout << "\nReceived data of type " << type->get_name() << std::endl;
         rosidl_dynamic_typesupport_dynamic_data_print(data);
-        rosidl_dynamic_typesupport_dynamic_data_destroy(data);
+        rosidl_dynamic_typesupport_dynamic_data_fini(data);
       }
     }
   }
@@ -193,10 +193,10 @@ void EvolvingSubscription::SubListener::on_type_discovery(
   //            The joys of void pointer casting, and the pain of not being able to move ownership
   //            of shared_ptrs...
   rosidl_dynamic_typesupport_dynamic_type_t * evolving_type =
-    rosidl_dynamic_typesupport_dynamic_type_create_from_description(serialization_support, full_description_struct);
+    rosidl_dynamic_typesupport_dynamic_type_init_from_description(serialization_support, full_description_struct);
 
   auto evolving_type_ptr = DynamicType_ptr(
-    *static_cast<DynamicType_ptr *>(evolving_type->impl->handle));
+    *static_cast<DynamicType_ptr *>(evolving_type->impl.handle));
 
   /* Verify that types are equal! */
   if (dyn_type->equals(evolving_type_ptr.get())) {
