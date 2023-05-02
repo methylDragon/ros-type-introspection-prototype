@@ -1,0 +1,102 @@
+type_description:
+  type_name: 'nested'
+  fields:
+    -
+      field_name: nested_field
+      field_type_id: 1
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: inner
+
+    -
+      field_name: non_nested_byte_field
+      field_type_id: 16
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+referenced_type_descriptions:
+  -
+    type_name: 'inner'
+    fields:
+      -
+        field_name: nested_char_field
+        field_type_id: 13
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: nested_bool_field
+        field_type_id: 15
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: nested_bool_static_array_field
+        field_type_id: 63
+        field_length: 5
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: nested_str_bounded_seq_field
+        field_type_id: 113  # 17 + 96
+        field_length: 10
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: nested_float32_unbounded_seq_field
+        field_type_id: 154  # 10 + 144
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: double_nested_field
+        field_type_id: 1
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: inner_inner
+
+      -
+        field_name: double_nested_static_array_field
+        field_type_id: 49  # 1 + 48
+        field_length: 3
+        field_string_length: ~
+        nested_type_name: inner_inner
+
+  -
+    type_name: 'inner_inner'
+    fields:
+      -
+        field_name: double_nested_char_field
+        field_type_id: 13
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~
+      -
+        field_name: triple_nested_field
+        field_type_id: 1
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: inner_inner_inner
+
+  -
+    type_name: 'inner_inner_inner'
+    fields:
+      -
+        field_name: triple_nested_char_field
+        field_type_id: 13
+        field_length: ~
+        field_string_length: ~
+        nested_type_name: ~
+
+      -
+        field_name: triple_nested_bool_static_array_field
+        field_type_id: 63
+        field_length: 5
+        field_string_length: ~
+        nested_type_name: ~

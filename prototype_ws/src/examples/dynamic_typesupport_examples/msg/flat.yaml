@@ -1,0 +1,32 @@
+type_description:
+  type_name: 'flat'
+  fields:
+    -
+      field_name: bool_field
+      field_type_id: 15
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+    -
+      field_name: byte_field
+      field_type_id: 16
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+    -
+      field_name: int32_field
+      field_type_id: 6
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+    -
+      field_name: string_field
+      field_type_id: 17
+      field_length: ~
+      field_string_length: ~
+      nested_type_name: ~
+
+referenced_type_descriptions: ~

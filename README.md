@@ -31,11 +31,11 @@ cd ros-type-introspection-prototype
 mkdir -p prototype_ws/src/ros2_repos
 cd prototype_ws
 
-vcs import src/ros2_repos < src/ros2.repos
+vcs import src/ros2_repos < src/dynamic_subscription_ws.repos
 
 rosdep install --from-paths src -y --ignore-src
-source install/setup.bash
 colcon build
+source install/setup.bash
 ```
 
 ## Extra Notes
