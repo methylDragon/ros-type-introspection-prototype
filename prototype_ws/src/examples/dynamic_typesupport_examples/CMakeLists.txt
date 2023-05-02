@@ -36,16 +36,16 @@ find_package(FastRTPS 2.3 REQUIRED MODULE)
 # TARGETS ==========================================================================================
 include_directories(src)
 
-add_executable(dynamic_sub_serialized
-  "src/dynamic_sub_serialized.cpp"
-  "src/detail/create_description.cpp")
-target_link_libraries(dynamic_sub_serialized
-  rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
-  rcl::rcl
-  rclcpp::rclcpp
-  fastcdr
-  fastrtps
-)
+# add_executable(dynamic_sub_serialized
+#   "src/dynamic_sub_serialized.cpp"
+#   "src/detail/create_description.cpp")
+# target_link_libraries(dynamic_sub_serialized
+#   rosidl_dynamic_typesupport::rosidl_dynamic_typesupport
+#   rcl::rcl
+#   rclcpp::rclcpp
+#   fastcdr
+#   fastrtps
+# )
 
 add_executable(dynamic_sub_direct
   "src/dynamic_sub_direct.cpp"
@@ -72,7 +72,7 @@ target_link_libraries(static_pub
 
 
 # INSTALL ==========================================================================================
-install(TARGETS dynamic_sub_serialized RUNTIME DESTINATION lib/${PROJECT_NAME})
+# install(TARGETS dynamic_sub_serialized RUNTIME DESTINATION lib/${PROJECT_NAME})
 install(TARGETS dynamic_sub_direct RUNTIME DESTINATION lib/${PROJECT_NAME})
 install(TARGETS static_sub RUNTIME DESTINATION lib/${PROJECT_NAME})
 install(TARGETS static_pub RUNTIME DESTINATION lib/${PROJECT_NAME})

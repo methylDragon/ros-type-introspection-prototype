@@ -34,7 +34,7 @@ repositories:
   eProsima/Fast-DDS:
     type: git
     url: https://github.com/eProsima/Fast-DDS.git
-    version: master
+    version: 2.10.x
   eProsima/foonathan_memory_vendor:
     type: git
     url: https://github.com/eProsima/foonathan_memory_vendor.git
@@ -42,7 +42,7 @@ repositories:
   eclipse-cyclonedds/cyclonedds:
     type: git
     url: https://github.com/eclipse-cyclonedds/cyclonedds.git
-    version: releases/0.9.x
+    version: releases/0.10.x
   eclipse-iceoryx/iceoryx:
     type: git
     url: https://github.com/eclipse-iceoryx/iceoryx.git
@@ -62,7 +62,7 @@ repositories:
   osrf/osrf_testing_tools_cpp:
     type: git
     url: https://github.com/osrf/osrf_testing_tools_cpp.git
-    version: master
+    version: rolling
   ros-perception/image_common:
     type: git
     url: https://github.com/ros-perception/image_common.git
@@ -262,7 +262,7 @@ repositories:
   ros2/rcl:
     type: git
     url: https://github.com/ros2/rcl.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rcl_interfaces:
     type: git
     url: https://github.com/ros2/rcl_interfaces.git
@@ -274,7 +274,7 @@ repositories:
   ros2/rclcpp:
     type: git
     url: https://github.com/ros2/rclcpp.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rclpy:
     type: git
     url: https://github.com/ros2/rclpy.git
@@ -294,15 +294,15 @@ repositories:
   ros2/rmw:
     type: git
     url: https://github.com/ros2/rmw.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_connextdds:
     type: git
     url: https://github.com/ros2/rmw_connextdds.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_cyclonedds:
     type: git
     url: https://github.com/ros2/rmw_cyclonedds.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_dds_common:
     type: git
     url: https://github.com/ros2/rmw_dds_common.git
@@ -310,11 +310,11 @@ repositories:
   ros2/rmw_fastrtps:
     type: git
     url: https://github.com/ros2/rmw_fastrtps.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_implementation:
     type: git
     url: https://github.com/ros2/rmw_implementation.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/ros2_tracing:
     type: git
     url: https://github.com/ros2/ros2_tracing.git
@@ -338,7 +338,7 @@ repositories:
   ros2/rosidl:
     type: git
     url: https://github.com/ros2/rosidl.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rosidl_core:
     type: git
     url: https://github.com/ros2/rosidl_core.git
@@ -350,6 +350,14 @@ repositories:
   ros2/rosidl_defaults:
     type: git
     url: https://github.com/ros2/rosidl_defaults.git
+    version: rolling
+  ros2/rosidl_dynamic_typesupport:
+    type: git
+    url: https://github.com/ros2/rosidl_dynamic_typesupport
+    version: rolling
+  ros2/rosidl_dynamic_typesupport_fastrtps:
+    type: git
+    url: https://github.com/ros2/rosidl_dynamic_typesupport_fastrtps
     version: rolling
   ros2/rosidl_python:
     type: git
