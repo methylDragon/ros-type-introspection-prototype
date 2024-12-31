@@ -262,7 +262,7 @@ repositories:
   ros2/rcl:
     type: git
     url: https://github.com/ros2/rcl.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rcl_interfaces:
     type: git
     url: https://github.com/ros2/rcl_interfaces.git
@@ -274,7 +274,7 @@ repositories:
   ros2/rclcpp:
     type: git
     url: https://github.com/ros2/rclcpp.git
-    version: runtime_interface_reflection
+    version: dynamic_subscription
   ros2/rclpy:
     type: git
     url: https://github.com/ros2/rclpy.git
@@ -294,15 +294,15 @@ repositories:
   ros2/rmw:
     type: git
     url: https://github.com/ros2/rmw.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_connextdds:
     type: git
     url: https://github.com/ros2/rmw_connextdds.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_cyclonedds:
     type: git
     url: https://github.com/ros2/rmw_cyclonedds.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_dds_common:
     type: git
     url: https://github.com/ros2/rmw_dds_common.git
@@ -310,11 +310,11 @@ repositories:
   ros2/rmw_fastrtps:
     type: git
     url: https://github.com/ros2/rmw_fastrtps.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rmw_implementation:
     type: git
     url: https://github.com/ros2/rmw_implementation.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/ros2_tracing:
     type: git
     url: https://github.com/ros2/ros2_tracing.git
@@ -338,7 +338,7 @@ repositories:
   ros2/rosidl:
     type: git
     url: https://github.com/ros2/rosidl.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rosidl_core:
     type: git
     url: https://github.com/ros2/rosidl_core.git
@@ -350,11 +350,11 @@ repositories:
   ros2/rosidl_dynamic_typesupport:
     type: git
     url: https://github.com/ros2/rosidl_dynamic_typesupport.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rosidl_dynamic_typesupport_fastrtps:
     type: git
     url: https://github.com/ros2/rosidl_dynamic_typesupport_fastrtps.git
-    version: runtime_interface_reflection
+    version: rolling
   ros2/rosidl_defaults:
     type: git
     url: https://github.com/ros2/rosidl_defaults.git
@@ -369,12 +369,12 @@ repositories:
     version: rolling
   ros2/rosidl_typesupport:
     type: git
-    url: https://github.com/emersonknapp/rosidl_typesupport.git
-    version: emersonknapp/type-description-nested-support
+    url: https://github.com/ros2/rosidl_typesupport.git
+    version: rolling
   ros2/rosidl_typesupport_fastrtps:
     type: git
-    url: https://github.com/emersonknapp/rosidl_typesupport_fastrtps.git
-    version: emersonknapp/type-description-nested-support
+    url: https://github.com/ros2/rosidl_typesupport_fastrtps.git
+    version: rolling
   ros2/rpyutils:
     type: git
     url: https://github.com/ros2/rpyutils.git
